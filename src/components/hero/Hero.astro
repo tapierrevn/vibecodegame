@@ -16,6 +16,8 @@ interface Props extends HTMLAttributes<'section'> {
   bottomFade?: boolean;
   /** Show an animated scroll indicator at the bottom (desktop only, hides on scroll) */
   showScrollIndicator?: boolean;
+  /** Max-width class for the description wrapper (default: max-w-xl) */
+  descriptionClass?: string;
 }
 
 const {
@@ -25,6 +27,7 @@ const {
   showGlow = false,
   bottomFade = false,
   showScrollIndicator = false,
+  descriptionClass = 'max-w-xl',
   class: className,
   ...attrs
 } = Astro.props;
@@ -111,7 +114,8 @@ const gridClasses = cn(
       {/* Description Slot */}
       {hasDescriptionSlot && (
         <div class={cn(
-          'mb-[var(--space-stack-lg)] max-w-3xl text-lg leading-relaxed text-foreground-muted',
+          'mb-[var(--space-stack-lg)] text-lg leading-relaxed text-foreground-muted',
+          descriptionClass,
           '[&>p]:text-lg [&>p]:leading-relaxed [&>p]:text-foreground-muted',
           layout === 'centered' && 'mx-auto'
         )}>

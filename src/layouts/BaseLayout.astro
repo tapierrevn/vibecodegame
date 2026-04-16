@@ -25,6 +25,7 @@ interface Props {
   includeOrgSchema?: boolean;
   includePersonSchema?: boolean;
   includeProfessionalServiceSchema?: boolean;
+  eagerReveal?: boolean;
 }
 
 const {
@@ -38,6 +39,7 @@ const {
   includeOrgSchema = false,
   includePersonSchema = false,
   includeProfessionalServiceSchema = false,
+  eagerReveal = false,
 } = Astro.props;
 
 // Build JSON-LD schemas
@@ -173,7 +175,7 @@ if (includeProfessionalServiceSchema) {
     </script>
   </head>
 
-  <body class="min-h-screen bg-background text-foreground antialiased">
+  <body class="min-h-screen bg-background text-foreground antialiased" data-eager-reveal={eagerReveal ? '' : undefined}>
     <!-- Skip to content link -->
     <a
       href="#main-content"
@@ -268,6 +270,7 @@ if (includeProfessionalServiceSchema) {
         function initReveal() {
           const els = document.querySelectorAll('[data-reveal]:not(.is-visible)');
           if (!els.length) return;
+          var eager = document.body.hasAttribute('data-eager-reveal');
           const observer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
               if (entry.isIntersecting) {
@@ -275,7 +278,7 @@ if (includeProfessionalServiceSchema) {
                 observer.unobserve(entry.target);
               }
             });
-          }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+          }, { threshold: 0.12, rootMargin: eager ? '0px 0px 200px 0px' : '0px 0px -40px 0px' });
           els.forEach(function (el) { observer.observe(el); });
         }
 

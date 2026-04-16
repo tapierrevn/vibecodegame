@@ -1,0 +1,73 @@
+---
+title: "Hero Gradient — Brand to Black, Dark Mode Only"
+description: "The Astro Rocket homepage hero has a gradient in dark mode — brand colour at the top fading to black at the bottom. In light mode, there is no gradient at all. Here is how it works."
+publishedAt: 2026-04-16
+author: "Hans Martens"
+tags: ["astro-rocket", "features", "dark-mode", "css"]
+featured: false
+locale: en
+svgSlug: "dark-mode-hero-gradient"
+imageAlt: "A sunset icon above the word gradient on a brand-coloured background, representing the dark mode hero gradient"
+---
+
+The homepage hero in [Astro Rocket](https://astrorocket.dev) looks different depending on which mode you are in. In dark mode, the background opens with the active brand colour at the top and fades smoothly to black at the bottom. Switch to light mode and the gradient is gone entirely — the hero sits on a plain background like the rest of the page.
+
+This is not two separate implementations. It is one CSS class with two rules.
+
+## The CSS
+
+A single utility class named `.hero-dark-gradient` lives in `global.css`:
+
+```css
+.hero-dark-gradient {
+  background: var(--background);
+}
+
+.dark .hero-dark-gradient {
+  background: linear-gradient(to bottom, var(--brand-600), black);
+}
+```
+
+In light mode, the class sets the background to `var(--background)` — the same plain surface colour used everywhere else on the page. No gradient, no special treatment. The hero blends into the layout.
+
+In dark mode, the `.dark` parent selector activates and replaces that with a `linear-gradient`. It runs from `var(--brand-600)` at the top to `black` at the bottom. The result is a rich, saturated opening that settles into the deep dark of the rest of the page.
+
+## Why brand-600 and not brand-500
+
+`var(--brand-600)` is one step darker than the primary brand colour (`brand-500`). On a dark background, lighter shades can appear washed out or low-contrast. The `600` shade is saturated enough to read clearly against the black it fades into, without looking too light at the top where it meets the header.
+
+## How dark mode is detected
+
+Dark mode in Astro Rocket is class-based, not media-query-based. The custom variant is defined in `global.css`:
+
+```css
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+This means the `.dark` class is toggled on the root element based on the user's explicit theme choice, or their system preference on first visit. The `.dark .hero-dark-gradient` rule activates the moment that class is present — no JavaScript is needed for the gradient itself. See [Why Astro Rocket Uses sessionStorage for Dark Mode](/blog/dark-mode-sessionstorage) for how that choice is stored and restored between page loads.
+
+## Applying it
+
+The class is applied once, directly on the `Hero` component in `src/pages/index.astro`:
+
+```astro
+<Hero layout="centered" size="xl" class="hero-dark-gradient" showScrollIndicator descriptionClass="max-w-3xl">
+  ...
+</Hero>
+```
+
+That is the only place it is used. The class exists for this one purpose.
+
+## The gradient follows the brand colour
+
+`var(--brand-600)` is not a fixed hex value. It is a CSS custom property that updates when the user picks a different colour theme — blue, purple, orange, or any other option in the header colour picker. The gradient adapts automatically. Switch from blue to orange and the top of the hero becomes orange. No extra code needed; the custom property does the work. See [How Astro Rocket's Design System Works](/blog/design-system-color-tokens) for a full walkthrough of every colour token and how they are structured.
+
+## Light mode: intentionally nothing
+
+The decision to skip the gradient in light mode is deliberate. A brand-to-white gradient on a light background tends to look heavy and can make text harder to read. The plain background keeps the hero clean and lets the content carry the visual weight. The gradient is a dark-mode affordance — it uses the depth of a dark palette to create visual interest that simply does not translate the same way in the light.
+
+## Other hero features
+
+The gradient is one of several layers that make up the homepage hero:
+
+- **[Hero Scroll Indicator](/blog/hero-scroll-indicator)** — two bouncing chevrons that appear after the hero animation and disappear the moment you start scrolling.

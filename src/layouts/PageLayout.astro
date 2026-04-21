@@ -63,5 +63,15 @@ const socialLinks = siteConfig.socialLinks.map((url) => {
     <slot />
   </main>
 
-  <Footer slot="footer" layout="simple" socialLinks={socialLinks} showSocial={true} />
+  <Footer 
+  slot="footer" 
+  layout="stacked"
+  background="secondary" 
+  socialLinks={socialLinks} 
+  showSocial={true}
+  legalLinks={[
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms of Service', href: '/terms' },
+]}
+/>
 </BaseLayout>

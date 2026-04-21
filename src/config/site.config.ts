@@ -58,29 +58,28 @@ export interface SiteConfig {
 }
 
 const siteConfig: SiteConfig = {
-  name: 'Astro Rocket',
+  name: 'Vibecode.game',
   description:
-    'Astro Rocket — A production-ready Astro 6 starter with 12 beautiful themes, 57+ components, built-in i18n, dark mode and a fast, modern foundation to build anything on.',
-  url: SITE_URL || 'https://astrorocket.dev',
+    'Play and build the best vibe-coded games. Discover top-rated AI-built games, explore developer profiles, and find guides for AI coding tools. Join our community today!',
+  url: SITE_URL || 'http://localhost:4321/',
   ogImage: '/og-default.svg',
-  author: 'Hans Martens',
-  email: 'hello@hansmartens.dev',
+  author: 'YGG Play',
+  email: 'pierre.ta@yieldguild.games',
   address: {
     street: '',
-    city: 'Veghel',
+    city: '',
     state: '',
     zip: '',
-    country: 'the Netherlands',
+    country: '',
   },
   socialLinks: [
-    'https://github.com/hansmartens68/Astro-Rocket',
-    'https://x.com/hansmartens_dev',
-    'https://www.linkedin.com',
-    'https://bsky.app/profile/hansmartens-online.bsky.social',
+    'https://x.com/ygg_play',
+    'https://discord.gg/yggplay',
+    'https://www.youtube.com/@YGG_Play',
   ],
   twitter: {
-    site: 'https://x.com/hansmartens_dev',
-    creator: '@hansmartens_dev',
+    site: 'https://x.com/ygg_play',
+    creator: '@YGG_Play',
   },
   verification: {
     google: GOOGLE_SITE_VERIFICATION,
@@ -90,7 +89,7 @@ const siteConfig: SiteConfig = {
   blogImageOverlay: true,
   branding: {
     logo: {
-      alt: 'Astro Rocket',
+      alt: 'Vibecode.game Logo',
       imageUrl: '/favicon.svg',
     },
     favicon: {

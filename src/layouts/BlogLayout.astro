@@ -12,7 +12,20 @@ import CTA from '@/components/ui/marketing/CTA/CTA.astro';
 import Icon from '@/components/ui/primitives/Icon/Icon.astro';
 import { resolveSocialLinks } from '@/lib/utils';
 
-const socialLinks = resolveSocialLinks(siteConfig.socialLinks);
+// Map social URLs to platform format for Footer
+const socialLinks = siteConfig.socialLinks.map((url) => {
+  let platform = 'link';
+  if (url.includes('x.com') || url.includes('twitter.com')) platform = 'twitter';
+  else if (url.includes('discord.gg')) platform = 'discord';
+  else if (url.includes('youtube.com')) platform = 'youtube';
+  else if (url.includes('github.com')) platform = 'github';
+  else if (url.includes('linkedin.com')) platform = 'linkedin';
+  else if (url.includes('instagram.com')) platform = 'instagram';
+  return { platform, href: url };
+});
+
+// Original socialLinks data for the Follow Along CTA section (has icon property)
+const socialLinksForCTA = resolveSocialLinks(siteConfig.socialLinks);
 
 interface Props {
   title: string;
@@ -65,15 +78,17 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
   }}
 >
   <Header
-    slot="header"
-    position="fixed"
-    shape="bar"
-    variant="solid"
-    size="lg"
-    showThemeSelector
-    showCta={false}
-    cta={{ label: 'Get in touch', href: '/contact' }}
-    showScrollProgress
+  slot="header"
+  position="fixed"
+  shape="floating"
+  variant="default"
+  colorScheme="default"
+  size="lg"
+  showCta={true}
+  cta={{ label: 'Get in touch', href: '/contact' }}
+  showThemeSelector={false}
+  showScrollProgress={true}
+  scrollProgressPosition="top"
   />
 
   <div class="min-h-screen pt-16">
@@ -151,7 +166,7 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
         <Icon name="rss" size="sm" />
         RSS Feed
       </a>
-      {socialLinks.map((link) => (
+      {socialLinksForCTA.map((link) => (
         <a
           href={link.href}
           target="_blank"
@@ -173,5 +188,15 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
   </CTA>
   </div>
 
-  <Footer slot="footer" layout="simple" background="secondary" />
+  <Footer 
+    slot="footer" 
+    layout="stacked"
+    background="secondary" 
+    socialLinks={socialLinks} 
+    showSocial={true}
+    legalLinks={[
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+  ]}
+  />
 </BaseLayout>

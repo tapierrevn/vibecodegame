@@ -36,7 +36,7 @@ export interface FooterLinkGroup {
 }
 
 export interface SocialLink {
-  platform: 'github' | 'twitter' | 'linkedin' | string;
+  platform: 'github' | 'twitter' | 'linkedin' | 'instagram' | 'youtube' | 'discord' | string;
   href: string;
   label?: string;
 }
@@ -74,7 +74,7 @@ interface Props extends HTMLAttributes<'footer'> {
 }
 
 const {
-  layout = 'simple',
+  layout = 'columns',
   columns = 3,
   background = 'default',
   nav,
@@ -82,7 +82,7 @@ const {
   socialLinks = [],
   showSocial = true,
   showCopyright = true,
-  copyright = '© {year} {siteName}. Designed by <a href="https://hansmartens.dev" class="underline hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">Hans Martens</a>.',
+  copyright = '© {year} {siteName}. Powered by <a href="https://www.yggplay.fun/" class="underline hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">YGG Play</a>.',
   legalLinks = [],
   hideLogo = false,
   tagline,
@@ -121,6 +121,9 @@ const socialIcons: Record<string, string> = {
   github: 'github',
   twitter: 'x-twitter',
   linkedin: 'linkedin',
+  instagram: 'instagram',
+  youtube: 'youtube',
+  discord: 'discord',
 };
 
 // Get icon for social platform

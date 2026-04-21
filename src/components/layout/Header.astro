@@ -104,9 +104,9 @@ const {
   cta = { label: 'Start a project', href: '/contact' },
   actions = [],
   showThemeToggle = true,
-  showThemeSelector = false,
+  showThemeSelector = true,
   showMobileMenu = true,
-  showSocialLinks = false,
+  showSocialLinks = true,
   showActiveState = true,
   showScrollProgress = false,
   scrollProgressPosition = 'bottom',
@@ -165,6 +165,8 @@ function getSocialIconData(url: string): { icon: string; label: string } {
   if (url.includes('instagram.com')) return { icon: 'instagram', label: 'Instagram' };
   if (url.includes('x.com') || url.includes('twitter.com')) return { icon: 'x-twitter', label: 'X' };
   if (url.includes('linkedin.com'))  return { icon: 'linkedin',  label: 'LinkedIn' };
+  if (url.includes('discord.gg'))  return { icon: 'discord',  label: 'Discord' };
+  if (url.includes('youtube.com'))  return { icon: 'youtube',  label: 'YouTube' };
   if (url.includes('bsky.app'))      return { icon: 'bluesky',   label: 'Bluesky' };
   return { icon: 'link', label: 'Social' };
 }

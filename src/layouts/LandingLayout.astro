@@ -10,6 +10,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
+import siteConfig from '@/config/site.config';
 
 interface Props {
   title?: string;
@@ -36,6 +37,18 @@ const {
 } = Astro.props;
 
 const isHomePage = Astro.url.pathname === '/';
+
+// Map social URLs to platform format
+const socialLinks = siteConfig.socialLinks.map((url) => {
+  let platform = 'link';
+  if (url.includes('x.com') || url.includes('twitter.com')) platform = 'twitter';
+  else if (url.includes('discord.gg')) platform = 'discord';
+  else if (url.includes('youtube.com')) platform = 'youtube';
+  else if (url.includes('github.com')) platform = 'github';
+  else if (url.includes('linkedin.com')) platform = 'linkedin';
+  else if (url.includes('instagram.com')) platform = 'instagram';
+  return { platform, href: url };
+});
 ---
 
 <BaseLayout
@@ -56,14 +69,14 @@ const isHomePage = Astro.url.pathname === '/';
     variant="default"
     colorScheme="default"
     size="lg"
-    showCta={false}
+    showCta={true}
     cta={{ label: 'Get in touch', href: '/contact' }}
-    showThemeSelector
+    showThemeSelector={false}
     showScrollProgress={isHomePage}
     scrollProgressPosition="top"
   />
 
   <slot />
 
-  <Footer slot="footer" layout="simple" background="secondary" />
+  <Footer slot="footer" layout="simple" background="secondary" socialLinks={socialLinks} showSocial={true} />
 </BaseLayout>

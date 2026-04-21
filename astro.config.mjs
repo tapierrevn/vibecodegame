@@ -11,11 +11,11 @@ const isNetlify = process.env.DEPLOY_TARGET === 'netlify';
 
 export default defineConfig({
   adapter: isNetlify ? netlify() : vercel(),
-  site: process.env.SITE_URL || 'https://example.com',
+  site: 'https://www.vibecode.game/',
 
   env: {
     schema: {
-      SITE_URL: envField.string({ context: 'server', access: 'public', optional: true }),
+      SITE_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
       PUBLIC_GA_MEASUREMENT_ID: envField.string({ context: 'client', access: 'public', optional: true }),
       PUBLIC_GTM_ID: envField.string({ context: 'client', access: 'public', optional: true }),
       RESEND_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),

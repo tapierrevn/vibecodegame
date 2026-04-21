@@ -36,6 +36,8 @@ const iconMap: Record<string, string> = {
   'x-twitter':      'simple-icons:x',
   twitter:          'simple-icons:x',
   instagram:        'simple-icons:instagram',
+  youtube:          'simple-icons:youtube',
+  discord:          'simple-icons:discord',
   linkedin:         'simple-icons:linkedin',
   bluesky:          'simple-icons:bluesky',
   // Tech stack → Simple Icons

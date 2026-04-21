@@ -8,6 +8,7 @@ import { ClientRouter } from 'astro:transitions';
 import { createWebsiteSchema, createOrganizationSchema, createPersonSchema, createProfessionalServiceSchema } from '@/lib/schema';
 import type { WebSite, Organization, Person, WithContext } from 'schema-dts';
 import siteConfig from '@/config/site.config';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 interface Props {
   title?: string;
@@ -86,6 +87,9 @@ if (includeProfessionalServiceSchema) {
 
     <!-- Analytics (loads if PUBLIC_GA_MEASUREMENT_ID or PUBLIC_GTM_ID is set) -->
     <Analytics />
+
+    <!-- Vercel Speed Insights -->
+    <SpeedInsights />
 
     <!-- View Transitions (client-side routing with animated page transitions) -->
     <ClientRouter />

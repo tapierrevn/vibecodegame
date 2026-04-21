@@ -8,6 +8,7 @@ interface Props {
   description: string;
   href: string;
   developerName: string;
+  studio?: string;
   developerProfileUrl: string;
   genre: string[];
   aiTools: string[];
@@ -23,6 +24,7 @@ const {
   description,
   href,
   developerName,
+  studio,
   developerProfileUrl,
   genre,
   aiTools,
@@ -96,6 +98,7 @@ const releaseDateTime = releaseDate ? `${releaseDate.slice(3)}-${releaseDate.sli
     >
       {developerName}
     </a>
+    {studio && <span class="text-foreground-subtle"> at {studio}</span>}
   </div>
 
   <div class="flex flex-wrap items-center gap-3 text-sm text-foreground-subtle">

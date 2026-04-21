@@ -1,0 +1,118 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import siteConfig from '@/config/site.config';
+import PageLayout from '@/layouts/PageLayout.astro';
+import GameCard from '@/components/games/GameCard.astro';
+import ShareButtons from '@/components/blog/ShareButtons.astro';
+import { gameEntryToPath } from '@/lib/games-similar';
+
+interface Props {
+  name: string;
+  studio?: string;
+  picture: string;
+  preferredGenres: string[];
+  preferredAiTools: string[];
+  relatedGames: CollectionEntry<'games'>[];
+}
+
+const { name, studio, picture, preferredGenres, preferredAiTools, relatedGames } = Astro.props;
+const pageTitle = `${name} Developer Profile | Vibe-Coded Games, Genres & AI Tools | ${siteConfig.name}`;
+const pageDescription = studio
+  ? `View ${name} from ${studio}: vibe-coded games, preferred game genres, favorite AI tools, and related game projects in one developer profile.`
+  : `View ${name}'s developer profile with vibe-coded games, preferred game genres, favorite AI tools, and related game projects.`;
+const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<PageLayout title={pageTitle} description={pageDescription} showScrollProgress eagerReveal>
+  <section class="border-t border-border bg-background-secondary py-[var(--space-section-sm)]">
+    <div class="mx-auto max-w-4xl px-6 text-center">
+      <img
+        src={picture}
+        alt={`${name} profile image`}
+        class="mx-auto mb-6 h-52 w-52 rounded-full border border-border object-cover ring-4 ring-brand-500/20"
+      />
+      <h1 class="font-display text-4xl font-bold text-foreground">{name}</h1>
+      {studio && <p class="mt-2 text-lg text-foreground-muted">{studio}</p>}
+
+      <div class="mt-6 space-y-4 text-left sm:text-center">
+        {preferredGenres.length > 0 && (
+          <div>
+            <p class="mb-2 text-xs font-medium text-foreground-muted">Preferred Game Genre</p>
+            <div class="flex flex-wrap justify-center gap-2">
+              {preferredGenres.map((tag) => (
+                <span class="inline-flex items-center rounded-full bg-background px-2.5 py-0.5 text-xs font-medium text-foreground-muted ring-1 ring-inset ring-border">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {preferredAiTools.length > 0 && (
+          <div>
+            <p class="mb-2 text-xs font-medium text-foreground-muted">Preferred AI Tools</p>
+            <div class="flex flex-wrap justify-center gap-2">
+              {preferredAiTools.map((tag) => (
+                <span class="inline-flex items-center rounded-full bg-background px-2.5 py-0.5 text-xs font-medium text-foreground-muted ring-1 ring-inset ring-border">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <article class="bg-background py-[var(--space-section-sm)] border-t border-border">
+    <div class="prose prose-lg mx-auto max-w-4xl px-6">
+      <slot />
+    </div>
+  </article>
+
+  <section class="border-t border-border bg-background-secondary py-[var(--space-section-sm)]">
+    <div class="mx-auto max-w-6xl px-6">
+      <h2 class="mb-6 font-display text-3xl font-bold text-foreground">Vibe-Coded Games made by {name}</h2>
+      {relatedGames.length > 0 ? (
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {relatedGames.map((game) => (
+            <GameCard
+              title={game.data.title}
+              description={game.data.description}
+              href={gameEntryToPath(game)}
+              developerName={game.data.developerName}
+              studio={game.data.studio}
+              developerProfileUrl={game.data.developerProfileUrl}
+              genre={game.data.genre}
+              aiTools={game.data.aiTools}
+              communityScore={game.data.communityScore}
+              playUrl={game.data.playUrl}
+              publishedAt={game.data.publishedAt}
+              image={game.data.image}
+              svgSlug={game.data.svgSlug}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-foreground-muted">No games published yet for this developer.</p>
+      )}
+    </div>
+  </section>
+
+  <section class="bg-background py-8 border-t border-border">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <a
+          href="/developers"
+          class="text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+        >
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Developer Hub
+        </a>
+        <ShareButtons title={pageTitle} url={fullUrl} />
+      </div>
+    </div>
+  </section>
+</PageLayout>

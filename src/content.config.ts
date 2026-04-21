@@ -107,6 +107,8 @@ const games = defineCollection({
       title: z.string(),
       description: z.string(),
       developerName: z.string(),
+      developerSlug: z.string(),
+      studio: z.string().optional(),
       developerProfileUrl: z.string(),
       aiTools: z.array(z.string()).default([]),
       genre: z.array(z.string()).default([]),
@@ -127,6 +129,30 @@ const games = defineCollection({
     }),
 });
 
+// Developers collection — one MDX file per developer profile
+const developers = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/developers' }),
+  schema: z.object({
+    name: z.string(),
+    studio: z.string().optional(),
+    preferredGenres: z.array(z.string()).default([]),
+    preferredAiTools: z.array(z.string()).default([]),
+    picture: z.string(),
+    role: z.string().optional(),
+    location: z.string().optional(),
+    website: z.string().url().optional(),
+    social: z
+      .object({
+        twitter: z.string().optional(),
+        github: z.string().optional(),
+        linkedin: z.string().optional(),
+      })
+      .optional(),
+    draft: z.boolean().default(false),
+    locale: z.enum(['en', 'es', 'fr']).default('en'),
+  }),
+});
+
 export const collections = {
   blog,
   pages,
@@ -135,4 +161,5 @@ export const collections = {
   stack,
   projects,
   games,
+  developers,
 };

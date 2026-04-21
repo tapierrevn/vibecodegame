@@ -1,0 +1,59 @@
+---
+interface Props {
+  name: string;
+  studio?: string;
+  href: string;
+  picture: string;
+  preferredGenres: string[];
+  preferredAiTools: string[];
+}
+
+const { name, studio, href, picture, preferredGenres, preferredAiTools } = Astro.props;
+---
+
+<article class="group h-full rounded-lg border border-brand-500/30 bg-background p-6 ring-1 ring-brand-500/20 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-500 hover:shadow-md">
+  <a href={href} class="block">
+    <div class="mb-4 flex items-center gap-4">
+      <img
+        src={picture}
+        alt={`${name} profile picture`}
+        class="h-16 w-16 rounded-full border border-border object-cover ring-2 ring-brand-500/20"
+        loading="lazy"
+      />
+      <div>
+        <h2 class="font-display text-xl font-bold text-foreground transition-colors group-hover:text-brand-600 dark:group-hover:text-brand-400">
+          {name}
+        </h2>
+        {studio && <p class="text-sm text-foreground-muted">{studio}</p>}
+      </div>
+    </div>
+  </a>
+
+  <div class="space-y-3">
+    {preferredGenres.length > 0 && (
+      <div>
+        <p class="mb-1 text-xs font-medium text-foreground-muted">Preferred Genre</p>
+        <div class="flex flex-wrap gap-2">
+          {preferredGenres.map((tag) => (
+            <span class="inline-flex items-center rounded-full bg-background-secondary px-2.5 py-0.5 text-xs font-medium text-foreground-muted ring-1 ring-inset ring-border">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {preferredAiTools.length > 0 && (
+      <div>
+        <p class="mb-1 text-xs font-medium text-foreground-muted">Preferred AI Tools</p>
+        <div class="flex flex-wrap gap-2">
+          {preferredAiTools.map((tag) => (
+            <span class="inline-flex items-center rounded-full bg-background-secondary px-2.5 py-0.5 text-xs font-medium text-foreground-muted ring-1 ring-inset ring-border">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</article>

@@ -25,10 +25,11 @@ export const navItems: NavItem[] = [
       { label: 'By AI Tool', href: '/vibe-coded-games/by-ai-tool' },
     ],
   },
-  { label: 'Blog', href: '/blog', order: 2 },
-  { label: 'Projects', href: '/projects', order: 3 },
-  { label: 'About', href: '/about', order: 4 },
-  { label: 'Contact', href: '/contact', order: 5 },
+  { label: 'Developer Hub', href: '/developers', order: 2 },
+  { label: 'Blog', href: '/blog', order: 3 },
+  { label: 'Projects', href: '/projects', order: 4 },
+  { label: 'About', href: '/about', order: 5 },
+  { label: 'Contact', href: '/contact', order: 6 },
 ];
 
 /**

@@ -1,0 +1,102 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import DeveloperListing from '@/components/developers/DeveloperListing.astro';
+import DeveloperLayout from '@/layouts/DeveloperLayout.astro';
+import {
+  buildAiToolSegmentToTagMap,
+  buildGenreSegmentToTagMap,
+  assertFilterPathsDoNotCollideWithDeveloperSlugs,
+} from '@/lib/developers-filter';
+
+type ProfilePathProps = {
+  kind: 'profile';
+  developer: CollectionEntry<'developers'>;
+  relatedGames: CollectionEntry<'games'>[];
+};
+
+type FilterPathProps = {
+  kind: 'filter';
+  filterType: 'genre' | 'ai';
+  filterValue: string;
+};
+
+export async function getStaticPaths() {
+  const developers = await getCollection('developers', ({ data }) => {
+    const isEn = (data.locale ?? 'en') === 'en';
+    return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  const games = await getCollection('games', ({ data }) => {
+    const isEn = (data.locale ?? 'en') === 'en';
+    return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  const profilePaths = developers.map((developer) => {
+    const slug = developer.id.replace('en/', '');
+    const relatedGames = games.filter((game) => game.data.developerSlug === slug);
+    return {
+      params: { slug },
+      props: { kind: 'profile' as const, developer, relatedGames },
+    };
+  });
+
+  const allGenres = [...new Set(developers.flatMap((d) => d.data.preferredGenres))];
+  const allAiTools = [...new Set(developers.flatMap((d) => d.data.preferredAiTools))];
+  const segmentToGenre = buildGenreSegmentToTagMap(allGenres);
+  const segmentToAiTool = buildAiToolSegmentToTagMap(allAiTools);
+  const developerSlugs = developers.map((d) => d.id.replace('en/', ''));
+
+  assertFilterPathsDoNotCollideWithDeveloperSlugs(developerSlugs, [
+    ...segmentToGenre.keys(),
+    ...segmentToAiTool.keys(),
+  ]);
+
+  const genrePaths = [...segmentToGenre.entries()].map(([segment, genre]) => ({
+    params: { slug: segment },
+    props: { kind: 'filter' as const, filterType: 'genre' as const, filterValue: genre },
+  }));
+
+  const aiPaths = [...segmentToAiTool.entries()].map(([segment, aiTool]) => ({
+    params: { slug: segment },
+    props: { kind: 'filter' as const, filterType: 'ai' as const, filterValue: aiTool },
+  }));
+
+  return [...profilePaths, ...genrePaths, ...aiPaths];
+}
+
+const props = Astro.props as ProfilePathProps | FilterPathProps;
+
+let Content: Awaited<ReturnType<typeof render>>['Content'] | null = null;
+let renderFailed = false;
+if (props.kind === 'profile') {
+  try {
+    ({ Content } = await render(props.developer));
+  } catch (error) {
+    renderFailed = true;
+    console.error(`Failed to render developer entry: ${props.developer.id}`, error);
+  }
+}
+---
+
+{
+  props.kind === 'profile' ? (
+    <DeveloperLayout
+      name={props.developer.data.name}
+      studio={props.developer.data.studio}
+      picture={props.developer.data.picture}
+      preferredGenres={props.developer.data.preferredGenres}
+      preferredAiTools={props.developer.data.preferredAiTools}
+      relatedGames={props.relatedGames}
+    >
+      {
+        Content && !renderFailed ? (
+          <Content />
+        ) : (
+          <p>{props.developer.data.name} is a vibe-coding developer at {props.developer.data.studio}.</p>
+        )
+      }
+    </DeveloperLayout>
+  ) : (
+    <DeveloperListing activeFilterType={props.filterType} activeFilterValue={props.filterValue} />
+  )
+}

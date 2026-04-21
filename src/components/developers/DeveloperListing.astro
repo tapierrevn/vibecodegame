@@ -1,0 +1,198 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import DeveloperCard from '@/components/developers/DeveloperCard.astro';
+import Badge from '@/components/ui/data-display/Badge/Badge.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import { Hero } from '@/components/hero';
+import ShareButtons from '@/components/blog/ShareButtons.astro';
+import { getCollection } from 'astro:content';
+import {
+  aiToolToDevelopersPath,
+  genreToDevelopersPath,
+} from '@/lib/developers-filter';
+
+interface Props {
+  activeFilterType?: 'genre' | 'ai' | null;
+  activeFilterValue?: string | null;
+}
+
+const { activeFilterType = null, activeFilterValue = null } = Astro.props;
+
+const allDevelopers = await getCollection('developers', ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+const developers = allDevelopers
+  .filter((d) => !d.data.locale || d.data.locale === 'en')
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const filteredDevelopers = activeFilterType === 'genre' && activeFilterValue
+  ? developers.filter((d) => d.data.preferredGenres.includes(activeFilterValue))
+  : activeFilterType === 'ai' && activeFilterValue
+  ? developers.filter((d) => d.data.preferredAiTools.includes(activeFilterValue))
+  : developers;
+
+const allGenres = [...new Set(developers.flatMap((d) => d.data.preferredGenres))].sort();
+const allAiTools = [...new Set(developers.flatMap((d) => d.data.preferredAiTools))].sort();
+
+function capitalizeFirst(value: string): string {
+  if (!value) return value;
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+const activeFilterLabel = activeFilterValue ? capitalizeFirst(activeFilterValue) : null;
+let heroTitle = 'Developer Hub';
+let heroDescription =
+  'Discover vibe-coding game developers, their studios, favorite genres, and preferred AI tools.';
+let pageTitle = 'Game Developers Hub | Vibe Coding Studios & AI Tool Stacks';
+let pageDescription =
+  'Explore the complete game developers hub featuring vibe-coding creators, studios, preferred game genres, AI tools, and developer profile pages.';
+
+if (activeFilterValue && activeFilterLabel) {
+  if (activeFilterType === 'genre') {
+    heroTitle = `${activeFilterLabel} Games Developers`;
+    heroDescription = `Discover game developers who are vibe-coding ${activeFilterValue} games.`;
+    pageTitle = `${activeFilterLabel} Game Developers Directory | Vibe Coding Studios`;
+    pageDescription = `Explore ${activeFilterLabel} game developers, studios, and vibe-coding creators building ${activeFilterLabel} titles with modern AI workflows.`;
+  } else if (activeFilterType === 'ai') {
+    heroTitle = `Developers vibe-coding with ${activeFilterLabel}`;
+    heroDescription = `Discover game developers who use ${activeFilterLabel} in their workflow.`;
+    pageTitle = `${activeFilterLabel} AI Tool Game Developers | Vibe Coding Directory`;
+    pageDescription = `Discover game developers using ${activeFilterLabel}, including their studios, preferred genres, and vibe-coding workflows.`;
+  }
+}
+const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<PageLayout
+  title={pageTitle}
+  description={pageDescription}
+  showScrollProgress
+  eagerReveal
+  fillViewport={false}
+  footerClass="pt-6"
+>
+  <Hero layout="centered" size="sm">
+    <Badge slot="badge" variant="brand" pill>
+      <Icon name="sparkles" size="sm" />
+      {activeFilterValue ? 'Filtered Developers' : 'Developer Hub'}
+    </Badge>
+    <h1 slot="title">{heroTitle}</h1>
+    <p slot="description">{heroDescription}</p>
+  </Hero>
+
+  <section class="border-t border-border bg-background-secondary py-[var(--space-section-md)]">
+    <div class="mx-auto flex max-w-6xl flex-col gap-8 px-6">
+      <div class="flex flex-wrap items-center justify-end gap-3" data-reveal>
+        <label for="developer-filter" class="text-sm font-medium text-foreground-muted whitespace-nowrap">
+          Filter
+        </label>
+        <div class="relative">
+          <select
+            id="developer-filter"
+            class="developer-select appearance-none rounded-full border border-border bg-background py-1.5 pl-3 pr-8 text-sm font-medium text-foreground cursor-pointer focus:outline-none focus:border-brand-500 transition-colors"
+          >
+            <option value="/developers" selected={activeFilterValue === null}>All developers</option>
+            {allGenres.length > 0 && (
+              <>
+                <option value="" disabled class="filter-group">--- Genre ---</option>
+                {allGenres.map((genre) => (
+                  <option
+                    value={genreToDevelopersPath(genre)}
+                    selected={activeFilterType === 'genre' && activeFilterValue === genre}
+                  >
+                    {genre}
+                  </option>
+                ))}
+              </>
+            )}
+            {allAiTools.length > 0 && (
+              <>
+                <option value="" disabled class="filter-group">--- AI Tools ---</option>
+                {allAiTools.map((tool) => (
+                  <option value={aiToolToDevelopersPath(tool)} selected={activeFilterType === 'ai' && activeFilterValue === tool}>
+                    {tool}
+                  </option>
+                ))}
+              </>
+            )}
+          </select>
+          <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-foreground-muted">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      {filteredDevelopers.length > 0 ? (
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal data-reveal-delay="1">
+          {filteredDevelopers.map((developer) => (
+            <DeveloperCard
+              name={developer.data.name}
+              studio={developer.data.studio ?? ''}
+              href={`/developers/${developer.id.replace('en/', '')}`}
+              picture={developer.data.picture}
+              preferredGenres={developer.data.preferredGenres}
+              preferredAiTools={developer.data.preferredAiTools}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="py-16 text-center">
+          <div class="bg-background mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+            <Icon name="file-text" size="lg" class="text-foreground-muted" />
+          </div>
+          <p class="text-foreground-muted text-lg">No developers found for this filter</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {
+    activeFilterValue && (
+      <section class="bg-background py-4 border-t border-border">
+        <div class="mx-auto max-w-6xl px-6">
+          <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <a
+              href="/developers"
+              class="text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+            >
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to Developer Hub
+            </a>
+            <ShareButtons title={pageTitle} url={fullUrl} />
+          </div>
+        </div>
+      </section>
+    )
+  }
+</PageLayout>
+
+<style>
+  .developer-select {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .developer-select option.filter-group {
+    color: var(--brand-500);
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  function initDeveloperFilterNav() {
+    const select = document.getElementById('developer-filter') as HTMLSelectElement | null;
+    if (!select) return;
+
+    select.addEventListener('change', () => {
+      const href = select.value;
+      if (href) window.location.href = href;
+    });
+  }
+
+  document.addEventListener('astro:page-load', initDeveloperFilterNav);
+</script>

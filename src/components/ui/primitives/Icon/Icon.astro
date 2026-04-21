@@ -51,7 +51,7 @@ const iconMap: Record<string, string> = {
   'brand-claude':     'simple-icons:anthropic',
 };
 
-const resolvedName = iconMap[name] ?? `lucide:${name}`;
+const resolvedName = iconMap[name] ?? (name.includes(':') ? name : `lucide:${name}`);
 const isSimpleIcon = resolvedName.startsWith('simple-icons:');
 ---
 

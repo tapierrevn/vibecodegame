@@ -10,13 +10,23 @@ import {
   aiToolToDevelopersPath,
   genreToDevelopersPath,
 } from '@/lib/developers-filter';
+import developerHubBanner from '@/assets/developer-hub/banner/developer-hub.png';
+import developerHubOgImage from '@/assets/developer-hub/banner/developer-hub-og.png';
+import DeveloperCommunityCTA from '@/components/landing/CTA.astro';
 
 interface Props {
   activeFilterType?: 'genre' | 'ai' | null;
   activeFilterValue?: string | null;
+  ogImage?: string;
+  imageAlt?: string;
 }
 
-const { activeFilterType = null, activeFilterValue = null } = Astro.props;
+const {
+  activeFilterType = null,
+  activeFilterValue = null,
+  ogImage = developerHubOgImage.src,
+  imageAlt = 'Developer Hub — vibe-coding game developer community',
+} = Astro.props;
 
 const allDevelopers = await getCollection('developers', ({ data }) => {
   return import.meta.env.PROD ? data.draft !== true : true;
@@ -67,18 +77,25 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
 <PageLayout
   title={pageTitle}
   description={pageDescription}
+  image={ogImage}
+  imageAlt={imageAlt}
   showScrollProgress
   eagerReveal
   fillViewport={false}
   footerClass="pt-6"
 >
-  <Hero layout="centered" size="sm">
-    <Badge slot="badge" variant="brand" pill>
+  <Hero
+    layout="centered"
+    size="sm"
+    class="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+    style={`background-image: linear-gradient(to bottom, rgb(10 10 20 / 0.55), rgb(10 10 20 / 0.7)), url('${developerHubBanner.src}');`}
+  >
+    <Badge slot="badge" variant="brand" pill class="!text-white">
       <Icon name="sparkles" size="sm" />
       {activeFilterValue ? 'Filtered Developers' : 'Developer Hub'}
     </Badge>
-    <h1 slot="title">{heroTitle}</h1>
-    <p slot="description">{heroDescription}</p>
+    <h1 slot="title" class="!text-white">{heroTitle}</h1>
+    <p slot="description" class="!text-white/90">{heroDescription}</p>
   </Hero>
 
   <section class="border-t border-border bg-background-secondary py-[var(--space-section-md)]">
@@ -169,6 +186,8 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
       </section>
     )
   }
+
+  <DeveloperCommunityCTA purpose="developerCommunity" />
 </PageLayout>
 
 <style>

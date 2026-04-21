@@ -28,14 +28,19 @@ const {
 
 const pageTitle = title ? `${title} — ${siteConfig.name}` : siteConfig.name;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// In local/tunnel development, use the request origin so social debuggers
+// can resolve OG URLs against the public tunnel host instead of production.
+const metadataBase = import.meta.env.DEV
+  ? new URL(Astro.url.origin)
+  : new URL((Astro.site ?? Astro.url.origin).toString());
+const canonicalURL = new URL(Astro.url.pathname, metadataBase);
 
 // Process image - fall back to the static default OG image
 let ogImage: string;
 if (image) {
-  ogImage = image.startsWith('http') ? image : new URL(image, Astro.site).toString();
+  ogImage = image.startsWith('http') ? image : new URL(image, metadataBase).toString();
 } else {
-  ogImage = new URL(siteConfig.ogImage, Astro.site).toString();
+  ogImage = new URL(siteConfig.ogImage, metadataBase).toString();
 }
 
 const robotsContent = [noindex ? 'noindex' : 'index', nofollow ? 'nofollow' : 'follow'].join(', ');

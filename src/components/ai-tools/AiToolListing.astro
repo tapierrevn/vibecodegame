@@ -1,0 +1,68 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Badge from '@/components/ui/data-display/Badge/Badge.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import TypingEffect from '@/components/ui/TypingEffect.astro';
+import { Hero } from '@/components/hero';
+import AiToolCard from '@/components/ai-tools/AiToolCard.astro';
+import { getCollection } from 'astro:content';
+
+const allAiTools = await getCollection('aiTools', ({ data }) => {
+  const isEn = (data.locale ?? 'en') === 'en';
+  return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+});
+
+const aiTools = allAiTools.sort((a, b) => {
+  if (a.data.featured !== b.data.featured) {
+    return Number(b.data.featured) - Number(a.data.featured);
+  }
+  return a.data.name.localeCompare(b.data.name);
+});
+
+const aiToolNames = aiTools.map((tool) => tool.data.name);
+---
+
+<PageLayout
+  title="AI Tools Hub | Best AI Tools for Vibe Coding Games"
+  description="Explore AI tools for vibe-coded game development with profiles, tutorials, and game examples."
+  showScrollProgress
+  eagerReveal
+  fillViewport={false}
+  footerClass="pt-6"
+>
+  <Hero layout="centered" size="sm">
+    <Badge slot="badge" variant="brand" pill>
+      <Icon name="sparkles" size="sm" />
+      AI Tools Hub
+    </Badge>
+    <h1 slot="title">
+      Vibe-Code Your Game With
+      <br />
+      <span class="text-brand-500">
+        <TypingEffect words={aiToolNames} />
+      </span>
+    </h1>
+    <p slot="description">
+      Discover tools, compare usability, and jump into tutorials for the AI stack powering modern game creation.
+    </p>
+  </Hero>
+
+  <section class="border-t border-border bg-background-secondary py-[var(--space-section-md)]">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal data-reveal-delay="1">
+        {aiTools.map((tool) => (
+          <AiToolCard
+            slug={tool.id.replace('en/', '')}
+            name={tool.data.name}
+            description={tool.data.description}
+            website={tool.data.website}
+            featured={tool.data.featured}
+            usability={tool.data.usability}
+            logo={tool.data.logo}
+            href={`/ai-tools/${tool.id.replace('en/', '')}`}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>

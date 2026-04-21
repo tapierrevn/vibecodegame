@@ -1,0 +1,74 @@
+---
+title: "Ship Every Jam Build with Claude and GitHub Actions"
+description: "Turn “it works on my machine” into repeatable artifacts: CI checks, tagged releases, and itch uploads you can trigger from main."
+seoTitle: "Ship a Game Jam Build Using Claude and GitHub Actions"
+seoDescription: "Automate game jam shipping: Claude for scripts and fixes, GitHub Actions for build/test/deploy, itch.io artifacts, and sane versioning. Workflow for vibe-coded indies."
+publishedAt: 2026-04-14
+author: "YGG Play"
+tags: ["How-To", "Game jams", "Claude", "GitHub", "Vibe coding"]
+featured: false
+locale: en
+image: "../../../assets/blog/ship-game-jam-build-claude-github-actions-og.svg"
+imageAlt: "Open Graph art for Claude and GitHub Actions jam shipping guide"
+draft: false
+---
+
+Game jams punish **manual deploys**. The last hour should be **tuning feel**, not watching a stalled upload. Pairing **Claude** (or any strong coding model) with **GitHub Actions** gives you a boring pipeline—exactly what you want when adrenaline is high.
+
+## What a minimal jam CI does
+
+1. **Install** dependencies with a lockfile.
+2. **Build** your static export or bundled `dist/`.
+3. **Archive** the playable folder as an artifact you can download—or push to itch with `butler` if you use secrets.
+
+You do not need Kubernetes. You need **repeatability**.
+
+## Designing the workflow file
+
+Keep jobs split: `lint` (optional), `build`, `package`. Use concurrency groups so double-pushes cancel stale runs. Cache your package manager directory.
+
+When prompting Claude, include:
+
+- Your **package manager** and **build command**.
+- Target **Node version** pinned in `.node-version` or `engines`.
+- Whether you deploy **WebGL**, **static HTML**, or **Electron** (Electron needs signing—often out of scope for 48h jams).
+
+## Secrets and itch.io
+
+Store `BUTLER_API_KEY` as an Actions secret. Never echo secrets in logs. Test `butler push` locally once before wiring CI so failures are understandable.
+
+## Branch strategy that survives sleep deprivation
+
+- `main` always **builds green**.
+- Jam experiments live in **short-lived branches** merged via PR even if you are solo—PRs force a diff story you can revert.
+
+## Table: when to skip automation
+
+| Situation | Automate? |
+|-----------|-----------|
+| First hour of jam | No—prototype freely |
+| 6h before deadline | Yes—one-button package |
+| Post-jam polish | Yes—release tags |
+
+## Common failures
+
+- **Missing lockfile** → CI installs random minors.
+- **Case-sensitive paths** → works on Windows, fails on Linux runners.
+- **Huge artifacts** → trim unused assets before upload.
+
+## FAQ
+
+**Can Claude write my workflow YAML?** Start from official templates, then ask it to adapt—verify every action pin.
+
+**What if my game is client-only?** Static export to `dist/` + upload is enough; add Lighthouse CI only if you care about perf budgets.
+
+**Where do jams fit in discovery?** Track upcoming events on [game jams](/game-jams) and cross-link your release from your [developer hub entry](/developers).
+
+## Next steps
+
+- Browse [vibe-coded games](/vibe-coded-games) for how shipped jams present builds.
+- Compare AI assistants in [AI tools](/ai-tools) for your next jam stack.
+
+---
+
+*YGG Play publishes practical pipelines for builders who ship on deadlines.*

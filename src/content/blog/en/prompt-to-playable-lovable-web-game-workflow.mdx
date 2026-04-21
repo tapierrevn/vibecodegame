@@ -1,0 +1,71 @@
+---
+title: "From Prompt to Playable: A Lovable-First Web Game Workflow"
+description: "Use Lovable’s UI velocity for scaffolding, then tighten gameplay in focused passes—without losing your creative north star."
+seoTitle: "Prompt-to-Playable: Lovable Web Game Workflow"
+seoDescription: "Build browser games faster with Lovable: prompt structure, component boundaries, playtest loops, and exporting for indie listing. YGG Play workflow guide."
+publishedAt: 2026-04-10
+author: "YGG Play"
+tags: ["How-To", "Lovable", "Web games", "AI tools", "Vibe coding"]
+featured: false
+locale: en
+image: "../../../assets/blog/prompt-to-playable-lovable-web-game-workflow-og.svg"
+imageAlt: "Open Graph banner for Lovable web game workflow article"
+draft: false
+---
+
+**Lovable**-style builders reward **clear prompts** and punish vague dreams. Treat the tool like a senior UI engineer who needs acceptance criteria, not a mind reader who invents your game design.
+
+## Frame the vertical slice
+
+Write a **one-paragraph design brief** before touching the generator:
+
+- Camera perspective (top-down, side, isometric-lite).
+- Win/lose in one line.
+- Input scheme (touch-first vs keyboard-first).
+
+Attach **reference games** as comparisons (“*Downwell*-style gravity” not “something cool”).
+
+## Structure prompts in layers
+
+1. **Layout shell** — navigation, canvas region, HUD placeholders.
+2. **State module** — score, lives, timers as plain data structures.
+3. **Interaction pass** — collisions, spawning, juice (particles later).
+
+Ask for **file names** explicitly so you can navigate diffs. Reject drive-by rewrites; insist on **patch-sized** changes when something already works.
+
+## Playtest cadence
+
+Every **20 minutes**, play one round on **phone + desktop**. Input latency shows up differently. Note framerate dips before adding shaders.
+
+## Integration with hand-written code
+
+Export or sync to your repo early. **Lock dependencies** and add a tiny unit test around scoring if you plan competitive leaderboards later.
+
+## Table: prompt smells vs strong prompts
+
+| Weak | Strong |
+|------|--------|
+| “Make it fun” | “Increase difficulty every 30s by +10% spawn rate cap 200%” |
+| “Fix bugs” | “On Safari iOS, touchmove prevents scroll; lock body overflow during play” |
+| “Better art” | “Replace circles with 32×32 placeholder tiles; keep hitboxes AABB” |
+
+## Pitfalls
+
+- **Over-automating juice** before core loop is tight.
+- **Hidden magic numbers**—centralize tuning in one config object.
+- **Skipping sound off** during meetings—mute is a feature.
+
+## FAQ
+
+**Is Lovable “real” engineering?** Shipping is real engineering. Generated code still needs review, perf passes, and ownership.
+
+**When do I list on Vibecode.game?** When you have a stable URL, honest tool tags, and a short making-of—see [vibe-coded games](/vibe-coded-games).
+
+## Next steps
+
+- Compare other stacks in [AI tools](/ai-tools).
+- Find a deadline via [game jams](/game-jams).
+
+---
+
+*YGG Play connects builders, tools, and players in the vibe-coded games space.*

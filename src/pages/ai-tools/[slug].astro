@@ -1,0 +1,46 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import AiToolLayout from '@/layouts/AiToolLayout.astro';
+
+interface Props {
+  aiTool: CollectionEntry<'aiTools'>;
+  relatedGames: CollectionEntry<'games'>[];
+}
+
+export async function getStaticPaths() {
+  const aiTools = await getCollection('aiTools', ({ data }) => {
+    const isEn = (data.locale ?? 'en') === 'en';
+    return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  const games = await getCollection('games', ({ data }) => {
+    const isEn = (data.locale ?? 'en') === 'en';
+    return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  return aiTools.map((aiTool) => {
+    const slug = aiTool.id.replace('en/', '');
+    const relatedGames = games.filter((game) => game.data.aiTools.includes(aiTool.data.name));
+    return {
+      params: { slug },
+      props: { aiTool, relatedGames },
+    };
+  });
+}
+
+const { aiTool, relatedGames } = Astro.props as Props;
+const { Content } = await render(aiTool);
+---
+
+<AiToolLayout
+  slug={aiTool.id.replace('en/', '')}
+  name={aiTool.data.name}
+  description={aiTool.data.description}
+  website={aiTool.data.website}
+  featured={aiTool.data.featured}
+  usability={aiTool.data.usability}
+  logo={aiTool.data.logo}
+  relatedGames={relatedGames}
+>
+  <Content />
+</AiToolLayout>

@@ -1,5 +1,6 @@
 ---
 import GameListing from '@/components/games/GameListing.astro';
+import mostPlayedOgImage from '@/assets/games/banner/most_played.png';
 ---
 
-<GameListing curatedFilter="most_played" />
+<GameListing curatedFilter="most_played" ogImage={mostPlayedOgImage.src} />

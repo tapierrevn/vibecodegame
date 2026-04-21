@@ -1,0 +1,198 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Badge from '@/components/ui/data-display/Badge/Badge.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import { Hero } from '@/components/hero';
+import { getCollection } from 'astro:content';
+import GameJamCard from '@/components/game-jams/GameJamCard.astro';
+import { yearToGameJamsPath } from '@/lib/game-jams-filter';
+import gameJamHeroBg from '@/assets/game-jams/banner/game-jam.png';
+import gameJamOgImage from '@/assets/game-jams/banner/game-jam-og.png';
+
+interface Props {
+  activeYear?: number | null;
+}
+
+const { activeYear = null } = Astro.props;
+
+const allEvents = await getCollection('gameJams', ({ data }) => {
+  const isEn = (data.locale ?? 'en') === 'en';
+  return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+});
+
+const sortedEvents = allEvents.sort(
+  (a, b) => b.data.startDate.getTime() - a.data.startDate.getTime(),
+);
+
+const years = [...new Set(sortedEvents.map((event) => event.data.startDate.getFullYear()))].sort(
+  (a, b) => b - a,
+);
+const selectedYear = activeYear;
+const visibleEvents = selectedYear
+  ? sortedEvents.filter((event) => event.data.startDate.getFullYear() === selectedYear)
+  : sortedEvents;
+const featuredEvents = visibleEvents.filter((event) => event.data.featured);
+const regularEvents = visibleEvents.filter((event) => !event.data.featured);
+const isFilteredPage = selectedYear !== null;
+const seoTitle = selectedYear
+  ? `Game Jam Events in ${selectedYear}: Upcoming, Live, and Past Jams | VibeCodeGame`
+  : 'Game Jam Events: Upcoming, Live, and Past Jams | VibeCodeGame';
+const seoDescription = selectedYear
+  ? `Discover game jam events in ${selectedYear} on VibeCodeGame, including upcoming, in-progress, and finished jams with timelines, locations, organizers, participation details, and results.`
+  : 'Explore the Game Jam Events Archive on VibeCodeGame to discover upcoming, in-progress, and past game jams with timelines, locations, organizers, participation links, and final results.';
+---
+
+<PageLayout
+  title={seoTitle}
+  description={seoDescription}
+  image={gameJamOgImage.src}
+  imageAlt="Stay tuned for the best game jams — VibeCodeGame"
+  showScrollProgress
+  eagerReveal
+>
+  <Hero
+    layout="centered"
+    size="sm"
+    class="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+    style={`background-image: linear-gradient(to bottom, rgb(10 10 20 / 0.55), rgb(10 10 20 / 0.7)), url('${gameJamHeroBg.src}');`}
+  >
+    <Badge slot="badge" variant="brand" pill class="!text-white">
+      <Icon name="calendar" size="sm" />
+      Game Jam Archive
+    </Badge>
+
+    <h1 slot="title" class="!text-white">Game Jam Events</h1>
+    <p slot="description" class="!text-white/90">
+      Discover upcoming, live, and past jams from around the world, with event details, timelines, and submission
+      outcomes.
+    </p>
+  </Hero>
+
+  {
+    !isFilteredPage && featuredEvents.length > 0 && (
+      <section class="bg-background-secondary border-t border-border py-[var(--space-section-md)]">
+        <div class="mx-auto flex max-w-6xl flex-col gap-8 px-6">
+          <h2 class="font-display text-foreground text-3xl font-bold md:text-4xl" data-reveal>
+            Featured Game Jam Events
+          </h2>
+
+          <div class="grid gap-6" data-reveal data-reveal-delay="1">
+            {featuredEvents.map((event) => (
+              <GameJamCard
+                slug={event.id.replace('en/', '')}
+                name={event.data.name}
+                description={event.data.description}
+                startDate={event.data.startDate}
+                endDate={event.data.endDate}
+                participationLink={event.data.participationLink}
+                place={event.data.place}
+                country={event.data.country}
+                organizers={event.data.organizers}
+                featured={event.data.featured}
+                image={event.data.image}
+                imageAlt={event.data.imageAlt}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section
+    class:list={[
+      featuredEvents.length > 0 ? 'bg-background' : 'bg-background-secondary',
+      'border-t border-border py-[var(--space-section-md)]',
+    ]}
+  >
+    <div class="mx-auto flex max-w-6xl flex-col gap-8 px-6">
+      <div class="flex flex-wrap items-center justify-between gap-4" data-reveal>
+        {
+          featuredEvents.length > 0 ? (
+            <h2 class="font-display text-foreground text-3xl font-bold md:text-4xl">All Game Jam Events</h2>
+          ) : (
+            <h2 class="font-display text-foreground text-3xl font-bold md:text-4xl">Game Jam Events</h2>
+          )
+        }
+
+        {years.length > 0 && (
+          <div class="flex items-center gap-3">
+            <label for="year-filter" class="text-sm font-medium text-foreground-muted">
+              Filter by year
+            </label>
+            <div class="relative">
+              <select
+                id="year-filter"
+                class="appearance-none rounded-full border border-border bg-background py-1.5 pl-3 pr-8 text-sm font-medium text-foreground transition-colors focus:border-brand-500 focus:outline-none"
+              >
+                <option value="/game-jams" selected={selectedYear === null}>All years</option>
+                {years.map((year) => (
+                  <option value={yearToGameJamsPath(year)} selected={selectedYear === year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+              <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-foreground-muted">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {(isFilteredPage ? visibleEvents : featuredEvents.length > 0 ? regularEvents : visibleEvents).length > 0 ? (
+        <div class="grid gap-6" data-reveal data-reveal-delay="1">
+          {(isFilteredPage ? visibleEvents : featuredEvents.length > 0 ? regularEvents : visibleEvents).map((event) => (
+            <GameJamCard
+              slug={event.id.replace('en/', '')}
+              name={event.data.name}
+              description={event.data.description}
+              startDate={event.data.startDate}
+              endDate={event.data.endDate}
+              participationLink={event.data.participationLink}
+              place={event.data.place}
+              country={event.data.country}
+              organizers={event.data.organizers}
+              featured={event.data.featured}
+              image={event.data.image}
+              imageAlt={event.data.imageAlt}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="py-16 text-center">
+          <div class="bg-background mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+            <Icon name="file-text" size="lg" class="text-foreground-muted" />
+          </div>
+          <p class="text-lg text-foreground-muted">No game jam events found for this year</p>
+        </div>
+      )}
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  function initYearFilterNav() {
+    const select = document.getElementById('year-filter') as HTMLSelectElement | null;
+    if (!select) return;
+
+    select.addEventListener('change', () => {
+      if (select.value) window.location.href = select.value;
+    });
+  }
+
+  initYearFilterNav();
+  document.addEventListener('astro:page-load', initYearFilterNav);
+</script>

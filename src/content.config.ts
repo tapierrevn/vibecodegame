@@ -9,6 +9,10 @@ const blog = defineCollection({
     z.object({
       title: z.string().max(100),
       description: z.string().max(200),
+      /** Optional SERP/social title; `<title>` and og:title use this when set (on-page H1 stays `title`). */
+      seoTitle: z.string().max(100).optional(),
+      /** Optional meta/og:description; falls back to `description` when omitted. */
+      seoDescription: z.string().max(200).optional(),
       publishedAt: z.coerce.date(),
       updatedAt: z.coerce.date().optional(),
       author: z.string().default('Team'),
@@ -153,6 +157,42 @@ const developers = defineCollection({
   }),
 });
 
+// AI Tools collection — one MDX file per AI tool profile
+const aiTools = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/ai-tools' }),
+  schema: z.object({
+    name: z.string(),
+    description: z.string(),
+    website: z.string().url(),
+    featured: z.boolean().default(false),
+    usability: z.enum(['Easy', 'Medium', 'Hard']),
+    logo: z.string(),
+    draft: z.boolean().default(false),
+    locale: z.enum(['en', 'es', 'fr']).default('en'),
+  }),
+});
+
+// Game Jams collection — one MDX file per event profile
+const gameJams = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/game-jams' }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      startDate: z.coerce.date(),
+      endDate: z.coerce.date(),
+      participationLink: z.string().url(),
+      place: z.string(),
+      country: z.string(),
+      featured: z.boolean().default(false),
+      organizers: z.array(z.string()).default([]),
+      image: image(),
+      imageAlt: z.string().optional(),
+      draft: z.boolean().default(false),
+      locale: z.enum(['en', 'es', 'fr']).default('en'),
+    }),
+});
+
 export const collections = {
   blog,
   pages,
@@ -162,4 +202,6 @@ export const collections = {
   projects,
   games,
   developers,
+  aiTools,
+  gameJams,
 };

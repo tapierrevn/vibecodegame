@@ -1,0 +1,202 @@
+---
+import type { ImageMetadata } from 'astro';
+import siteConfig from '@/config/site.config';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro';
+import ShareButtons from '@/components/blog/ShareButtons.astro';
+import CTA from '@/components/ui/marketing/CTA/CTA.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  participationLink: string;
+  place: string;
+  country: string;
+  featured: boolean;
+  organizers: string[];
+  image: ImageMetadata;
+  imageAlt?: string;
+}
+
+const {
+  name,
+  description,
+  startDate,
+  endDate,
+  participationLink,
+  place,
+  country,
+  featured,
+  organizers,
+  image,
+  imageAlt,
+} = Astro.props;
+
+const socialLinks = siteConfig.socialLinks.map((url) => {
+  let platform = 'link';
+  if (url.includes('x.com') || url.includes('twitter.com')) platform = 'twitter';
+  else if (url.includes('discord.gg')) platform = 'discord';
+  else if (url.includes('youtube.com')) platform = 'youtube';
+  else if (url.includes('github.com')) platform = 'github';
+  else if (url.includes('linkedin.com')) platform = 'linkedin';
+  else if (url.includes('instagram.com')) platform = 'instagram';
+  return { platform, href: url };
+});
+
+const isFuture = startDate > new Date();
+
+const formattedStart = startDate.toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+const formattedEnd = endDate.toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Game Jams', href: '/game-jams' },
+  { label: name },
+];
+
+const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const seoTitle = `${name} Game Jam: Dates, Rules, Prizes, and Results | ${siteConfig.name}`;
+const seoDescription = `${description} Get the full event profile for ${name}, including schedule (${formattedStart} to ${formattedEnd}), location (${place}, ${country}), organizers, participation details, and outcomes.`;
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  image={image.src}
+  imageAlt={imageAlt || name}
+  article={{
+    publishedTime: startDate,
+    modifiedTime: endDate,
+    authors: organizers,
+    tags: ['Game Jam', place, country],
+  }}
+>
+  <Header
+    slot="header"
+    position="fixed"
+    shape="floating"
+    variant="default"
+    colorScheme="default"
+    size="lg"
+    showCta={false}
+    cta={{ label: 'Get in touch', href: '/contact' }}
+    showThemeSelector={false}
+    showScrollProgress={true}
+    scrollProgressPosition="top"
+  />
+
+  <div class="min-h-screen pt-16">
+    <section class="border-b border-border bg-background-secondary">
+      <div class="mx-auto grid max-w-6xl gap-8 px-6 py-10 md:grid-cols-2 md:items-center">
+        <div>
+          <p class="mb-3 text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">Game Jam Event</p>
+          <h1 class="font-display text-4xl font-bold text-foreground md:text-5xl">{name}</h1>
+          <p class="mt-4 text-lg text-foreground-muted">{description}</p>
+
+          <div class="mt-6 space-y-2 text-sm text-foreground-subtle">
+            <p><span class="font-medium text-foreground">Dates:</span> {formattedStart} - {formattedEnd}</p>
+            <p><span class="font-medium text-foreground">Location:</span> {place}, {country}</p>
+            {organizers.length > 0 && (
+              <p><span class="font-medium text-foreground">Organizers:</span> {organizers.join(', ')}</p>
+            )}
+          </div>
+
+          {featured && (
+            <span class="mt-5 inline-flex items-center rounded-full bg-brand-500 px-3 py-1 text-xs font-semibold text-white">
+              Featured Event
+            </span>
+          )}
+        </div>
+
+        <div class="overflow-hidden rounded-xl border border-border">
+          <Image
+            src={image}
+            alt={imageAlt || name}
+            widths={[640, 960, 1280]}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            class="aspect-[16/9] w-full object-cover"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </section>
+
+    <article class="pb-[var(--space-section-md)] pt-8">
+      <div class="mx-auto max-w-4xl px-6">
+        <Breadcrumbs items={breadcrumbs} class="mb-8" />
+
+        <div class="prose prose-lg max-w-none">
+          <slot />
+        </div>
+
+        <footer class="mt-12 border-t border-border pt-8" data-reveal>
+          <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <a
+              href="/game-jams"
+              class="inline-flex items-center gap-2 text-sm font-medium text-brand-600 transition-colors hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300"
+            >
+              <svg
+                class="h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to Game Jam Events
+            </a>
+            <ShareButtons title={name} url={fullUrl} />
+          </div>
+        </footer>
+      </div>
+    </article>
+
+    {isFuture && (
+      <CTA variant="default" size="md" maxWidth="lg" glow={false} class="bg-background-secondary">
+        <h2 slot="heading" class="!text-4xl">Ready to Join This Jam?</h2>
+        <p slot="description" class="!text-lg text-balance">
+          Registration is open. Review the rules and secure your team spot before kickoff.
+        </p>
+        <div slot="actions" class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href={participationLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-full border border-brand-500 bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-brand-600 hover:bg-brand-600"
+          >
+            <Icon name="external-link" size="sm" />
+            Participate Now
+          </a>
+        </div>
+      </CTA>
+    )}
+  </div>
+
+  <Footer
+    slot="footer"
+    layout="stacked"
+    background="secondary"
+    socialLinks={socialLinks}
+    showSocial={true}
+    legalLinks={[
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/terms' },
+    ]}
+  />
+</BaseLayout>

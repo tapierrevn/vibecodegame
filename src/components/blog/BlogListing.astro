@@ -10,6 +10,8 @@ import siteConfig from '@/config/site.config';
 import { resolveSocialLinks } from '@/lib/utils';
 import { tagToBlogPath } from '@/lib/blog-tags';
 import ShareButtons from '@/components/blog/ShareButtons.astro';
+import blogBanner from '@/assets/blog/banner/banner.png';
+import blogListingOgImage from '@/assets/blog/banner/vibecodeblog.png';
 
 interface Props {
   activeTag: string | null;
@@ -19,9 +21,7 @@ const { activeTag } = Astro.props;
 
 const socialLinks = resolveSocialLinks(siteConfig.socialLinks);
 
-const allPosts = await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? data.draft !== true : true;
-});
+const allPosts = await getCollection('blog', ({ data }) => data.draft !== true);
 
 const posts = allPosts
   .filter((post) => post.data.locale === 'en')
@@ -42,29 +42,48 @@ const getPostUrl = (postId: string) => {
   return `/blog/${slug}`;
 };
 
-const pageTitle = activeTag
-  ? `${activeTag} — Blog — Astro Rocket`
-  : 'Blog — Astro Rocket';
+/** Passed to layouts/SEO; `<title>` becomes `{metaTitle} — ${siteConfig.name}` (see SEO.astro). */
+const metaTitle = activeTag
+  ? `${activeTag} | Vibe-coding & AI game dev`
+  : 'Vibe-coding & AI game dev blog';
+
 const pageDescription = activeTag
-  ? `Articles tagged “${activeTag}” — Astro, web performance, design systems, and Astro Rocket.`
-  : 'Articles on web design, development, and the web by Astro Rocket.';
+  ? `Browse ${activeTag} articles on vibe-coding games, AI-assisted indie development, and shipping faster with modern stacks—guides and tools on ${siteConfig.name}.`
+  : `Vibe-coding tutorials, AI game development workflows, and indie playbooks—tools like Cursor & Claude, jams, multiplayer, and growth on ${siteConfig.name}.`;
+
+const shareTitle = `${metaTitle} — ${siteConfig.name}`;
 const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const blogListingOgAlt =
+  'The best vibe-coding game resources — Vibecode.game blog banner';
 ---
 
-<PageLayout title={pageTitle} description={pageDescription} showScrollProgress eagerReveal>
-  <Hero layout="centered" size="sm">
-    <Badge slot="badge" variant="brand" pill>
+<PageLayout
+  title={metaTitle}
+  description={pageDescription}
+  image={blogListingOgImage.src}
+  imageAlt={blogListingOgAlt}
+  showScrollProgress
+  eagerReveal
+>
+  <Hero
+    layout="centered"
+    size="sm"
+    class="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+    style={`background-image: linear-gradient(to bottom, rgb(10 10 20 / 0.55), rgb(10 10 20 / 0.7)), url('${blogBanner.src}');`}
+  >
+    <Badge slot="badge" variant="brand" pill class="!text-white">
       <Icon name="book" size="sm" />
       {activeTag ? `Tag: ${activeTag}` : 'All posts'}
     </Badge>
 
-    <h1 slot="title">Blog</h1>
+    <h1 slot="title" class="!text-white">Blog</h1>
 
-    <p slot="description">
+    <p slot="description" class="!text-white/90">
       {
         activeTag
-          ? `Posts tagged “${activeTag}”. Also see all articles on Astro, performance, and design systems.`
-          : 'Articles on Astro, web performance, design systems, and building with Astro Rocket.'
+          ? `Everything we’ve published under “${activeTag}”—practical vibe-coding notes, AI-assisted dev, and shipping lessons on ${siteConfig.name}.`
+          : `Deep dives on vibe-coding games with AI: workflows, tools, jams, multiplayer, polish, and getting players to care—on ${siteConfig.name}.`
       }
     </p>
   </Hero>
@@ -210,7 +229,7 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
               Back to Blog
             </a>
 
-            <ShareButtons title={pageTitle} url={fullUrl} />
+            <ShareButtons title={shareTitle} url={fullUrl} />
           </div>
         </div>
       </section>

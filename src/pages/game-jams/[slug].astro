@@ -1,0 +1,77 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import GameJamLayout from '@/layouts/GameJamLayout.astro';
+import GameJamListing from '@/components/game-jams/GameJamListing.astro';
+import { segmentToYear, yearToGameJamsPathSegment } from '@/lib/game-jams-filter';
+
+interface Props {
+  kind: 'event' | 'filter';
+  event?: CollectionEntry<'gameJams'>;
+  year?: number;
+}
+
+export async function getStaticPaths() {
+  const events = await getCollection('gameJams', ({ data }) => {
+    const isEn = (data.locale ?? 'en') === 'en';
+    return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  const eventPaths = events.map((event) => ({
+    params: { slug: event.id.replace('en/', '') },
+    props: { kind: 'event' as const, event },
+  }));
+
+  const years = [...new Set(events.map((event) => event.data.startDate.getFullYear()))];
+  const filterPaths = years.map((year) => ({
+    params: { slug: yearToGameJamsPathSegment(year) },
+    props: { kind: 'filter' as const, year },
+  }));
+
+  return [...eventPaths, ...filterPaths];
+}
+
+const props = Astro.props as Props;
+
+if (props.kind === 'filter' && typeof props.year !== 'number') {
+  throw new Error('Game Jam filter page is missing a valid year.');
+}
+
+if (props.kind === 'event' && !props.event) {
+  throw new Error('Game Jam event page is missing event data.');
+}
+
+const routeSlug = Astro.params.slug ?? '';
+if (props.kind === 'filter') {
+  const resolvedYear = segmentToYear(routeSlug);
+  if (resolvedYear !== props.year) {
+    throw new Error(`Game Jam filter route mismatch for slug "${routeSlug}".`);
+  }
+}
+
+let Content: Awaited<ReturnType<typeof render>>['Content'] | null = null;
+if (props.kind === 'event' && props.event) {
+  ({ Content } = await render(props.event));
+}
+---
+
+{
+  props.kind === 'event' && props.event && Content ? (
+    <GameJamLayout
+      name={props.event.data.name}
+      description={props.event.data.description}
+      startDate={props.event.data.startDate}
+      endDate={props.event.data.endDate}
+      participationLink={props.event.data.participationLink}
+      place={props.event.data.place}
+      country={props.event.data.country}
+      featured={props.event.data.featured}
+      organizers={props.event.data.organizers}
+      image={props.event.data.image}
+      imageAlt={props.event.data.imageAlt}
+    >
+      <Content />
+    </GameJamLayout>
+  ) : props.kind === 'filter' ? (
+    <GameJamListing activeYear={props.year ?? null} />
+  ) : null
+}

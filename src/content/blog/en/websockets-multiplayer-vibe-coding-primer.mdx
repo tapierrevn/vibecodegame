@@ -1,0 +1,51 @@
+---
+title: "WebSockets for Vibe-Coded Games: A Primer Before You Code"
+description: "Messages, rooms, ticks, and failure modes—so your first socket project does not become a science project."
+seoTitle: "WebSockets Multiplayer Primer for Vibe-Coded Games"
+seoDescription: "Learn WebSocket multiplayer basics for browser games: message design, rooms, authority, lag, and cheats—before you vibe-code netcode. YGG Play primer."
+publishedAt: 2026-03-10
+author: "YGG Play"
+tags: ["How-To", "Multiplayer", "Web games", "Vibe coding"]
+featured: false
+locale: en
+image: "../../../assets/blog/websockets-multiplayer-vibe-coding-primer-og.svg"
+imageAlt: "OG image for WebSockets multiplayer primer"
+draft: false
+---
+
+**WebSockets** give you a persistent, bidirectional pipe—great for frequent state updates. They are not magic: you still design **schemas**, **authority**, and **failure recovery**.
+
+## Mental model
+
+- **Server** owns truth for competitive games (usually).
+- **Clients** send intents (`move`, `jump`), not outcomes (`I scored`).
+- **Broadcast** deltas, not the universe—bandwidth is a UX issue.
+
+## Message design
+
+Start JSON for readability; optimize to binary if metrics prove need. Always include **`type`**, **`seq` or `tick`**, and **`roomId`**.
+
+## Rooms and matchmaking v0
+
+Random room codes in URL query are enough for prototypes. Swap to a matchmaker when retention demands it.
+
+## Failure modes
+
+- **Silent disconnects** — heartbeat/ping.
+- **Replay floods** — rate limit.
+- **Cheaty clients** — validate bounds server-side.
+
+## FAQ
+
+**UDP instead?** Browsers do not expose raw UDP; WebRTC data channels exist but add signaling complexity—graduate when needed.
+
+**Hands-on next?** Try [our Cursor multiplayer sprint](/blog/how-to-multiplayer-game-cursor-two-hours).
+
+## Next steps
+
+- Explore listings in [vibe-coded games](/vibe-coded-games).
+- Compare tools at [AI tools](/ai-tools).
+
+---
+
+*YGG Play helps you learn multiplayer without myth-making.*

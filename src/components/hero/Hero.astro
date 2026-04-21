@@ -18,6 +18,13 @@ interface Props extends HTMLAttributes<'section'> {
   showScrollIndicator?: boolean;
   /** Max-width class for the description wrapper (default: max-w-xl) */
   descriptionClass?: string;
+  /**
+   * Optional full-bleed MP4 behind the hero. Loads only when the hero nears the viewport
+   * (see client script) and uses `preload="none"` + `poster` to limit initial bandwidth.
+   */
+  backgroundVideoSrc?: string;
+  /** Poster image URL for the video (LCP-friendly) and reduced-motion fallback */
+  backgroundVideoPoster?: string;
 }
 
 const {
@@ -28,9 +35,13 @@ const {
   bottomFade = false,
   showScrollIndicator = false,
   descriptionClass = 'max-w-xl',
+  backgroundVideoSrc,
+  backgroundVideoPoster,
   class: className,
   ...attrs
 } = Astro.props;
+
+const hasVideoBg = Boolean(backgroundVideoSrc);
 
 // Check which slots are provided
 const hasBadgeSlot = Astro.slots.has('badge');
@@ -51,15 +62,37 @@ const contentClasses = cn(
 );
 
 const gridClasses = cn(
-  'mx-auto grid max-w-6xl grid-cols-1 items-center gap-[var(--space-section-gap)] px-6',
+  'relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-[var(--space-section-gap)] px-6',
   layout === 'split' && 'lg:grid-cols-2 lg:gap-[var(--space-section-gap)]'
 );
 ---
 
 <section class={sectionClasses} {...attrs}>
+  {hasVideoBg && backgroundVideoPoster && (
+    <div class="hero-video-bg pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+      <img
+        src={backgroundVideoPoster}
+        alt=""
+        decoding="async"
+        fetchpriority="high"
+        class="hero-video-poster-fallback absolute inset-0 h-full w-full object-cover"
+      />
+      <video
+        class="hero-video-el absolute inset-0 h-full w-full object-cover"
+        poster={backgroundVideoPoster}
+        muted
+        loop
+        playsinline
+        preload="none"
+        data-video-src={backgroundVideoSrc}
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-background/88 via-background/72 to-background/88 dark:from-background/90 dark:via-background/75 dark:to-background/92" />
+    </div>
+  )}
+
   {showGrid && (
     <div
-      class="bg-grid-pattern pointer-events-none absolute inset-x-0 -inset-y-[20%] opacity-30 hidden dark:block"
+      class="bg-grid-pattern pointer-events-none absolute inset-x-0 -inset-y-[20%] z-[1] opacity-30 hidden dark:block"
       style="mask-image: radial-gradient(ellipse 50% 50% at 50% 40%, black 0%, transparent 70%);"
       data-parallax="0.2"
       aria-hidden="true"
@@ -68,17 +101,17 @@ const gridClasses = cn(
 
   {showGlow && (
     <>
-      <div class="pointer-events-none absolute left-1/2 top-1/4 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-500/15 blur-[120px] hidden dark:block" aria-hidden="true" />
-      <div class="pointer-events-none absolute bottom-1/4 right-1/4 h-[400px] w-[400px] rounded-full bg-brand-600/10 blur-[100px] hidden dark:block" aria-hidden="true" />
+      <div class="pointer-events-none absolute left-1/2 top-1/4 z-[1] h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-500/15 blur-[120px] hidden dark:block" aria-hidden="true" />
+      <div class="pointer-events-none absolute bottom-1/4 right-1/4 z-[1] h-[400px] w-[400px] rounded-full bg-brand-600/10 blur-[100px] hidden dark:block" aria-hidden="true" />
     </>
   )}
 
   {bottomFade && (
-    <div class="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background-secondary hidden dark:block" aria-hidden="true" />
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-40 bg-gradient-to-b from-transparent to-background-secondary hidden dark:block" aria-hidden="true" />
   )}
 
   {showScrollIndicator && (
-    <div class="scroll-indicator-wrapper absolute bottom-14 left-1/2 -translate-x-1/2 z-10" aria-hidden="true">
+    <div class="scroll-indicator-wrapper absolute bottom-14 left-1/2 z-20 -translate-x-1/2" aria-hidden="true">
       <div class="scroll-indicator flex flex-col items-center gap-0.5">
         <svg class="scroll-indicator-chevron w-7 h-7 text-brand-500/70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="6 9 12 15 18 9" />
@@ -147,6 +180,21 @@ const gridClasses = cn(
 </section>
 
 <style>
+  .hero-video-el {
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+
+  .hero-video-bg.hero-video-loaded .hero-video-el {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video-el {
+      display: none !important;
+    }
+  }
+
   /* Desktop-only: require both a minimum width and minimum height so phones
      in landscape mode (wide but short) are excluded. */
   .scroll-indicator-wrapper {
@@ -253,4 +301,56 @@ const gridClasses = cn(
   }
 
   document.addEventListener('astro:page-load', initScrollIndicator);
+
+  /** Defer attaching the MP4 until the hero is near the viewport; respect reduced motion. */
+  function initHeroLazyVideo() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const video = document.querySelector<HTMLVideoElement>('video.hero-video-el[data-video-src]');
+    if (!video) return;
+
+    const wrap = video.closest('.hero-video-bg');
+    const src = video.dataset.videoSrc;
+    if (!src) return;
+
+    // Explicit types so nested callbacks see non-null `HTMLVideoElement` / `string` (TS does not
+    // preserve control-flow narrowing on variables captured in closures).
+    const heroVideo: HTMLVideoElement = video;
+    const videoSrc: string = src;
+
+    function attachAndPlay() {
+      if (heroVideo.querySelector('source')) return;
+      const source = document.createElement('source');
+      source.src = videoSrc;
+      source.type = 'video/mp4';
+      heroVideo.appendChild(source);
+      heroVideo.load();
+
+      const markVisible = () => wrap?.classList.add('hero-video-loaded');
+      heroVideo.addEventListener('canplay', markVisible, { once: true });
+      heroVideo.addEventListener('playing', markVisible, { once: true });
+
+      void heroVideo.play().catch(() => {
+        markVisible();
+      });
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      attachAndPlay();
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          attachAndPlay();
+          io.disconnect();
+        }
+      },
+      { rootMargin: '140px 0px', threshold: 0.01 }
+    );
+    io.observe(heroVideo);
+  }
+
+  document.addEventListener('astro:page-load', initHeroLazyVideo);
 </script>

@@ -23,7 +23,7 @@
  */
 import type { HTMLAttributes } from 'astro/types';
 import { cn } from '@/lib/cn';
-import { getNavItems, type NavItem as NavConfigItem } from '@/config/nav.config';
+import { getHeaderNavItems, type NavItem as NavConfigItem } from '@/config/nav.config';
 import { headerVariants, headerInnerVariants } from './header.variants';
 import Button from '@/components/ui/form/Button/Button.astro';
 import Icon from '@/components/ui/primitives/Icon/Icon.astro';
@@ -122,7 +122,7 @@ const isFloating = shape === 'floating';
 const isInvert = colorScheme === 'invert';
 
 // Get navigation items
-const defaultNav = getNavItems().map((item: NavConfigItem) => ({
+const defaultNav = getHeaderNavItems().map((item: NavConfigItem) => ({
   label: item.label,
   href: item.href,
   children: item.children?.map((child) => ({ label: child.label, href: child.href })),
@@ -223,7 +223,7 @@ const buttonId = `${menuId}-button`;
                   <a
                     href={href.startsWith('#') && !isLandingPage ? `/${href}` : href}
                     class={cn(
-                      'nav-link relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm',
+                      'nav-link relative inline-flex items-center justify-center gap-1 rounded-md px-3 py-2 text-center text-sm',
                       'transition-all duration-(--transition-fast)',
                       isFloating && 'hdr-invert-text',
                       isFloating
@@ -262,7 +262,7 @@ const buttonId = `${menuId}-button`;
                 <a
                   href={href.startsWith('#') && !isLandingPage ? `/${href}` : href}
                   class={cn(
-                    'nav-link relative rounded-md px-3 py-2 text-sm',
+                    'nav-link relative inline-flex items-center justify-center rounded-md px-3 py-2 text-center text-sm',
                     'transition-all duration-(--transition-fast)',
                     isFloating && 'hdr-invert-text',
                     isFloating
@@ -435,7 +435,7 @@ const buttonId = `${menuId}-button`;
                 <a
                   href={href.startsWith('#') && !isLandingPage ? `/${href}` : href}
                   class={cn(
-                    'mobile-nav-link block rounded-md px-3 py-2 text-sm',
+                    'mobile-nav-link block rounded-md px-3 py-2 text-center text-sm',
                     'transition-all duration-(--transition-fast)',
                     isActive(href)
                       ? 'mobile-nav-link-active bg-secondary text-foreground font-semibold'
@@ -451,7 +451,7 @@ const buttonId = `${menuId}-button`;
                       <a
                         href={child.href}
                         class={cn(
-                          'mobile-nav-link block rounded-md px-3 py-2 text-sm',
+                          'mobile-nav-link block rounded-md px-3 py-2 text-center text-sm',
                           'transition-all duration-(--transition-fast)',
                           isActive(child.href)
                             ? 'mobile-nav-link-active bg-secondary text-foreground font-semibold'

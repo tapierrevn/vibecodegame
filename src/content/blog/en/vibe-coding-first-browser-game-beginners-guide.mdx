@@ -1,0 +1,81 @@
+---
+title: "Your First Browser Game: Vibe-Coding from Zero to Playable"
+description: "No engine PhD required—start with HTML canvas or a micro-framework, let AI handle glue code, and finish with something you can share."
+seoTitle: "Vibe-Coding Your First Browser Game: A Beginner's Guide"
+seoDescription: "Learn vibe-coding for browser games: pick canvas vs framework, prompt discipline, one-loop scope, and where to list your first AI-built indie. Beginner-friendly from YGG Play."
+publishedAt: 2026-04-18
+author: "YGG Play"
+tags: ["How-To", "Beginners", "Web games", "Vibe coding", "Indie games"]
+featured: true
+locale: en
+image: "../../../assets/blog/vibe-coding-first-browser-game-beginners-guide-og.svg"
+imageAlt: "Open Graph banner for beginner browser game vibe-coding guide"
+draft: false
+---
+
+**Vibe-coding** is not a single tool—it is a loop: *clarify intent → generate scaffolding → test → tighten prompts → ship a slice*. For your **first browser game**, the goal is not originality; it is **closure**: a URL you are proud to hand someone, running on mobile Safari and desktop Chrome without a lecture.
+
+## Choose your rendering surface
+
+You have three sane starting points:
+
+1. **Canvas 2D** — maximum control, minimal dependencies. Great for arcade prototypes.
+2. **DOM + CSS** — surprisingly strong for puzzle and narrative micro-games.
+3. **Light framework** (Phaser, Kaboom, Pixi)—faster if you already know one; slower if you are fighting docs.
+
+For week-one success, **canvas or DOM** usually wins because the mental model stays small.
+
+## The one-loop rule
+
+Define **one core loop** that takes under sixty seconds per run: *spawn → interact → resolve → score*. Everything else—menus, skins, audio packs—is **stretch goals** tracked in a “later.md” file you do not open until the loop feels juicy.
+
+## Prompting patterns that actually work
+
+Paste a **fixed template** into your assistant:
+
+- **Goal:** one sentence player fantasy.
+- **Constraints:** language, max files, no build step (or Vite only).
+- **Acceptance tests:** “Space starts the game,” “collision reduces HP,” “game over shows score.”
+
+Ask for **the smallest diff** that passes tests, not a rewrite. Rewrites burn beginners; diffs teach.
+
+## Performance and guilt-free corners
+
+Ship at **30 FPS** if 60 is fighting you. Use **integer math** where possible. Lazy-load assets. Your first game teaches **habits**; optimization culture comes after you have shipped twice.
+
+## Accessibility and fairness
+
+Even jam games benefit from **keyboard focus**, **color contrast**, and **mute**. Add a single toggle early; players remember thoughtfulness.
+
+## Table: first-game stack shortcuts
+
+| If you want… | Start with… | Avoid on day one… |
+|--------------|-------------|-------------------|
+| Fast movement feel | Canvas rAF loop | Full ECS |
+| Grid puzzles | DOM grid + CSS | Custom render pipeline |
+| Learning multiplayer | Single-screen hot-seat | Dedicated game server |
+
+## Mistakes we see in beginner listings
+
+- **No build instructions** in the README or itch page.
+- **No loop video**—three seconds of GIF beats three paragraphs of lore.
+- **Mystery controls**—show them on first paint.
+
+## FAQ
+
+**Do I need TypeScript?** Helpful, not mandatory. If errors confuse you, start JS and migrate hot files later.
+
+**Where does AI help most?** Boilerplate, collision helpers, and refactors—not high-level taste. You still direct tone and pacing.
+
+**How do I join the ecosystem?** Publish your stack honestly on your [developer profile](/developers) and browse [AI tools](/ai-tools) others used.
+
+## What to do this weekend
+
+1. Pick canvas or DOM.
+2. Implement the loop with touch + keyboard.
+3. Deploy to static hosting.
+4. Add your page to [vibe-coded games](/vibe-coded-games) when you are ready for players.
+
+---
+
+*YGG Play helps builders ship browser-first games and find players who care how games are made.*

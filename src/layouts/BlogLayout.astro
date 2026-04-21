@@ -30,6 +30,8 @@ const socialLinksForCTA = resolveSocialLinks(siteConfig.socialLinks);
 interface Props {
   title: string;
   description: string;
+  seoTitle?: string;
+  seoDescription?: string;
   publishedAt: Date;
   updatedAt?: Date;
   author?: string;
@@ -43,6 +45,8 @@ interface Props {
 const {
   title,
   description,
+  seoTitle,
+  seoDescription,
   publishedAt,
   updatedAt,
   author = 'Team',
@@ -53,6 +57,8 @@ const {
   slug = '',
 } = Astro.props;
 
+const metaTitle = seoTitle ?? title;
+const metaDescription = seoDescription ?? description;
 const ogImage = image?.src || siteConfig.ogImage;
 
 const breadcrumbs = [
@@ -66,10 +72,10 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
 <BaseLayout
-  title={title}
-  description={description}
+  title={metaTitle}
+  description={metaDescription}
   image={ogImage}
-  imageAlt={imageAlt || title}
+  imageAlt={imageAlt || metaTitle}
   article={{
     publishedTime: publishedAt,
     modifiedTime: updatedAt,
@@ -140,7 +146,7 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
           </a>
 
           <!-- Share buttons -->
-          <ShareButtons title={title} url={fullUrl} />
+          <ShareButtons title={metaTitle} url={fullUrl} />
         </div>
       </footer>
     </div>

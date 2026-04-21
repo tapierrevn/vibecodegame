@@ -1,0 +1,70 @@
+---
+title: "Build a Tiny Multiplayer Game with Cursor in One Evening"
+description: "A practical evening sprint: lobby, shared state, and a playable loop—using Cursor to move fast without drowning in boilerplate."
+seoTitle: "How to Build a Multiplayer Game with Cursor in 2 Hours"
+seoDescription: "Ship a minimal real-time browser game fast: scope a 2-hour Cursor sprint, WebSocket basics, room IDs, and playtesting. Step-by-step for indie devs listing on Vibecode.game."
+publishedAt: 2026-04-22
+author: "YGG Play"
+tags: ["How-To", "Cursor", "Multiplayer", "Web games", "Vibe coding"]
+featured: true
+locale: en
+image: "../../../assets/blog/how-to-multiplayer-game-cursor-two-hours-og.svg"
+imageAlt: "Gradient Open Graph art for multiplayer Cursor tutorial on Vibecode.game"
+draft: false
+---
+
+You do not need a perfect netcode stack to **learn multiplayer** or to ship a jam-sized proof. You need a **tight scope**, a single transport choice, and a workflow that keeps you coding instead of debating architecture. This guide assumes you are comfortable with JavaScript or TypeScript, have [Cursor](https://cursor.com) installed, and want a **two-hour ceiling** you can defend when motivation is high but time is not.
+
+## What you will have at the end
+
+- A **browser game** where two tabs (or two devices on your LAN) see the same world state update in near real time.
+- A **minimal message protocol** (JSON over WebSockets) you can explain in one slide.
+- A **checklist** for turning the prototype into something you would list on [Vibecode.game](/vibe-coded-games) with screenshots and a clear “how it was built” story.
+
+## Hour zero: lock the design
+
+Pick **one verb** for players: *dodge*, *tag*, *collect*, or *push*. Cap interactions at **three inputs** (e.g. WASD). One arena, no menus, no accounts. If you cannot describe the win condition in **one sentence**, cut scope until you can.
+
+| Scope lever | Tight (good) | Too wide (cut) |
+|-------------|--------------|----------------|
+| Players | 2–8 | MMO-style persistence |
+| State | One shared JSON object | Per-entity physics engine |
+| Auth | Room code in URL | Accounts + ELO |
+
+## Hour one: server + socket skeleton
+
+Use a tiny Node server (`ws` or your framework’s WebSocket helper). **Rooms** map to random four-letter codes. On join, push the current state snapshot; after that, broadcast **only deltas** you care about (player position, score ticks).
+
+Cursor shines when you **paste your constraints** into the chat: transport (WebSocket), message shape, and “no database.” Ask for a single-file server plus a matching client module, then refactor once it runs.
+
+**Milestone:** two clients connect; server logs two sockets; you can broadcast a `{ type: 'ping' }` and see it in both tabs.
+
+## Hour two: game loop + playtest
+
+Run the simulation at a fixed tick (e.g. 10–20 Hz) or event-driven if movement is sparse. **Client prediction** can wait—start with server-authoritative positions to avoid desync rabbit holes in a short sprint.
+
+Playtest with a friend or a second browser profile. Watch for **message storms** (sending full state 60 times a second) and **NaN positions** from bad input handling.
+
+## Common mistakes in two-hour multiplayer sprints
+
+1. **Starting with matchmaking** instead of a hard-coded room.
+2. **Encoding everything as strings** with no schema—add a one-page TypeScript `type` for messages.
+3. **Skipping disconnect handling**—at minimum, remove stale players server-side.
+
+## FAQ
+
+**Is WebSocket always the right choice?** For browser prototypes with continuous state, usually yes. For turn-based games, HTTP + polling can be enough.
+
+**Can AI tools replace understanding netcode?** No—but they accelerate boilerplate if *you* keep the scope and invariants clear.
+
+**Where do I list the shipped build?** When you have a stable URL, add your game to the community catalog and polish your [developer profile](/developers) so players see your stack and tools.
+
+## Next steps
+
+- Compare AI coding stacks in our [AI tools directory](/ai-tools).
+- Plan a jam submission using [game jams](/game-jams) as your deadline.
+- Browse [vibe-coded games](/vibe-coded-games) for pacing and presentation ideas from other listers.
+
+---
+
+*YGG Play publishes hands-on guides for builders who ship browser-first games with modern AI-assisted workflows.*

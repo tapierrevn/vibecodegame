@@ -46,6 +46,12 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      allowedHosts: [
+        'truck-good-prodigy.ngrok-free.dev',
+        '.ngrok-free.dev',
+      ],
+    },
     ssr: {
       external: ['sharp'],
     },

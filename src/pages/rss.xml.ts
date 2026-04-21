@@ -45,11 +45,13 @@ export async function GET(context: APIContext) {
         .map((tag) => `<category>${escapeXml(tag)}</category>`)
         .join('\n        ');
 
+      const rssTitle = post.data.seoTitle ?? post.data.title;
+      const rssDescription = post.data.seoDescription ?? post.data.description;
       return `    <item>
-      <title>${escapeXml(post.data.title)}</title>
+      <title>${escapeXml(rssTitle)}</title>
       <link>${link}</link>
       <guid>${link}</guid>
-      <description>${escapeXml(post.data.description)}</description>
+      <description>${escapeXml(rssDescription)}</description>
       <pubDate>${formatRfc822Date(post.data.publishedAt)}</pubDate>
       <author>${escapeXml(post.data.author)}</author>
       ${categories}

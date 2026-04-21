@@ -5,6 +5,7 @@ import PageLayout from '@/layouts/PageLayout.astro';
 import GameCard from '@/components/games/GameCard.astro';
 import ShareButtons from '@/components/blog/ShareButtons.astro';
 import { gameEntryToPath } from '@/lib/games-similar';
+import DeveloperCommunityCTA from '@/components/landing/CTA.astro';
 
 interface Props {
   name: string;
@@ -115,4 +116,6 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
       </div>
     </div>
   </section>
+
+  <DeveloperCommunityCTA purpose="developerCommunity" />
 </PageLayout>

@@ -1,0 +1,52 @@
+---
+title: "Local Co-op in an Afternoon: Cursor + Phaser 3"
+description: "Shared keyboard, simple physics, and a finish line you can hit before dinner."
+seoTitle: "Local Co-op Prototype with Cursor & Phaser in One Afternoon"
+seoDescription: "Build a same-screen co-op micro-game: Phaser 3 scenes, two player inputs, Cursor-assisted scaffolding, deploy tips. YGG Play afternoon sprint guide."
+publishedAt: 2026-03-22
+author: "YGG Play"
+tags: ["How-To", "Cursor", "Web games", "Multiplayer", "Vibe coding"]
+featured: false
+locale: en
+image: "../../../assets/blog/local-co-op-prototype-cursor-phaser-afternoon-og.svg"
+imageAlt: "OG art for Cursor and Phaser co-op tutorial"
+draft: false
+---
+
+**Local co-op** avoids networking complexity while still teaching **input routing**, **collision layers**, and **game feel**. Phaser 3 gives you scenes, arcade physics, and sprite plumbing—Cursor helps you avoid boilerplate traps if you describe **inputs and win rules** crisply.
+
+## Afternoon schedule
+
+| Block | Focus |
+|-------|-------|
+| :00–:45 | Scene boot, two sprites, tilemap or bounds |
+| :45–1:30 | Controls (WASD + arrows), collisions, score |
+| 1:30–2:30 | Juice: screenshake lite, sfx hooks, pause |
+| 2:30–3:00 | Build + static deploy smoke test |
+
+## Input map
+
+Explicitly bind **separate key sets**. On gamepad day two, you will thank yourself for clean abstraction (`p1`, `p2` objects).
+
+## Physics honesty
+
+Start **arcade**; swap to matter only if puzzles need it. AI often over-engineers physics—reject that diff.
+
+## Deploy
+
+Phaser bundles cleanly with Vite. Ensure **asset paths** work from `/` and from nested routes if your host uses subpaths.
+
+## FAQ
+
+**Controllers?** Defer unless afternoon scope creeps—keyboard proves the loop.
+
+**Online later?** Finish hot-seat first; read our [multiplayer Cursor guide](/blog/how-to-multiplayer-game-cursor-two-hours).
+
+## Next steps
+
+- List when playable on [vibe-coded games](/vibe-coded-games).
+- Tag tools on [AI tools](/ai-tools).
+
+---
+
+*YGG Play celebrates small slices that ship.*

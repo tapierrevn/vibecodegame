@@ -1,0 +1,53 @@
+---
+title: "Leaderboards and Saves for AI-Built Web Games (Without Regret)"
+description: "Start with anonymous scores, add tamper resistance later, and pick storage that matches your honesty bar."
+seoTitle: "Add Leaderboards & Save Data to AI-Built Web Games"
+seoDescription: "Practical persistence for vibe-coded browser games: localStorage vs server scores, anti-cheat realism, privacy, and when to defer cloud saves. YGG Play engineering guide."
+publishedAt: 2026-04-06
+author: "YGG Play"
+tags: ["How-To", "Web games", "Indie games", "Vibe coding"]
+featured: false
+locale: en
+image: "../../../assets/blog/add-leaderboards-save-data-ai-built-web-game-og.svg"
+imageAlt: "OG image for leaderboards and save data tutorial"
+draft: false
+---
+
+Persistence turns a toy into a **habit**. It also turns debugging into **nightmares** if you bolt on databases before you understand your threat model. For AI-assisted prototypes, bias toward **boring technology** until players ask for more.
+
+## Local-first saves
+
+`localStorage` or `IndexedDB` fits single-player progression: settings, unlocked levels, best times. **Version your save schema** (`save.v3`) so migrations do not brick testers.
+
+**Pitfalls:** quota limits, private browsing wipes, and **no sync** across devices—communicate that in UI.
+
+## Anonymous leaderboards
+
+Post scores with `{ score, name?, seed? }` to a tiny serverless endpoint. **Rate-limit** by IP and cap name length. Expect cheating; decide if you care for v1.
+
+| Approach | Effort | Integrity |
+|----------|--------|-----------|
+| Client-only high score | Trivial | None |
+| Signed payloads | Medium | Better |
+| Server-simulated runs | High | Strong |
+
+## Privacy and compliance
+
+If you store emails or IDs, publish a **short privacy note**: what you collect, retention, delete path. Kids’ games add extra obligations—know your audience.
+
+## FAQ
+
+**Do I need Redis day one?** No. A single table or KV with TTL often suffices for jam traffic.
+
+**Can AI write my backend?** Yes—with tests. Ask for idempotent handlers and structured logs.
+
+**Where to showcase?** List on [vibe-coded games](/vibe-coded-games) once your save flow is stable.
+
+## Next steps
+
+- Read [AI tools](/ai-tools) to pick assistants for API code.
+- Meet builders on [developer profiles](/developers).
+
+---
+
+*YGG Play helps indies ship trustworthy web games.*

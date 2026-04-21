@@ -39,6 +39,8 @@ if (props.kind === 'post') {
     <BlogLayout
       title={props.post.data.title}
       description={props.post.data.description}
+      seoTitle={props.post.data.seoTitle}
+      seoDescription={props.post.data.seoDescription}
       publishedAt={props.post.data.publishedAt}
       updatedAt={props.post.data.updatedAt}
       author={props.post.data.author}

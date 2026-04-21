@@ -1,5 +1,6 @@
 ---
 import GameListing from '@/components/games/GameListing.astro';
+import newReleaseOgImage from '@/assets/games/banner/new_release.png';
 ---
 
-<GameListing curatedFilter="new_release" />
+<GameListing curatedFilter="new_release" ogImage={newReleaseOgImage.src} />

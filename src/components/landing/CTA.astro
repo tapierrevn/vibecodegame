@@ -4,24 +4,63 @@ import Button from '@/components/ui/form/Button/Button.astro';
 import Icon from '@/components/ui/primitives/Icon/Icon.astro';
 import Logo from '@/components/ui/marketing/Logo/Logo.astro';
 import NpmCopyButton from '@/components/ui/marketing/NpmCopyButton/NpmCopyButton.astro';
+import siteConfig from '@/config/site.config';
+
+interface Props {
+  purpose?: 'default' | 'developerCommunity';
+}
+
+const { purpose = 'default' } = Astro.props;
+
+const discordHref = siteConfig.socialLinks.find((url) => url.includes('discord.gg'));
 ---
 
-<CTASection id="cta" variant="default" size="xl" maxWidth="lg">
-  <Logo slot="logo" size="2xl" class="mx-auto" />
-
-  <h2 slot="heading">
-    Stop configuring. <span class="text-brand-500">Start building.</span>
-  </h2>
-
-  <p slot="description">
-    Join the developers building faster, better websites with Astro Rocket. Open source and free forever.
-  </p>
-
-  <Fragment slot="actions">
-    <NpmCopyButton command="npm create astro@latest" />
-    <Button variant="outline" size="lg" href="https://github.com/hansmartens68/Astro-Rocket#readme" target="_blank">
-      <Icon name="book" size="md" />
-      View docs
-    </Button>
-  </Fragment>
-</CTASection>
+{
+  purpose === 'developerCommunity' ? (
+    <CTASection id="cta" variant="default" size="xl" maxWidth="lg">
+      <Logo slot="logo" size="2xl" class="mx-auto" />
+      <h2 slot="heading" class="!leading-[1.1]">
+        <span class="block">Join the best</span>
+        <span class="block text-brand-500">vibe-coding</span>
+        <span class="block">game community</span>
+      </h2>
+      <p slot="description">
+        Connect with game makers building with AI tools, share your jams and releases, and find players who care about
+        how games are built — not just how they look.
+      </p>
+      <div slot="actions" class="flex flex-col gap-4 sm:flex-row sm:flex-wrap items-center justify-center">
+        {discordHref && (
+          <Button size="lg" href={discordHref} target="_blank" rel="noopener noreferrer">
+            <Icon name="arrow-right" size="sm" />
+            Join on Discord
+          </Button>
+        )}
+        <Button variant="outline" size="lg" href="/contact">
+          <Icon name="mail" size="md" />
+          Get in touch
+        </Button>
+        <Button variant="outline" size="lg" href="/vibe-coded-games">
+          Browse games
+          <Icon name="arrow-right" size="sm" />
+        </Button>
+      </div>
+    </CTASection>
+  ) : (
+    <CTASection id="cta" variant="default" size="xl" maxWidth="lg">
+      <Logo slot="logo" size="2xl" class="mx-auto" />
+      <h2 slot="heading">
+        Stop configuring. <span class="text-brand-500">Start building.</span>
+      </h2>
+      <p slot="description">
+        Join the developers building faster, better websites with Astro Rocket. Open source and free forever.
+      </p>
+      <div slot="actions" class="flex flex-col gap-4 sm:flex-row items-center justify-center">
+        <NpmCopyButton command="npm create astro@latest" />
+        <Button variant="outline" size="lg" href="https://github.com/hansmartens68/Astro-Rocket#readme" target="_blank">
+          <Icon name="book" size="md" />
+          View docs
+        </Button>
+      </div>
+    </CTASection>
+  )
+}

@@ -1,0 +1,44 @@
+---
+/**
+ * Home hub — large link cards for main site destinations (games, developers, AI tools, jams).
+ */
+import Card from '@/components/ui/data-display/Card/Card.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+
+export interface HomeHubItem {
+  href: string;
+  title: string;
+  description: string;
+  icon: string;
+  /** Optional, e.g. "12 games" */
+  meta?: string;
+}
+
+interface Props {
+  items: HomeHubItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="grid gap-6 sm:grid-cols-2" data-reveal data-reveal-delay="1">
+  {items.map((item) => (
+    <Card variant="elevated" hover padding="lg" href={item.href} class="group flex flex-col h-full">
+      <div class="flex flex-1 flex-col gap-4">
+        <div class="flex items-start justify-between gap-4">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-500/20 to-brand-500/5 flex items-center justify-center text-brand-500 shrink-0">
+            <Icon name={item.icon} class="w-6 h-6" />
+          </div>
+          <Icon name="arrow-up-right" size="sm" class="text-foreground-muted group-hover:text-brand-500 transition-colors shrink-0" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-display text-lg font-bold text-foreground">{item.title}</h3>
+          <p class="text-sm text-foreground-muted leading-relaxed mt-1.5">{item.description}</p>
+          {item.meta && (
+            <p class="text-xs font-medium text-brand-500/90 mt-3">{item.meta}</p>
+          )}
+        </div>
+      </div>
+    </Card>
+  ))}
+</div>

@@ -1,0 +1,59 @@
+---
+title: "Testing and Debugging Browser Games You Built with AI"
+description: "Make AI-generated code legible: reproducible bugs, DevTools habits, and checklists that survive midnight shipping."
+seoTitle: "Test & Debug Browser Games Built with AI Assistants"
+seoDescription: "QA habits for vibe-coded games: deterministic seeds, DevTools workflows, snapshot tests for scoring, mobile Safari gotchas. Ship calmer builds with YGG Play."
+publishedAt: 2026-04-02
+author: "YGG Play"
+tags: ["How-To", "Web games", "Vibe coding", "Indie games"]
+featured: false
+locale: en
+image: "../../../assets/blog/test-debug-browser-games-built-with-ai-og.svg"
+imageAlt: "Open Graph art for testing and debugging AI-built games"
+draft: false
+---
+
+AI accelerates typing, not **observability**. Treat debugging as a **first-class skill**: log with intent, reproduce with scripts, and refuse “it works on my laptop” as a closing statement.
+
+## Build a reproduction recipe
+
+For every bug: **URL**, **browser + version**, **steps**, **expected vs actual**, **console trace**. Paste that into your assistant—models solve faster with receipts.
+
+## DevTools habits
+
+- **Performance panel** for rAF spikes.
+- **Network** throttling before blaming “lag.”
+- **Mobile emulation** then a **real device** pass.
+
+## Deterministic seeds
+
+Wire a `?seed=123` query or debug overlay to replay RNG-heavy levels. Screenshots from the same seed should match—if not, you have nondeterminism to hunt.
+
+## Automated checks that pay rent
+
+- **Unit tests** for scoring and inventory rules.
+- **Smoke test** that boots the game and clicks start.
+- **Lint** to catch undefined vars introduced by giant diffs.
+
+## Table: bug classes common in AI prototypes
+
+| Symptom | Likely cause | Quick fix |
+|---------|--------------|-----------|
+| Works once then blank | Event listener duplication | Teardown on scene change |
+| Drift on Safari | `100vh` quirks | Use dvh or measure container |
+| Desync multiplayer | Full state spam | Throttle + authoritative server |
+
+## FAQ
+
+**Should AI write tests?** Let it draft—**you** pick invariants worth locking.
+
+**When is logging enough?** Until you have paying players or tournaments—then metrics.
+
+## Next steps
+
+- Browse [vibe-coded games](/vibe-coded-games) for polish references.
+- Compare assistants in [AI tools](/ai-tools).
+
+---
+
+*YGG Play publishes reliability guides for fast-moving indies.*

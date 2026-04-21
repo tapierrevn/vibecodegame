@@ -37,9 +37,34 @@ const {
   imageAlt,
   svgSlug,
 } = Astro.props;
+
+function formatReleaseDate(value?: string): string | null {
+  if (!value) return null;
+  const match = /^(0[1-9]|1[0-2])-(\d{4})$/.exec(value);
+  if (!match) return value;
+
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  const monthIndex = Number(match[1]) - 1;
+  return `${monthNames[monthIndex]} ${match[2]}`;
+}
+
+const formattedReleaseDate = formatReleaseDate(publishedAt);
 ---
 
-<header class="relative overflow-hidden pt-[var(--space-page-top-sm)] pb-[var(--space-section)]">
+<header class="relative overflow-hidden pt-[var(--space-page-top-sm)] pb-[var(--space-stack-md)]">
   <div class="relative mx-auto max-w-4xl px-6 animate-hero-slide-up">
     {
       (svgSlug || image) && (
@@ -100,7 +125,9 @@ const {
                 d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
               />
             </svg>
-            <time datetime={`${publishedAt.slice(3)}-${publishedAt.slice(0, 2)}-01`}>Release: {publishedAt}</time>
+            <time datetime={`${publishedAt.slice(3)}-${publishedAt.slice(0, 2)}-01`}>
+              Release Date: {formattedReleaseDate}
+            </time>
           </div>
         )
       }
@@ -131,11 +158,13 @@ const {
         <Icon name="star" size="sm" class="mr-1" />
         {communityScore}/100
       </span>
+    </div>
+    <div class="mb-4 flex flex-wrap items-center gap-2">
+      <span class="text-sm font-semibold text-foreground-muted">Developer:</span>
       <a
         href={developerProfileUrl}
         class="inline-flex items-center gap-2 text-sm font-medium text-brand-600 hover:text-brand-500 dark:text-brand-400"
       >
-        <span class="text-foreground-muted">Developer:</span>
         {developerName}
         <Icon name="arrow-up-right" size="sm" class="opacity-70" />
       </a>
@@ -144,7 +173,7 @@ const {
     {
       genre.length > 0 && (
         <div class="mb-4 flex flex-wrap gap-2">
-          <span class="text-xs font-medium text-foreground-muted w-full">Genre</span>
+          <span class="text-sm font-semibold text-foreground-muted w-full">Genre</span>
           {genre.map((tag) => (
             <span class="inline-flex items-center rounded-full bg-brand-100 dark:bg-brand-900/30 px-3 py-1 text-xs font-semibold text-brand-700 dark:text-brand-300 ring-1 ring-inset ring-brand-200 dark:ring-brand-800">
               {tag}
@@ -156,8 +185,8 @@ const {
 
     {
       aiTools.length > 0 && (
-        <div class="mb-[var(--space-heading-gap)] flex flex-wrap gap-2">
-          <span class="text-xs font-medium text-foreground-muted w-full">Built with</span>
+        <div class="mb-2 flex flex-wrap gap-2">
+          <span class="text-sm font-semibold text-foreground-muted w-full">Built with</span>
           {aiTools.map((tag) => (
             <span class="inline-flex items-center rounded-full bg-background-secondary px-3 py-1 text-xs font-semibold text-foreground-muted ring-1 ring-inset ring-border">
               {tag}

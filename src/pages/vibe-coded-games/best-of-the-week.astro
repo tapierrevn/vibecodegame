@@ -1,5 +1,6 @@
 ---
 import GameListing from '@/components/games/GameListing.astro';
+import bestOfWeekOgImage from '@/assets/games/banner/best_of_the_week.png';
 ---
 
-<GameListing curatedFilter="best_week" />
+<GameListing curatedFilter="best_week" ogImage={bestOfWeekOgImage.src} />

@@ -11,15 +11,24 @@ import { resolveSocialLinks } from '@/lib/utils';
 import { gameEntryToPath } from '@/lib/games-similar';
 import { genreToGamesPath, aiToolToGamesPath } from '@/lib/games-filter';
 import ShareButtons from '@/components/blog/ShareButtons.astro';
+import gamesBanner from '@/assets/games/banner/banner.png';
+import gamesOgImage from '@/assets/games/banner/vibe-coded-games.png';
 
 interface Props {
   activeFilterType?: 'genre' | 'ai' | null;
   activeFilterValue?: string | null;
   curatedFilter?: 'best_week' | 'most_played' | 'new_release' | null;
   filterMode?: 'all' | 'genreOnly' | 'aiOnly';
+  ogImage?: string;
 }
 
-const { activeFilterType = null, activeFilterValue = null, curatedFilter = null, filterMode = 'all' } = Astro.props;
+const {
+  activeFilterType = null,
+  activeFilterValue = null,
+  curatedFilter = null,
+  filterMode = 'all',
+  ogImage = gamesOgImage.src,
+} = Astro.props;
 
 function capitalizeFirst(value: string): string {
   if (!value) return value;
@@ -69,6 +78,7 @@ const curatedFilterGames = curatedFilter === 'best_week'
   ? games.filter((g) => g.data.new_release)
   : null;
 const isCuratedPage = curatedFilter !== null;
+const isFilteredPage = Boolean(activeFilterType && activeFilterValue);
 const baseGames = curatedFilterGames ?? (activeFilterType === 'genre' && activeFilterValue
   ? games.filter((g) => g.data.genre.includes(activeFilterValue))
   : activeFilterType === 'ai' && activeFilterValue
@@ -76,7 +86,7 @@ const baseGames = curatedFilterGames ?? (activeFilterType === 'genre' && activeF
   : games);
 const featuredGames = baseGames.filter((g) => g.data.featured);
 const nonFeaturedGames = baseGames.filter((g) => !g.data.featured);
-const regularGames = isCuratedPage ? baseGames : (nonFeaturedGames.length > 0 ? nonFeaturedGames : baseGames);
+const regularGames = isCuratedPage || isFilteredPage ? baseGames : (nonFeaturedGames.length > 0 ? nonFeaturedGames : baseGames);
 const shouldShowFeatured = filterMode === 'all' && !isCuratedPage;
 const allGenres = [...new Set(games.flatMap((g) => g.data.genre))].sort();
 const allAiTools = [...new Set(games.flatMap((g) => g.data.aiTools))].sort();
@@ -102,9 +112,14 @@ const pageDescription = curatedFilter
 const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
-<PageLayout title={pageTitle} description={pageDescription} showScrollProgress eagerReveal>
-  <Hero layout="centered" size="sm">
-    <Badge slot="badge" variant="brand" pill>
+<PageLayout title={pageTitle} description={pageDescription} image={ogImage} showScrollProgress eagerReveal>
+  <Hero
+    layout="centered"
+    size="sm"
+    class="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+    style={`background-image: linear-gradient(to bottom, rgb(10 10 20 / 0.55), rgb(10 10 20 / 0.7)), url('${gamesBanner.src}');`}
+  >
+    <Badge slot="badge" variant="brand" pill class="!text-white">
       <Icon name="sparkles" size="sm" />
       {
         curatedFilter
@@ -115,7 +130,7 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
       }
     </Badge>
 
-    <h1 slot="title">
+    <h1 slot="title" class="!text-white">
       {
         curatedFilter
           ? curatedTitles[curatedFilter]
@@ -127,7 +142,7 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
       }
     </h1>
 
-    <p slot="description">
+    <p slot="description" class="!text-white/90">
       {
         curatedFilter
           ? curatedDescriptions[curatedFilter]

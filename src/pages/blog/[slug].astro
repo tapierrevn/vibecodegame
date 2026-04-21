@@ -1,0 +1,56 @@
+---
+import BlogLayout from '@/layouts/BlogLayout.astro';
+import BlogListing from '@/components/blog/BlogListing.astro';
+import { getCollection, render } from 'astro:content';
+import { buildSegmentToTagMap, assertTagPathsDoNotCollideWithPostSlugs } from '@/lib/blog-tags';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => {
+    return data.locale === 'en' && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  const postPaths = posts.map((post) => ({
+    params: { slug: post.id.replace('en/', '') },
+    props: { kind: 'post' as const, post },
+  }));
+
+  const allTags = [...new Set(posts.flatMap((p) => p.data.tags))];
+  const segmentToTag = buildSegmentToTagMap(allTags);
+  const postSlugs = posts.map((p) => p.id.replace('en/', ''));
+  assertTagPathsDoNotCollideWithPostSlugs(postSlugs, segmentToTag.keys());
+
+  const tagPaths = [...segmentToTag.entries()].map(([segment, tag]) => ({
+    params: { slug: segment },
+    props: { kind: 'tag' as const, tag },
+  }));
+
+  return [...postPaths, ...tagPaths];
+}
+
+const props = Astro.props;
+let Content: Awaited<ReturnType<typeof render>>['Content'] | undefined;
+if (props.kind === 'post') {
+  ({ Content } = await render(props.post));
+}
+---
+
+{
+  props.kind === 'post' && Content ? (
+    <BlogLayout
+      title={props.post.data.title}
+      description={props.post.data.description}
+      publishedAt={props.post.data.publishedAt}
+      updatedAt={props.post.data.updatedAt}
+      author={props.post.data.author}
+      image={props.post.data.image}
+      imageAlt={props.post.data.imageAlt}
+      svgSlug={props.post.data.svgSlug}
+      tags={props.post.data.tags}
+      slug={props.post.id}
+    >
+      <Content />
+    </BlogLayout>
+  ) : props.kind === 'tag' ? (
+    <BlogListing activeTag={props.tag} />
+  ) : null
+}

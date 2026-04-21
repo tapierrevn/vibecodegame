@@ -1,0 +1,280 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import BlogCard from '@/components/blog/BlogCard.astro';
+import Badge from '@/components/ui/data-display/Badge/Badge.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import CTA from '@/components/ui/marketing/CTA/CTA.astro';
+import { Hero } from '@/components/hero';
+import { getCollection } from 'astro:content';
+import siteConfig from '@/config/site.config';
+import { resolveSocialLinks } from '@/lib/utils';
+import { tagToBlogPath } from '@/lib/blog-tags';
+import ShareButtons from '@/components/blog/ShareButtons.astro';
+
+interface Props {
+  activeTag: string | null;
+}
+
+const { activeTag } = Astro.props;
+
+const socialLinks = resolveSocialLinks(siteConfig.socialLinks);
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+const posts = allPosts
+  .filter((post) => post.data.locale === 'en')
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const basePosts = activeTag
+  ? posts.filter((post) => post.data.tags.includes(activeTag))
+  : posts;
+
+const featuredPosts = basePosts.filter((post) => post.data.featured);
+const nonFeaturedPosts = basePosts.filter((post) => !post.data.featured);
+const regularPosts = nonFeaturedPosts.length > 0 ? nonFeaturedPosts : basePosts;
+
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+
+const getPostUrl = (postId: string) => {
+  const slug = postId.replace('en/', '');
+  return `/blog/${slug}`;
+};
+
+const pageTitle = activeTag
+  ? `${activeTag} — Blog — Astro Rocket`
+  : 'Blog — Astro Rocket';
+const pageDescription = activeTag
+  ? `Articles tagged “${activeTag}” — Astro, web performance, design systems, and Astro Rocket.`
+  : 'Articles on web design, development, and the web by Astro Rocket.';
+const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<PageLayout title={pageTitle} description={pageDescription} showScrollProgress eagerReveal>
+  <Hero layout="centered" size="sm">
+    <Badge slot="badge" variant="brand" pill>
+      <Icon name="book" size="sm" />
+      {activeTag ? `Tag: ${activeTag}` : 'All posts'}
+    </Badge>
+
+    <h1 slot="title">Blog</h1>
+
+    <p slot="description">
+      {
+        activeTag
+          ? `Posts tagged “${activeTag}”. Also see all articles on Astro, performance, and design systems.`
+          : 'Articles on Astro, web performance, design systems, and building with Astro Rocket.'
+      }
+    </p>
+  </Hero>
+
+  {
+    featuredPosts.length > 0 && (
+      <section id="featured-section" class="bg-background-secondary py-[var(--space-section-md)] border-t border-border">
+        <div class="mx-auto max-w-6xl px-6 flex flex-col gap-8">
+          <h2 class="font-display text-foreground text-3xl md:text-4xl font-bold" data-reveal>
+            Featured
+          </h2>
+
+          <div class="grid gap-6 md:grid-cols-2" data-reveal data-reveal-delay="1">
+            {featuredPosts.map((post) => (
+              <div class="post-card">
+                <BlogCard
+                  title={post.data.title}
+                  description={post.data.description}
+                  href={getPostUrl(post.id)}
+                  publishedAt={post.data.publishedAt}
+                  tags={post.data.tags}
+                  author={post.data.author}
+                  image={post.data.image}
+                  svgSlug={post.data.svgSlug}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section
+    class:list={[
+      featuredPosts.length > 0 ? 'bg-background' : 'bg-background-secondary',
+      'py-[var(--space-section-md)] border-t border-border',
+    ]}
+  >
+    <div class="mx-auto max-w-6xl px-6 flex flex-col gap-8">
+      <div class="flex flex-wrap items-center justify-between gap-4" data-reveal>
+        {
+          featuredPosts.length > 0 && nonFeaturedPosts.length > 0 && (
+            <h2 class="font-display text-foreground text-3xl md:text-4xl font-bold">All posts</h2>
+          )
+        }
+
+        {
+          allTags.length > 0 && (
+            <div class="flex items-center gap-3 ml-auto">
+              <label for="tag-filter" class="text-sm font-medium text-foreground-muted whitespace-nowrap">
+                Filter
+              </label>
+              <div class="relative">
+                <select
+                  id="tag-filter"
+                  class="tag-select appearance-none pl-3 pr-8 py-1.5 rounded-full border border-border bg-background text-sm font-medium text-foreground cursor-pointer focus:outline-none focus:border-brand-500 transition-colors"
+                >
+                  <option value="/blog" selected={activeTag === null}>All posts</option>
+                  {allTags.map((tag) => (
+                    <option value={tagToBlogPath(tag)} selected={activeTag === tag}>
+                      {tag}
+                    </option>
+                  ))}
+                </select>
+                <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-foreground-muted">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          )
+        }
+      </div>
+
+      {
+        regularPosts.length > 0 ? (
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal data-reveal-delay="1">
+            {regularPosts.map((post) => (
+              <div class="post-card">
+                <BlogCard
+                  title={post.data.title}
+                  description={post.data.description}
+                  href={getPostUrl(post.id)}
+                  publishedAt={post.data.publishedAt}
+                  tags={post.data.tags}
+                  author={post.data.author}
+                  image={post.data.image}
+                  svgSlug={post.data.svgSlug}
+                />
+              </div>
+            ))}
+          </div>
+        ) : posts.length === 0 ? (
+          <div class="py-16 text-center">
+            <div class="bg-background mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+              <Icon name="file-text" size="lg" class="text-foreground-muted" />
+            </div>
+            <p class="text-foreground-muted text-lg">No posts found</p>
+          </div>
+        ) : (
+          <div class="py-16 text-center">
+            <div class="bg-background mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+              <Icon name="file-text" size="lg" class="text-foreground-muted" />
+            </div>
+            <p class="text-foreground-muted text-lg">No posts found for this tag</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  {
+    activeTag && (
+      <section class="bg-background py-8 border-t border-border">
+        <div class="mx-auto max-w-6xl px-6">
+          <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <a
+              href="/blog"
+              class="text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+            >
+              <svg
+                class="h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to Blog
+            </a>
+
+            <ShareButtons title={pageTitle} url={fullUrl} />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <CTA
+    variant="default"
+    size="md"
+    maxWidth="lg"
+    glow={false}
+    data-reveal
+    class:list={[featuredPosts.length > 0 && '!bg-background-secondary']}
+  >
+    <h2 slot="heading" class="!text-4xl">Follow along</h2>
+    <p slot="description" class="!text-lg text-balance">Stay in the loop — new articles, thoughts, and updates.</p>
+
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <a
+        href="/rss.xml"
+        class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand-500 hover:text-brand-500"
+      >
+        <Icon name="rss" size="sm" />
+        RSS Feed
+      </a>
+      {socialLinks.map((link) => (
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand-500 hover:text-brand-500"
+        >
+          <Icon name={link.icon} size="sm" />
+          {link.label}
+        </a>
+      ))}
+      <a
+        href={`mailto:${siteConfig.email}`}
+        class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand-500 hover:text-brand-500"
+      >
+        <Icon name="mail" size="sm" />
+        Email
+      </a>
+    </div>
+  </CTA>
+</PageLayout>
+
+<style>
+  .tag-select {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+</style>
+
+<script>
+  function initTagFilterNav() {
+    const select = document.getElementById('tag-filter') as HTMLSelectElement | null;
+    if (!select) return;
+
+    select.addEventListener('change', () => {
+      const href = select.value;
+      if (href) window.location.href = href;
+    });
+  }
+
+  document.addEventListener('astro:page-load', initTagFilterNav);
+</script>

@@ -1,0 +1,38 @@
+---
+import GameCard from '@/components/games/GameCard.astro';
+import type { CollectionEntry } from 'astro:content';
+import { gameEntryToPath } from '@/lib/games-similar';
+
+interface Props {
+  games: CollectionEntry<'games'>[];
+}
+
+const { games } = Astro.props;
+---
+
+{
+  games.length > 0 && (
+    <section class="border-t border-border py-[var(--space-section-sm)]">
+      <h2 class="font-display text-2xl font-bold text-foreground mb-[var(--space-stack-lg)]">Similar Vibe-Coded Games by Genre</h2>
+
+      <div class="grid gap-[var(--space-stack-lg)] md:grid-cols-2 lg:grid-cols-3">
+        {games.map((game) => (
+          <GameCard
+            title={game.data.title}
+            description={game.data.description}
+            href={gameEntryToPath(game)}
+            developerName={game.data.developerName}
+            developerProfileUrl={game.data.developerProfileUrl}
+            genre={game.data.genre}
+            aiTools={game.data.aiTools}
+            communityScore={game.data.communityScore}
+            playUrl={game.data.playUrl}
+            publishedAt={game.data.publishedAt}
+            image={game.data.image}
+            svgSlug={game.data.svgSlug}
+          />
+        ))}
+      </div>
+    </section>
+  )
+}

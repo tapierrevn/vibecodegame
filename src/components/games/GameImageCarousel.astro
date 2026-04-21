@@ -1,0 +1,137 @@
+---
+interface Props {
+  images: string[];
+  title: string;
+}
+
+const { images, title } = Astro.props;
+
+const carouselId = `game-carousel-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<section class="not-prose my-10" aria-label={`Screenshots for ${title}`}>
+  <h2 class="font-display text-xl font-bold text-foreground mb-4">Screenshots</h2>
+  <div
+    class="relative rounded-xl border border-border bg-background-secondary overflow-hidden game-carousel"
+    data-carousel-id={carouselId}
+  >
+    <div
+      class="flex overflow-x-auto scroll-smooth snap-x snap-mandatory game-carousel-track"
+      tabindex="0"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={`${title} gallery`}
+      data-track
+    >
+      {
+        images.map((src, i) => (
+          <div class="min-w-full snap-center shrink-0 flex items-center justify-center p-2 md:p-4 bg-background" data-slide={i}>
+            <img
+              src={src}
+              alt={`${title} screenshot ${i + 1} of ${images.length}`}
+              class="max-h-[min(70vh,520px)] w-auto max-w-full object-contain rounded-lg"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          </div>
+        ))
+      }
+    </div>
+
+    {
+      images.length > 1 && (
+        <>
+          <button
+            type="button"
+            class="game-carousel-prev absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-background/90 p-2 text-foreground shadow-sm backdrop-blur hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 motion-safe:transition-colors"
+            aria-label="Previous image"
+            data-prev
+          >
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="game-carousel-next absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-background/90 p-2 text-foreground shadow-sm backdrop-blur hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 motion-safe:transition-colors"
+            aria-label="Next image"
+            data-next
+          >
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .game-carousel-track {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .game-carousel-track::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Opera */
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .game-carousel-track {
+      scroll-behavior: auto;
+    }
+  }
+</style>
+
+<script>
+  function initGameCarousels() {
+    document.querySelectorAll('.game-carousel').forEach((root) => {
+      const track = root.querySelector('[data-track]') as HTMLElement | null;
+      if (!track) return;
+
+      const slides = track.querySelectorAll('[data-slide]');
+      const n = slides.length;
+      if (n <= 1) return;
+
+      let index = 0;
+
+      function scrollToIndex(i: number) {
+        index = ((i % n) + n) % n;
+        const slide = slides[index] as HTMLElement;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        track?.scrollTo({ left: slide.offsetLeft, behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
+
+      root.querySelector('[data-prev]')?.addEventListener('click', () => scrollToIndex(index - 1));
+      root.querySelector('[data-next]')?.addEventListener('click', () => scrollToIndex(index + 1));
+
+      track.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          scrollToIndex(index - 1);
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          scrollToIndex(index + 1);
+        }
+      });
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              const i = Number((en.target as HTMLElement).dataset.slide);
+              if (!Number.isNaN(i)) {
+                index = i;
+              }
+            }
+          });
+        },
+        { root: track, threshold: 0.6 },
+      );
+
+      slides.forEach((s) => io.observe(s));
+    });
+  }
+
+  document.addEventListener('astro:page-load', initGameCarousels);
+</script>

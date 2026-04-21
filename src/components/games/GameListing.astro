@@ -1,0 +1,384 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import GameCard from '@/components/games/GameCard.astro';
+import Badge from '@/components/ui/data-display/Badge/Badge.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import CTA from '@/components/ui/marketing/CTA/CTA.astro';
+import { Hero } from '@/components/hero';
+import { getCollection } from 'astro:content';
+import siteConfig from '@/config/site.config';
+import { resolveSocialLinks } from '@/lib/utils';
+import { gameEntryToPath } from '@/lib/games-similar';
+import { genreToGamesPath, aiToolToGamesPath } from '@/lib/games-filter';
+import ShareButtons from '@/components/blog/ShareButtons.astro';
+
+interface Props {
+  activeFilterType?: 'genre' | 'ai' | null;
+  activeFilterValue?: string | null;
+  curatedFilter?: 'best_week' | 'most_played' | 'new_release' | null;
+  filterMode?: 'all' | 'genreOnly' | 'aiOnly';
+}
+
+const { activeFilterType = null, activeFilterValue = null, curatedFilter = null, filterMode = 'all' } = Astro.props;
+
+function capitalizeFirst(value: string): string {
+  if (!value) return value;
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+const activeFilterLabel = activeFilterValue ? capitalizeFirst(activeFilterValue) : null;
+
+function publishedKey(value?: string): number {
+  if (!value) return 0;
+  const m = /^(\d{2})-(\d{4})$/.exec(value);
+  if (!m) return 0;
+  return new Date(Number(m[2]), Number(m[1]) - 1, 1).valueOf();
+}
+
+const socialLinks = resolveSocialLinks(siteConfig.socialLinks);
+
+const allGames = await getCollection('games', ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+/** Newest / highest score first when dates tie */
+const games = allGames
+  .filter((g) => !g.data.locale || g.data.locale === 'en')
+  .sort((a, b) => {
+    const ad = publishedKey(a.data.publishedAt);
+    const bd = publishedKey(b.data.publishedAt);
+    if (bd !== ad) return bd - ad;
+    return b.data.communityScore - a.data.communityScore;
+  });
+
+const curatedTitles: Record<NonNullable<Props['curatedFilter']>, string> = {
+  best_week: 'Best of the Week',
+  most_played: 'Most Played',
+  new_release: 'New Release',
+};
+const curatedDescriptions: Record<NonNullable<Props['curatedFilter']>, string> = {
+  best_week: 'Explore the best vibe-coded games of the week, handpicked for standout gameplay, creative AI implementation, and strong community ratings.',
+  most_played: 'Discover the most played vibe-coded games trending with players, featuring popular genres, top AI tools, and high community engagement.',
+  new_release: 'Find newly released vibe-coded games, including fresh launches built with leading AI tools, complete with gameplay details and community scores.',
+};
+const curatedFilterGames = curatedFilter === 'best_week'
+  ? games.filter((g) => g.data.best_week)
+  : curatedFilter === 'most_played'
+  ? games.filter((g) => g.data.most_played)
+  : curatedFilter === 'new_release'
+  ? games.filter((g) => g.data.new_release)
+  : null;
+const isCuratedPage = curatedFilter !== null;
+const baseGames = curatedFilterGames ?? (activeFilterType === 'genre' && activeFilterValue
+  ? games.filter((g) => g.data.genre.includes(activeFilterValue))
+  : activeFilterType === 'ai' && activeFilterValue
+  ? games.filter((g) => g.data.aiTools.includes(activeFilterValue))
+  : games);
+const featuredGames = baseGames.filter((g) => g.data.featured);
+const nonFeaturedGames = baseGames.filter((g) => !g.data.featured);
+const regularGames = isCuratedPage ? baseGames : (nonFeaturedGames.length > 0 ? nonFeaturedGames : baseGames);
+const shouldShowFeatured = filterMode === 'all' && !isCuratedPage;
+const allGenres = [...new Set(games.flatMap((g) => g.data.genre))].sort();
+const allAiTools = [...new Set(games.flatMap((g) => g.data.aiTools))].sort();
+const showGenreFilters = filterMode === 'all' || filterMode === 'genreOnly';
+const showAiFilters = filterMode === 'all' || filterMode === 'aiOnly';
+
+const pageTitle = curatedFilter
+  ? `${curatedTitles[curatedFilter]} games — ${siteConfig.name}`
+  : activeFilterValue
+  ? `${activeFilterLabel} games — ${siteConfig.name}`
+  : `Vibe-Coded Games — ${siteConfig.name}`;
+const pageDescription = curatedFilter
+  ? `${curatedDescriptions[curatedFilter]} Explore gameplay details, AI tools used, and community scores.`
+  : activeFilterValue
+  ? activeFilterType === 'ai'
+    ? `Discover vibe-coded games built with ${activeFilterLabel}, including gameplay details, community scores, and developer profiles.`
+    : `Explore ${activeFilterLabel}-genre vibe-coded games with community scores, AI tools, and developer profiles on ${siteConfig.name}.`
+  : filterMode === 'genreOnly'
+  ? `Browse vibe-coded games by genre. Filter game categories, compare community scores, and discover AI-built games tailored to your favorite genres on ${siteConfig.name}.`
+  : filterMode === 'aiOnly'
+  ? `Browse vibe-coded games by AI tool. Discover games made with ChatGPT, Claude, Cursor, and more, with community scores and gameplay details on ${siteConfig.name}.`
+  : `Discover top vibe-coded games with AI tools, genre filters, community scores, and developer profiles on ${siteConfig.name}.`;
+const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<PageLayout title={pageTitle} description={pageDescription} showScrollProgress eagerReveal>
+  <Hero layout="centered" size="sm">
+    <Badge slot="badge" variant="brand" pill>
+      <Icon name="sparkles" size="sm" />
+      {
+        curatedFilter
+          ? curatedTitles[curatedFilter]
+          : activeFilterValue
+          ? `${activeFilterType === 'ai' ? 'AI Tool' : 'Genre'}: ${activeFilterLabel}`
+          : 'Vibe-Coded Games'
+      }
+    </Badge>
+
+    <h1 slot="title">
+      {
+        curatedFilter
+          ? curatedTitles[curatedFilter]
+          : activeFilterValue
+          ? activeFilterType === 'genre'
+            ? `Vibe-coded ${activeFilterLabel} games`
+            : `Vibe-coded games made with ${activeFilterLabel}`
+          : 'The Best Vibe-Coded Game Collection'
+      }
+    </h1>
+
+    <p slot="description">
+      {
+        curatedFilter
+          ? curatedDescriptions[curatedFilter]
+          : activeFilterValue
+          ? activeFilterType === 'ai'
+            ? `Discover the best vibe-coded games made with ${activeFilterLabel}`
+            : `Discover the best vibe-coded ${activeFilterLabel} games`
+          : siteConfig.description
+      }
+    </p>
+  </Hero>
+
+  {
+    shouldShowFeatured && featuredGames.length > 0 && (
+      <section id="featured-games-section" class="bg-background-secondary py-[var(--space-section-md)] border-t border-border">
+        <div class="mx-auto max-w-6xl px-6 flex flex-col gap-8">
+          <h2 class="font-display text-foreground text-3xl md:text-4xl font-bold" data-reveal>
+            Featured Vibe-Coded Games
+          </h2>
+
+          <div class="grid gap-6 md:grid-cols-2" data-reveal data-reveal-delay="1">
+            {featuredGames.map((game) => (
+              <div class="game-card" data-genres={JSON.stringify(game.data.genre)}>
+                <GameCard
+                  title={game.data.title}
+                  description={game.data.description}
+                  href={gameEntryToPath(game)}
+                  developerName={game.data.developerName}
+                  developerProfileUrl={game.data.developerProfileUrl}
+                  genre={game.data.genre}
+                  aiTools={game.data.aiTools}
+                  communityScore={game.data.communityScore}
+                  playUrl={game.data.playUrl}
+                  publishedAt={game.data.publishedAt}
+                  image={game.data.image}
+                  svgSlug={game.data.svgSlug}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section
+    class:list={[
+      featuredGames.length > 0 ? 'bg-background' : 'bg-background-secondary',
+      'py-[var(--space-section-md)] border-t border-border',
+    ]}
+  >
+    <div class="mx-auto max-w-6xl px-6 flex flex-col gap-8">
+      <div class="flex flex-wrap items-center justify-between gap-4" data-reveal>
+        {
+          shouldShowFeatured && featuredGames.length > 0 && nonFeaturedGames.length > 0 && (
+            <h2 class="font-display text-foreground text-3xl md:text-4xl font-bold">All Vibe-Coded Games</h2>
+          )
+        }
+
+        {!curatedFilter && ((showGenreFilters && allGenres.length > 0) || (showAiFilters && allAiTools.length > 0)) && (
+          <div class="flex items-center gap-3 ml-auto">
+            <label for="genre-filter" class="text-sm font-medium text-foreground-muted whitespace-nowrap">
+              Filter
+            </label>
+            <div class="relative">
+              <select
+                id="genre-filter"
+                class="genre-select appearance-none pl-3 pr-8 py-1.5 rounded-full border border-border bg-background text-sm font-medium text-foreground cursor-pointer focus:outline-none focus:border-brand-500 transition-colors"
+              >
+                <option value="/vibe-coded-games" selected={activeFilterValue === null}>All games</option>
+                {showGenreFilters && allGenres.length > 0 && (
+                  <>
+                    <option value="" disabled class="filter-group">--- Genre ---</option>
+                    {allGenres.map((genre) => (
+                      <option
+                        value={genreToGamesPath(genre)}
+                        selected={activeFilterType === 'genre' && activeFilterValue === genre}
+                      >
+                        {genre}
+                      </option>
+                    ))}
+                  </>
+                )}
+                {showAiFilters && allAiTools.length > 0 && (
+                  <>
+                    <option value="" disabled class="filter-group">--- AI Tools ---</option>
+                    {allAiTools.map((tool) => (
+                      <option
+                        value={aiToolToGamesPath(tool)}
+                        selected={activeFilterType === 'ai' && activeFilterValue === tool}
+                      >
+                        {tool}
+                      </option>
+                    ))}
+                  </>
+                )}
+              </select>
+              <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-foreground-muted">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </span>
+            </div>
+            <span id="filter-count" class="text-sm text-foreground-muted hidden"></span>
+          </div>
+        )}
+      </div>
+
+      {
+        regularGames.length > 0 ? (
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal data-reveal-delay="1">
+            {regularGames.map((game) => (
+              <div class="game-card" data-genres={JSON.stringify(game.data.genre)}>
+                <GameCard
+                  title={game.data.title}
+                  description={game.data.description}
+                  href={gameEntryToPath(game)}
+                  developerName={game.data.developerName}
+                  developerProfileUrl={game.data.developerProfileUrl}
+                  genre={game.data.genre}
+                  aiTools={game.data.aiTools}
+                  communityScore={game.data.communityScore}
+                  playUrl={game.data.playUrl}
+                  publishedAt={game.data.publishedAt}
+                  image={game.data.image}
+                  svgSlug={game.data.svgSlug}
+                />
+              </div>
+            ))}
+          </div>
+        ) : games.length === 0 ? (
+          <div class="py-16 text-center">
+            <div class="bg-background mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+              <Icon name="file-text" size="lg" class="text-foreground-muted" />
+            </div>
+            <p class="text-foreground-muted text-lg">No games yet</p>
+          </div>
+        ) : (
+          <div class="py-16 text-center">
+            <div class="bg-background mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+              <Icon name="file-text" size="lg" class="text-foreground-muted" />
+            </div>
+            <p class="text-foreground-muted text-lg">No games found for this filter</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  {
+    (activeFilterValue || isCuratedPage) && (
+      <section class="bg-background py-8 border-t border-border">
+        <div class="mx-auto max-w-6xl px-6">
+          <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <a
+              href="/vibe-coded-games"
+              class="text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+            >
+              <svg
+                class="h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to Games
+            </a>
+
+            <ShareButtons title={pageTitle} url={fullUrl} />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <CTA
+    variant="default"
+    size="md"
+    maxWidth="lg"
+    glow={false}
+    data-reveal
+    class:list={[shouldShowFeatured && featuredGames.length > 0 && '!bg-background-secondary']}
+  >
+    <h2 slot="heading" class="!text-4xl">Follow along</h2>
+    <p slot="description" class="!text-lg text-balance">Stay in the loop — new games, tools, and updates.</p>
+
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <a
+        href="/rss.xml"
+        class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand-500 hover:text-brand-500"
+      >
+        <Icon name="rss" size="sm" />
+        RSS Feed
+      </a>
+      {socialLinks.map((link) => (
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand-500 hover:text-brand-500"
+        >
+          <Icon name={link.icon} size="sm" />
+          {link.label}
+        </a>
+      ))}
+      <a
+        href={`mailto:${siteConfig.email}`}
+        class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-brand-500 hover:text-brand-500"
+      >
+        <Icon name="mail" size="sm" />
+        Email
+      </a>
+    </div>
+  </CTA>
+</PageLayout>
+
+<style>
+  .genre-select {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .genre-select option.filter-group {
+    color: var(--brand-500);
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  function initGenreFilterNav() {
+    const select = document.getElementById('genre-filter') as HTMLSelectElement | null;
+    if (!select) return;
+
+    select.addEventListener('change', () => {
+      const href = select.value;
+      if (href) window.location.href = href;
+    });
+  }
+
+  document.addEventListener('astro:page-load', initGenreFilterNav);
+</script>

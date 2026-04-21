@@ -99,6 +99,34 @@ const stack = defineCollection({
   }),
 });
 
+// Games collection — vibe-coded games (detail pages + listing)
+const games = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/games' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      developerName: z.string(),
+      developerProfileUrl: z.string(),
+      aiTools: z.array(z.string()).default([]),
+      genre: z.array(z.string()).default([]),
+      playUrl: z.string(),
+      communityScore: z.coerce.number().min(0).max(100),
+      // MM-YYYY (e.g. "04-2026"), populated directly in game MDX frontmatter
+      publishedAt: z.string().regex(/^(0[1-9]|1[0-2])-\d{4}$/).optional(),
+      updatedAt: z.coerce.date().optional(),
+      image: image().optional(),
+      imageAlt: z.string().optional(),
+      svgSlug: z.string().optional(),
+      featured: z.boolean().default(false),
+      best_week: z.boolean().default(false),
+      most_played: z.boolean().default(false),
+      new_release: z.boolean().default(false),
+      draft: z.boolean().default(false),
+      locale: z.enum(['en', 'es', 'fr']).default('en'),
+    }),
+});
+
 export const collections = {
   blog,
   pages,
@@ -106,4 +134,5 @@ export const collections = {
   faqs,
   stack,
   projects,
+  games,
 };

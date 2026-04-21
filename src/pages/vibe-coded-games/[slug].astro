@@ -1,0 +1,102 @@
+---
+import GameLayout from '@/layouts/GameLayout.astro';
+import GameListing from '@/components/games/GameListing.astro';
+import { getCollection, render } from 'astro:content';
+import { listGameGalleryPublicUrls } from '@/lib/game-gallery';
+import { getSimilarGamesByGenre, getSimilarGamesByAiTools } from '@/lib/games-similar';
+import {
+  buildGenreSegmentToTagMap,
+  buildAiToolSegmentToTagMap,
+  assertFilterPathsDoNotCollideWithGameSlugs,
+} from '@/lib/games-filter';
+
+export async function getStaticPaths() {
+  const games = await getCollection('games', ({ data }) => {
+    const isEn = (data.locale ?? 'en') === 'en';
+    return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  const gamePaths = games.map((game) => {
+    const slug = game.id.replace('en/', '');
+    const galleryImageUrls = listGameGalleryPublicUrls(slug);
+    const similarByGenre = getSimilarGamesByGenre(game, games);
+    const similarByAI = getSimilarGamesByAiTools(game, games);
+
+    return {
+      params: { slug },
+      props: { kind: 'game' as const, game, galleryImageUrls, similarByGenre, similarByAI },
+    };
+  });
+
+  const allGenres = [...new Set(games.flatMap((g) => g.data.genre))];
+  const allAiTools = [...new Set(games.flatMap((g) => g.data.aiTools))];
+  const segmentToGenre = buildGenreSegmentToTagMap(allGenres);
+  const segmentToAiTool = buildAiToolSegmentToTagMap(allAiTools);
+  const gameSlugs = games.map((g) => g.id.replace('en/', ''));
+  assertFilterPathsDoNotCollideWithGameSlugs(gameSlugs, [
+    ...segmentToGenre.keys(),
+    ...segmentToAiTool.keys(),
+  ]);
+
+  const genrePaths = [...segmentToGenre.entries()].map(([segment, genre]) => ({
+    params: { slug: segment },
+    props: { kind: 'filter' as const, filterType: 'genre' as const, filterValue: genre },
+  }));
+
+  const aiToolPaths = [...segmentToAiTool.entries()].map(([segment, tool]) => ({
+    params: { slug: segment },
+    props: { kind: 'filter' as const, filterType: 'ai' as const, filterValue: tool },
+  }));
+
+  return [...gamePaths, ...genrePaths, ...aiToolPaths];
+}
+
+const props = Astro.props;
+
+let Content: Awaited<ReturnType<typeof render>>['Content'] | null = null;
+let renderFailed = false;
+
+if (props.kind === 'game') {
+  try {
+    ({ Content } = await render(props.game));
+  } catch (error) {
+    renderFailed = true;
+    console.error(`Failed to render game entry: ${props.game.id}`, error);
+  }
+}
+---
+
+{
+  props.kind === 'game' ? (
+    <GameLayout
+      title={props.game.data.title}
+      description={props.game.data.description}
+      developerName={props.game.data.developerName}
+      developerProfileUrl={props.game.data.developerProfileUrl}
+      genre={props.game.data.genre}
+      aiTools={props.game.data.aiTools}
+      playUrl={props.game.data.playUrl}
+      communityScore={props.game.data.communityScore}
+      publishedAt={props.game.data.publishedAt}
+      updatedAt={props.game.data.updatedAt}
+      image={props.game.data.image}
+      imageAlt={props.game.data.imageAlt}
+      svgSlug={props.game.data.svgSlug}
+      galleryImageUrls={props.galleryImageUrls}
+      similarByGenre={props.similarByGenre}
+      similarByAI={props.similarByAI}
+    >
+      {
+        Content && !renderFailed ? (
+          <Content />
+        ) : (
+          <div class="prose prose-lg max-w-none">
+            <p>{props.game.data.description}</p>
+          </div>
+        )
+      }
+    </GameLayout>
+  ) : (
+    <GameListing activeFilterType={props.filterType} activeFilterValue={props.filterValue} />
+  )
+}

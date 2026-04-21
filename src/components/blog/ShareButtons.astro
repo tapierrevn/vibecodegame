@@ -11,6 +11,7 @@ const encodedUrl = encodeURIComponent(url);
 
 const shareLinks = {
   twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+  facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
   linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
 };
 ---
@@ -29,6 +30,19 @@ const shareLinks = {
     >
       <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+    </a>
+
+    <!-- Facebook -->
+    <a
+      href={shareLinks.facebook}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-500 text-white border border-brand-500 transition-all hover:bg-brand-600 hover:border-brand-600"
+      aria-label="Share on Facebook"
+    >
+      <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073c0 6.019 4.388 11.008 10.125 11.927v-8.437H7.078v-3.49h3.047V9.412c0-3.03 1.793-4.704 4.533-4.704 1.313 0 2.686.236 2.686.236v2.973h-1.514c-1.491 0-1.956.931-1.956 1.887v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.081 24 18.092 24 12.073z"/>
       </svg>
     </a>
 

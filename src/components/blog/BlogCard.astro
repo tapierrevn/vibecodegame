@@ -34,9 +34,9 @@ const estimatedWords = description.split(' ').length * 10; // Rough estimate
 const readingTime = Math.max(1, Math.ceil(estimatedWords / wordsPerMinute));
 ---
 
-<article class="group rounded-lg border border-brand-500/30 bg-background p-6 ring-1 ring-brand-500/20 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-500 hover:shadow-md">
+<article class="group h-full rounded-lg border border-brand-500/30 bg-background p-6 ring-1 ring-brand-500/20 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-500 hover:shadow-md flex flex-col">
 
-  <a href={href} class="block">
+  <a href={href} class="block h-full flex flex-col">
     <div
       class="relative mb-4 overflow-hidden rounded-md
         bg-background-secondary bg-gradient-to-br from-brand-100/65 to-transparent dark:from-brand-900/60 dark:to-brand-600/25"
@@ -68,7 +68,7 @@ const readingTime = Math.max(1, Math.ceil(estimatedWords / wordsPerMinute));
       {description}
     </p>
 
-    <div class="flex flex-wrap items-center gap-3 text-sm text-foreground-subtle">
+    <div class="mt-auto flex flex-wrap items-center gap-3 text-sm text-foreground-subtle">
       {author && (
         <div class="flex items-center gap-2">
           <Logo size="sm" letter={author.charAt(0).toUpperCase()} />

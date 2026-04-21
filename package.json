@@ -60,6 +60,8 @@
     "resend": "^6.9.3",
     "schema-dts": "^1.1.2",
     "sharp": "^0.34.5",
+    "@img/sharp-libvips-linux-x64": "1.2.4",
+    "@img/sharp-linux-x64": "0.34.5",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
@@ -91,6 +93,7 @@
     ]
   },
   "engines": {
-    "node": ">=22.12.0"
-  }
+    "node": ">=22.12.0 <23"
+  },
+  "packageManager": "pnpm@10.33.0"
 }

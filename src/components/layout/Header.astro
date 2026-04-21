@@ -23,7 +23,7 @@
  */
 import type { HTMLAttributes } from 'astro/types';
 import { cn } from '@/lib/cn';
-import { getHeaderNavItems, type NavItem as NavConfigItem } from '@/config/nav.config';
+import { getNavItems, type NavItem as NavConfigItem } from '@/config/nav.config';
 import { headerVariants, headerInnerVariants } from './header.variants';
 import Button from '@/components/ui/form/Button/Button.astro';
 import Icon from '@/components/ui/primitives/Icon/Icon.astro';
@@ -122,7 +122,7 @@ const isFloating = shape === 'floating';
 const isInvert = colorScheme === 'invert';
 
 // Get navigation items
-const defaultNav = getHeaderNavItems().map((item: NavConfigItem) => ({
+const defaultNav = getNavItems().map((item: NavConfigItem) => ({
   label: item.label,
   href: item.href,
   children: item.children?.map((child) => ({ label: child.label, href: child.href })),

@@ -8,12 +8,11 @@ interface Props {
   description: string;
   website: string;
   featured: boolean;
-  usability: 'Easy' | 'Medium' | 'Hard';
   logo: string;
   href: string;
 }
 
-const { slug, name, description, website, featured, usability, logo, href } = Astro.props;
+const { slug, name, description, website, featured, logo, href } = Astro.props;
 
 const aiToolImages = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/ai-tools/*/*.{png,jpg,jpeg,webp,avif,svg}',
@@ -22,14 +21,16 @@ const aiToolImages = import.meta.glob<{ default: ImageMetadata }>(
 const imageLogo = Object.entries(aiToolImages).find(([path]) => path.includes(`/ai-tools/${slug}/`))?.[1]
   .default;
 
-const usabilityClassMap: Record<Props['usability'], string> = {
-  Easy: 'bg-green-500/10 text-green-600 ring-green-500/30 dark:text-green-400',
-  Medium: 'bg-amber-500/10 text-amber-600 ring-amber-500/30 dark:text-amber-400',
-  Hard: 'bg-red-500/10 text-red-600 ring-red-500/30 dark:text-red-400',
-};
 ---
 
-<article class="group h-full rounded-lg border border-brand-500/30 bg-background p-6 ring-1 ring-brand-500/20 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-500 hover:shadow-md">
+<article
+  class:list={[
+    'group relative isolate h-full rounded-lg border bg-background p-6 ring-1 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md overflow-hidden',
+    featured
+      ? 'featured-ai-tool-card border-2 border-brand-400/85 ring-brand-400/40 hover:border-brand-300'
+      : 'border-brand-500/30 ring-brand-500/20 hover:border-brand-500',
+  ]}
+>
   <a href={href} class="block">
     <div class="mb-4 flex items-start justify-between gap-4">
       <div class="flex items-center gap-3">
@@ -46,9 +47,6 @@ const usabilityClassMap: Record<Props['usability'], string> = {
           <h2 class="font-display text-xl font-bold text-foreground transition-colors group-hover:text-brand-600 dark:group-hover:text-brand-400">
             {name}
           </h2>
-          <span class={`mt-1 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${usabilityClassMap[usability]}`}>
-            {usability}
-          </span>
         </div>
       </div>
       {featured && (
@@ -69,3 +67,49 @@ const usabilityClassMap: Record<Props['usability'], string> = {
     </svg>
   </a>
 </article>
+
+<style>
+  .featured-ai-tool-card::before {
+    content: '';
+    position: absolute;
+    inset: -8%;
+    pointer-events: none;
+    z-index: 1;
+    transform: translateX(-150%) rotate(10deg);
+    background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.78) 50%, transparent 70%);
+    opacity: 0;
+    animation: featuredAiShine 2.2s linear infinite;
+  }
+
+  .featured-ai-tool-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(circle at 12% 18%, rgb(59 130 246 / 0.22), transparent 62%),
+      linear-gradient(145deg, rgb(59 130 246 / 0.1), transparent 55%);
+  }
+
+  .featured-ai-tool-card {
+    box-shadow: 0 0 0 1px rgb(96 165 250 / 0.5), 0 0 22px rgb(59 130 246 / 0.28);
+  }
+
+  @keyframes featuredAiShine {
+    0% {
+      transform: translateX(-150%) rotate(10deg);
+      opacity: 0;
+    }
+    20% {
+      opacity: 0.7;
+    }
+    40% {
+      opacity: 0.18;
+    }
+    48%,
+    100% {
+      transform: translateX(150%) rotate(10deg);
+      opacity: 0;
+    }
+  }
+</style>

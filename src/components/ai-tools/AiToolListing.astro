@@ -12,9 +12,15 @@ const allAiTools = await getCollection('aiTools', ({ data }) => {
   return isEn && (import.meta.env.PROD ? data.draft !== true : true);
 });
 
+function isVerse8Featured(toolId: string): boolean {
+  return toolId.replace('en/', '') === 'verse8';
+}
+
 const aiTools = allAiTools.sort((a, b) => {
-  if (a.data.featured !== b.data.featured) {
-    return Number(b.data.featured) - Number(a.data.featured);
+  const aFeatured = isVerse8Featured(a.id);
+  const bFeatured = isVerse8Featured(b.id);
+  if (aFeatured !== bFeatured) {
+    return Number(bFeatured) - Number(aFeatured);
   }
   return a.data.name.localeCompare(b.data.name);
 });
@@ -56,8 +62,7 @@ const aiToolNames = aiTools.map((tool) => tool.data.name);
             name={tool.data.name}
             description={tool.data.description}
             website={tool.data.website}
-            featured={tool.data.featured}
-            usability={tool.data.usability}
+            featured={isVerse8Featured(tool.id)}
             logo={tool.data.logo}
             href={`/ai-tools/${tool.id.replace('en/', '')}`}
           />

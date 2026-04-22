@@ -1,6 +1,12 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import {
+  getGameJamStatus,
+  gameJamCardArticleBaseClass,
+  gameJamCardBorderClasses,
+  type GameJamStatus,
+} from '@/lib/game-jams-status';
 
 interface Props {
   slug: string;
@@ -33,9 +39,7 @@ const {
 } = Astro.props;
 
 const now = new Date();
-const isFuture = startDate > now;
-const isInProgress = startDate <= now && endDate >= now;
-const isPast = endDate < now;
+const status: GameJamStatus = getGameJamStatus(startDate, endDate, now);
 
 const formattedStart = startDate.toLocaleDateString('en-US', {
   month: 'short',
@@ -48,19 +52,15 @@ const formattedEnd = endDate.toLocaleDateString('en-US', {
   year: 'numeric',
 });
 
-const cardStatusClasses = isFuture
-  ? 'border-violet-500/60 ring-violet-500/30 hover:border-violet-500'
-  : isInProgress
-    ? 'border-emerald-500/60 ring-emerald-500/30 hover:border-emerald-500'
-    : isPast
-      ? 'border-slate-400/70 ring-slate-400/30 hover:border-slate-500'
-      : 'border-brand-500/30 ring-brand-500/20 hover:border-brand-500';
+const cardStatusClasses = gameJamCardBorderClasses[status];
 ---
 
-<article class:list={[
-  'group h-full rounded-lg border bg-background p-4 ring-1 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md',
-  cardStatusClasses,
-]}>
+<article
+  data-game-jam-card
+  data-jam-start={startDate.toISOString()}
+  data-jam-end={endDate.toISOString()}
+  class:list={[gameJamCardArticleBaseClass, cardStatusClasses]}
+>
   <a href={`/game-jams/${slug}`} class="block">
     <div class="relative mb-4 overflow-hidden rounded-md">
       <Image
@@ -76,21 +76,30 @@ const cardStatusClasses = isFuture
           Featured
         </span>
       )}
-      {isInProgress && (
-        <span class="absolute right-3 top-3 inline-flex min-w-[132px] items-center justify-center rounded-full bg-emerald-500 px-4 py-1.5 text-sm font-semibold text-white">
-          In progress
-        </span>
-      )}
-      {isFuture && (
-        <span class="absolute right-3 top-3 inline-flex min-w-[132px] items-center justify-center rounded-full bg-violet-600 px-4 py-1.5 text-sm font-semibold text-white jam-coming-soon-tag">
-          Coming Soon
-        </span>
-      )}
-      {isPast && (
-        <span class="absolute right-3 top-3 inline-flex min-w-[132px] items-center justify-center rounded-full bg-slate-500 px-4 py-1.5 text-sm font-semibold text-white">
-          Finished
-        </span>
-      )}
+      <span
+        data-jam-status-badge="in_progress"
+        hidden={status !== 'in_progress'}
+        class="absolute right-3 top-3 inline-flex min-w-[132px] items-center justify-center rounded-full bg-emerald-500 px-4 py-1.5 text-sm font-semibold text-white"
+      >
+        In progress
+      </span>
+      <span
+        data-jam-status-badge="coming_soon"
+        hidden={status !== 'coming_soon'}
+        class:list={[
+          'absolute right-3 top-3 inline-flex min-w-[132px] items-center justify-center rounded-full bg-violet-600 px-4 py-1.5 text-sm font-semibold text-white',
+          status === 'coming_soon' && 'jam-coming-soon-tag',
+        ]}
+      >
+        Coming Soon
+      </span>
+      <span
+        data-jam-status-badge="past"
+        hidden={status !== 'past'}
+        class="absolute right-3 top-3 inline-flex min-w-[132px] items-center justify-center rounded-full bg-slate-500 px-4 py-1.5 text-sm font-semibold text-white"
+      >
+        Finished
+      </span>
     </div>
 
     <div class="mb-2 flex items-start justify-between gap-3">
@@ -118,7 +127,7 @@ const cardStatusClasses = isFuture
   </div>
 
   <div class="mt-4 flex justify-end">
-    {isFuture && (
+    <div data-jam-cta="coming_soon" hidden={status !== 'coming_soon'}>
       <a
         href={participationLink}
         target="_blank"
@@ -130,9 +139,9 @@ const cardStatusClasses = isFuture
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </a>
-    )}
+    </div>
 
-    {isPast && (
+    <div data-jam-cta="past" hidden={status !== 'past'}>
       <a
         href={`/game-jams/${slug}`}
         class="inline-flex items-center justify-center rounded-full border border-slate-500 bg-slate-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-slate-600 hover:bg-slate-600"
@@ -142,7 +151,7 @@ const cardStatusClasses = isFuture
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </a>
-    )}
+    </div>
   </div>
 </article>
 

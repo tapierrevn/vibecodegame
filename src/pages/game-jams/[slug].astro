@@ -2,13 +2,33 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import GameJamLayout from '@/layouts/GameJamLayout.astro';
 import GameJamListing from '@/components/game-jams/GameJamListing.astro';
-import { segmentToYear, yearToGameJamsPathSegment } from '@/lib/game-jams-filter';
+import {
+  segmentToYear,
+  yearToGameJamsPathSegment,
+  assertGameJamFilterSegmentsDoNotCollideWithEventSlugs,
+  GAME_JAM_STATUS_SEGMENTS,
+  segmentToStatusFilter,
+} from '@/lib/game-jams-filter';
+import type { GameJamStatus } from '@/lib/game-jams-status';
 
-interface Props {
-  kind: 'event' | 'filter';
-  event?: CollectionEntry<'gameJams'>;
-  year?: number;
+interface EventProps {
+  kind: 'event';
+  event: CollectionEntry<'gameJams'>;
 }
+
+interface YearFilterProps {
+  kind: 'filter';
+  filterKind: 'year';
+  year: number;
+}
+
+interface StatusFilterProps {
+  kind: 'filter';
+  filterKind: 'status';
+  statusFilter: GameJamStatus;
+}
+
+type Props = EventProps | YearFilterProps | StatusFilterProps;
 
 export async function getStaticPaths() {
   const events = await getCollection('gameJams', ({ data }) => {
@@ -16,35 +36,52 @@ export async function getStaticPaths() {
     return isEn && (import.meta.env.PROD ? data.draft !== true : true);
   });
 
-  const eventPaths = events.map((event) => ({
-    params: { slug: event.id.replace('en/', '') },
-    props: { kind: 'event' as const, event },
-  }));
+  const eventSlugs = events.map((event) => event.id.replace('en/', ''));
 
   const years = [...new Set(events.map((event) => event.data.startDate.getFullYear()))];
-  const filterPaths = years.map((year) => ({
-    params: { slug: yearToGameJamsPathSegment(year) },
-    props: { kind: 'filter' as const, year },
+  const yearSegments = years.map((year) => yearToGameJamsPathSegment(year));
+
+  assertGameJamFilterSegmentsDoNotCollideWithEventSlugs(eventSlugs, yearSegments);
+
+  const eventPaths = events.map((event) => ({
+    params: { slug: event.id.replace('en/', '') },
+    props: { kind: 'event' as const, event } satisfies EventProps,
   }));
 
-  return [...eventPaths, ...filterPaths];
+  const yearFilterPaths = years.map((year) => ({
+    params: { slug: yearToGameJamsPathSegment(year) },
+    props: { kind: 'filter' as const, filterKind: 'year' as const, year } satisfies YearFilterProps,
+  }));
+
+  const statusFilterPaths = (Object.entries(GAME_JAM_STATUS_SEGMENTS) as [GameJamStatus, string][]).map(
+    ([statusFilter, segment]) => ({
+      params: { slug: segment },
+      props: { kind: 'filter' as const, filterKind: 'status' as const, statusFilter } satisfies StatusFilterProps,
+    }),
+  );
+
+  return [...eventPaths, ...yearFilterPaths, ...statusFilterPaths];
 }
 
 const props = Astro.props as Props;
-
-if (props.kind === 'filter' && typeof props.year !== 'number') {
-  throw new Error('Game Jam filter page is missing a valid year.');
-}
 
 if (props.kind === 'event' && !props.event) {
   throw new Error('Game Jam event page is missing event data.');
 }
 
 const routeSlug = Astro.params.slug ?? '';
-if (props.kind === 'filter') {
+
+if (props.kind === 'filter' && props.filterKind === 'year') {
   const resolvedYear = segmentToYear(routeSlug);
   if (resolvedYear !== props.year) {
-    throw new Error(`Game Jam filter route mismatch for slug "${routeSlug}".`);
+    throw new Error(`Game Jam year filter route mismatch for slug "${routeSlug}".`);
+  }
+}
+
+if (props.kind === 'filter' && props.filterKind === 'status') {
+  const resolved = segmentToStatusFilter(routeSlug);
+  if (resolved !== props.statusFilter) {
+    throw new Error(`Game Jam status filter route mismatch for slug "${routeSlug}".`);
   }
 }
 
@@ -71,7 +108,9 @@ if (props.kind === 'event' && props.event) {
     >
       <Content />
     </GameJamLayout>
-  ) : props.kind === 'filter' ? (
-    <GameJamListing activeYear={props.year ?? null} />
+  ) : props.kind === 'filter' && props.filterKind === 'year' ? (
+    <GameJamListing activeYear={props.year} activeStatus={null} />
+  ) : props.kind === 'filter' && props.filterKind === 'status' ? (
+    <GameJamListing activeYear={null} activeStatus={props.statusFilter} />
   ) : null
 }

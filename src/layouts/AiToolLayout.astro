@@ -14,12 +14,11 @@ interface Props {
   description: string;
   website: string;
   featured: boolean;
-  usability: 'Easy' | 'Medium' | 'Hard';
   logo: string;
   relatedGames: CollectionEntry<'games'>[];
 }
 
-const { slug, name, description, website, featured, usability, logo, relatedGames } = Astro.props;
+const { slug, name, description, website, featured, logo, relatedGames } = Astro.props;
 const aiToolImages = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/ai-tools/*/*.{png,jpg,jpeg,webp,avif,svg}',
   { eager: true },
@@ -31,11 +30,6 @@ const pageDescription = `Explore ${name}: profile details, official links, tutor
 const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImage = slug ? `/og/ai-tools/${slug}.png` : siteConfig.ogImage;
 
-const usabilityClassMap: Record<Props['usability'], string> = {
-  Easy: 'bg-green-500/10 text-green-600 ring-green-500/30 dark:text-green-400',
-  Medium: 'bg-amber-500/10 text-amber-600 ring-amber-500/30 dark:text-amber-400',
-  Hard: 'bg-red-500/10 text-red-600 ring-red-500/30 dark:text-red-400',
-};
 ---
 
 <PageLayout title={pageTitle} description={pageDescription} image={ogImage} imageAlt={`${name} AI tool logo`} showScrollProgress eagerReveal>
@@ -54,9 +48,6 @@ const usabilityClassMap: Record<Props['usability'], string> = {
       <p class="mx-auto mt-3 max-w-2xl text-lg text-foreground-muted">{description}</p>
 
       <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <span class={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${usabilityClassMap[usability]}`}>
-          Usability: {usability}
-        </span>
         {featured && (
           <span class="inline-flex items-center rounded-full bg-brand-500/10 px-2.5 py-0.5 text-xs font-medium text-brand-600 ring-1 ring-inset ring-brand-500/30 dark:text-brand-400">
             Featured

@@ -30,6 +30,7 @@ export async function getStaticPaths() {
 
 const { aiTool, relatedGames } = Astro.props as Props;
 const { Content } = await render(aiTool);
+const isVerse8Featured = aiTool.id.replace('en/', '') === 'verse8';
 ---
 
 <AiToolLayout
@@ -37,8 +38,7 @@ const { Content } = await render(aiTool);
   name={aiTool.data.name}
   description={aiTool.data.description}
   website={aiTool.data.website}
-  featured={aiTool.data.featured}
-  usability={aiTool.data.usability}
+  featured={isVerse8Featured}
   logo={aiTool.data.logo}
   relatedGames={relatedGames}
 >

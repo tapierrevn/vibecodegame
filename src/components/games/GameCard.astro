@@ -17,6 +17,7 @@ interface Props {
   publishedAt?: string;
   image?: ImageMetadata;
   svgSlug?: string;
+  leaderboardRank?: 1 | 2 | 3;
 }
 
 const {
@@ -32,6 +33,7 @@ const {
   publishedAt,
   image,
   svgSlug,
+  leaderboardRank,
 } = Astro.props;
 
 function toReleaseDate(value?: string): string | null {
@@ -41,12 +43,29 @@ function toReleaseDate(value?: string): string | null {
 
 const releaseDate = toReleaseDate(publishedAt);
 const releaseDateTime = releaseDate ? `${releaseDate.slice(3)}-${releaseDate.slice(0, 2)}-01` : undefined;
+const medalStyles: Record<1 | 2 | 3, string> = {
+  1: 'border-4 border-amber-400/90 ring-amber-400/45 hover:border-amber-300',
+  2: 'border-4 border-slate-300/90 ring-slate-300/45 hover:border-slate-200',
+  3: 'border-4 border-orange-500/90 ring-orange-500/45 hover:border-orange-400',
+};
+const medalTagStyles: Record<1 | 2 | 3, string> = {
+  1: 'bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-200',
+  2: 'bg-slate-200 text-slate-800 dark:bg-slate-800/60 dark:text-slate-200',
+  3: 'bg-orange-200 text-orange-900 dark:bg-orange-900/45 dark:text-orange-200',
+};
+const medalBorderClass = leaderboardRank ? medalStyles[leaderboardRank] : null;
+const medalTagClass = leaderboardRank ? medalTagStyles[leaderboardRank] : null;
+const medalCardClass = leaderboardRank ? `medal-rank-card medal-rank-${leaderboardRank}` : null;
 ---
 
 <article
-  class="group h-full rounded-lg border border-brand-500/30 bg-background p-6 ring-1 ring-brand-500/20 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-500 hover:shadow-md flex flex-col"
+  class:list={[
+    'group relative isolate h-full rounded-lg border bg-background p-6 ring-1 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md flex flex-col overflow-hidden',
+    medalBorderClass ?? 'border-brand-500/30 ring-brand-500/20 hover:border-brand-500',
+    medalCardClass,
+  ]}
 >
-  <a href={href} class="block">
+  <a href={href} class="relative z-10 block">
     <div
       class="relative mb-4 overflow-hidden rounded-md
         bg-background-secondary bg-gradient-to-br from-brand-100/65 to-transparent dark:from-brand-900/60 dark:to-brand-600/25"
@@ -74,15 +93,22 @@ const releaseDateTime = releaseDate ? `${releaseDate.slice(3)}-${releaseDate.sli
       <h2 class="font-display text-xl font-bold text-foreground transition-colors group-hover:text-brand-600 dark:group-hover:text-brand-400">
         {title}
       </h2>
-      <span
-        class="inline-flex items-center gap-1 rounded-full bg-brand-100 px-2.5 py-0.5 text-xs font-semibold text-brand-800 dark:bg-brand-900/40 dark:text-brand-200"
-        title="Community score"
-      >
-        <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.719c-.783-.57-.38-1.81.588-1.81H7.03a1 1 0 00.95-.69l1.07-3.292z" />
-        </svg>
-        {communityScore}/100
-      </span>
+      <div class="flex flex-wrap items-center gap-2">
+        {leaderboardRank && (
+          <span class:list={['inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold', medalTagClass]}>
+            Top {leaderboardRank}
+          </span>
+        )}
+        <span
+          class="inline-flex items-center gap-1 rounded-full bg-brand-100 px-2.5 py-0.5 text-xs font-semibold text-brand-800 dark:bg-brand-900/40 dark:text-brand-200"
+          title="Community score"
+        >
+          <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.719c-.783-.57-.38-1.81.588-1.81H7.03a1 1 0 00.95-.69l1.07-3.292z" />
+          </svg>
+          {communityScore}/100
+        </span>
+      </div>
     </div>
 
     <p class="text-foreground-muted line-clamp-2 mb-3">
@@ -90,7 +116,7 @@ const releaseDateTime = releaseDate ? `${releaseDate.slice(3)}-${releaseDate.sli
     </p>
   </a>
 
-  <div class="mb-3 text-sm mt-auto">
+  <div class="relative z-10 mb-3 text-sm mt-auto">
     <span class="text-foreground-subtle">Developer: </span>
     <a
       href={developerProfileUrl}
@@ -101,7 +127,7 @@ const releaseDateTime = releaseDate ? `${releaseDate.slice(3)}-${releaseDate.sli
     {studio && <span class="text-foreground-subtle"> at {studio}</span>}
   </div>
 
-  <div class="flex flex-wrap items-center gap-3 text-sm text-foreground-subtle">
+  <div class="relative z-10 flex flex-wrap items-center gap-3 text-sm text-foreground-subtle">
     {
       releaseDate && (
         <time datetime={releaseDateTime} class="flex items-center gap-1">
@@ -121,7 +147,7 @@ const releaseDateTime = releaseDate ? `${releaseDate.slice(3)}-${releaseDate.sli
 
   {
     genre.length > 0 && (
-      <div class="mt-3">
+      <div class="relative z-10 mt-3">
         <p class="mb-1 text-xs font-medium text-foreground-muted">Genre</p>
         <div class="flex flex-wrap gap-2">
           {genre.map((tag) => (
@@ -136,7 +162,7 @@ const releaseDateTime = releaseDate ? `${releaseDate.slice(3)}-${releaseDate.sli
 
   {
     aiTools.length > 0 && (
-      <div class="mt-3">
+      <div class="relative z-10 mt-3">
         <p class="mb-1 text-xs font-medium text-foreground-muted">Built with</p>
         <div class="flex flex-wrap gap-2">
           {aiTools.map((tag) => (
@@ -149,3 +175,107 @@ const releaseDateTime = releaseDate ? `${releaseDate.slice(3)}-${releaseDate.sli
     )
   }
 </article>
+
+<style>
+  .medal-rank-card::before {
+    content: '';
+    position: absolute;
+    inset: -8%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transform: translateX(-160%) rotate(10deg);
+    background: linear-gradient(105deg, transparent 28%, rgb(255 255 255 / 0.95) 50%, transparent 72%);
+    filter: blur(0.2px);
+    animation: medalShineSweep 1.8s linear infinite;
+  }
+
+  .medal-rank-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.5;
+  }
+
+  .medal-rank-1 {
+    box-shadow: 0 0 0 1px rgb(251 191 36 / 0.55), 0 0 24px rgb(251 191 36 / 0.34);
+    animation: medalGlowGold 1.9s ease-in-out infinite;
+  }
+  .medal-rank-1::after {
+    background: radial-gradient(circle at 15% 20%, rgb(251 191 36 / 0.42), transparent 62%),
+      linear-gradient(140deg, rgb(251 191 36 / 0.24), transparent 55%);
+  }
+
+  .medal-rank-2 {
+    box-shadow: 0 0 0 1px rgb(203 213 225 / 0.6), 0 0 22px rgb(203 213 225 / 0.3);
+    animation: medalGlowSilver 2.1s ease-in-out infinite;
+  }
+  .medal-rank-2::after {
+    opacity: 0.62;
+    background: radial-gradient(circle at 15% 20%, rgb(226 232 240 / 0.88), transparent 62%),
+      linear-gradient(140deg, rgb(226 232 240 / 0.62), transparent 55%),
+      linear-gradient(180deg, rgb(148 163 184 / 0.24), rgb(148 163 184 / 0.12));
+  }
+
+  .medal-rank-3 {
+    box-shadow: 0 0 0 1px rgb(249 115 22 / 0.55), 0 0 22px rgb(249 115 22 / 0.3);
+    animation: medalGlowBronze 2s ease-in-out infinite;
+  }
+  .medal-rank-3::after {
+    background: radial-gradient(circle at 15% 20%, rgb(249 115 22 / 0.4), transparent 62%),
+      linear-gradient(140deg, rgb(251 146 60 / 0.2), transparent 55%);
+  }
+
+  @keyframes medalShineSweep {
+    0% {
+      transform: translateX(-160%) rotate(10deg);
+      opacity: 0;
+    }
+    20% {
+      opacity: 0.82;
+    }
+    34% {
+      opacity: 0.3;
+    }
+    45% {
+      transform: translateX(165%) rotate(10deg);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(165%) rotate(10deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes medalGlowGold {
+    0%,
+    100% {
+      box-shadow: 0 0 0 1px rgb(251 191 36 / 0.5), 0 0 20px rgb(251 191 36 / 0.28);
+    }
+    50% {
+      box-shadow: 0 0 0 1px rgb(251 191 36 / 0.75), 0 0 30px rgb(251 191 36 / 0.45);
+    }
+  }
+
+  @keyframes medalGlowSilver {
+    0%,
+    100% {
+      box-shadow: 0 0 0 1px rgb(203 213 225 / 0.5), 0 0 18px rgb(203 213 225 / 0.24);
+    }
+    50% {
+      box-shadow: 0 0 0 1px rgb(226 232 240 / 0.78), 0 0 28px rgb(226 232 240 / 0.42);
+    }
+  }
+
+  @keyframes medalGlowBronze {
+    0%,
+    100% {
+      box-shadow: 0 0 0 1px rgb(249 115 22 / 0.5), 0 0 18px rgb(249 115 22 / 0.24);
+    }
+    50% {
+      box-shadow: 0 0 0 1px rgb(251 146 60 / 0.75), 0 0 28px rgb(251 146 60 / 0.4);
+    }
+  }
+</style>

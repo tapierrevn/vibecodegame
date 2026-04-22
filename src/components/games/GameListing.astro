@@ -71,7 +71,30 @@ const curatedDescriptions: Record<NonNullable<Props['curatedFilter']>, string> =
   new_release: 'Find newly released vibe-coded games, including fresh launches built with leading AI tools, complete with gameplay details and community scores.',
 };
 const curatedFilterGames = curatedFilter === 'best_week'
-  ? games.filter((g) => g.data.best_week)
+  ? (() => {
+      const byCommunityScoreDesc = [...games].sort((a, b) => {
+        if (b.data.communityScore !== a.data.communityScore) {
+          return b.data.communityScore - a.data.communityScore;
+        }
+        const ad = publishedKey(a.data.publishedAt);
+        const bd = publishedKey(b.data.publishedAt);
+        if (bd !== ad) return bd - ad;
+        return a.id.localeCompare(b.id);
+      });
+      const priorityPool = byCommunityScoreDesc.filter((g) => g.data.best_week);
+      const priorityIds = new Set(priorityPool.map((g) => g.id));
+      const fallbackPool = byCommunityScoreDesc.filter((g) => !priorityIds.has(g.id));
+      const selectedTopFive = [...priorityPool, ...fallbackPool].slice(0, 5);
+      return selectedTopFive.sort((a, b) => {
+        if (b.data.communityScore !== a.data.communityScore) {
+          return b.data.communityScore - a.data.communityScore;
+        }
+        const ad = publishedKey(a.data.publishedAt);
+        const bd = publishedKey(b.data.publishedAt);
+        if (bd !== ad) return bd - ad;
+        return a.id.localeCompare(b.id);
+      });
+    })()
   : curatedFilter === 'most_played'
   ? games.filter((g) => g.data.most_played)
   : curatedFilter === 'new_release'
@@ -265,7 +288,7 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
       {
         regularGames.length > 0 ? (
           <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal data-reveal-delay="1">
-            {regularGames.map((game) => (
+            {regularGames.map((game, index) => (
               <div class="game-card" data-genres={JSON.stringify(game.data.genre)}>
                 <GameCard
                   title={game.data.title}
@@ -281,6 +304,7 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
                   publishedAt={game.data.publishedAt}
                   image={game.data.image}
                   svgSlug={game.data.svgSlug}
+                  leaderboardRank={curatedFilter === 'best_week' && index < 3 ? ((index + 1) as 1 | 2 | 3) : undefined}
                 />
               </div>
             ))}

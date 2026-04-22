@@ -9,14 +9,14 @@ const { images, title } = Astro.props;
 const carouselId = `game-carousel-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
-<section class="not-prose my-10" aria-label={`Screenshots for ${title}`}>
+<section class="not-prose my-10 w-full min-w-0 max-w-full" aria-label={`Screenshots for ${title}`}>
   <h2 class="font-display text-xl font-bold text-foreground mb-4">Screenshots</h2>
   <div
-    class="relative rounded-xl border border-border bg-background-secondary overflow-hidden game-carousel"
+    class="relative w-full min-w-0 max-w-full rounded-xl border border-border bg-background-secondary overflow-hidden game-carousel"
     data-carousel-id={carouselId}
   >
     <div
-      class="flex overflow-x-auto scroll-smooth snap-x snap-mandatory game-carousel-track"
+      class="flex w-full max-w-full min-w-0 overflow-x-auto scroll-smooth snap-x snap-mandatory touch-pan-x game-carousel-track"
       tabindex="0"
       role="region"
       aria-roledescription="carousel"
@@ -25,11 +25,14 @@ const carouselId = `game-carousel-${Math.random().toString(36).slice(2, 9)}`;
     >
       {
         images.map((src, i) => (
-          <div class="min-w-full snap-center shrink-0 flex items-center justify-center p-2 md:p-4 bg-background" data-slide={i}>
+          <div
+            class="flex min-h-0 w-full min-w-0 max-w-full flex-[0_0_100%] snap-center shrink-0 items-center justify-center bg-background p-2 md:p-4"
+            data-slide={i}
+          >
             <img
               src={src}
               alt={`${title} screenshot ${i + 1} of ${images.length}`}
-              class="max-h-[min(70vh,520px)] w-auto max-w-full object-contain rounded-lg"
+              class="h-auto max-h-[min(70vh,520px)] w-full max-w-full object-contain rounded-lg"
               loading={i === 0 ? 'eager' : 'lazy'}
               decoding="async"
             />
@@ -71,6 +74,7 @@ const carouselId = `game-carousel-${Math.random().toString(36).slice(2, 9)}`;
   .game-carousel-track {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+    -webkit-overflow-scrolling: touch;
   }
   .game-carousel-track::-webkit-scrollbar {
     display: none; /* Chrome/Safari/Opera */

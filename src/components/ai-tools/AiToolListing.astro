@@ -6,6 +6,7 @@ import TypingEffect from '@/components/ui/TypingEffect.astro';
 import { Hero } from '@/components/hero';
 import AiToolCard from '@/components/ai-tools/AiToolCard.astro';
 import { getCollection } from 'astro:content';
+import aiToolsOgImage from '@/assets/ai-tools/banner/vibecodeAItools.png';
 
 const allAiTools = await getCollection('aiTools', ({ data }) => {
   const isEn = (data.locale ?? 'en') === 'en';
@@ -31,6 +32,8 @@ const aiToolNames = aiTools.map((tool) => tool.data.name);
 <PageLayout
   title="AI Tools Hub | Best AI Tools for Vibe Coding Games"
   description="Explore AI tools for vibe-coded game development with profiles, tutorials, and game examples."
+  image={aiToolsOgImage.src}
+  imageAlt="The best vibe-coding tools for games"
   showScrollProgress
   eagerReveal
   fillViewport={false}

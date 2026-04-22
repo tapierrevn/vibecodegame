@@ -9,6 +9,8 @@ export interface NavItem {
   label: string;
   href: string;
   order: number;
+  showInHeader?: boolean;
+  showInFooter?: boolean;
   children?: Omit<NavItem, 'order' | 'children'>[];
 }
 
@@ -29,6 +31,13 @@ export const navItems: NavItem[] = [
   { label: 'AI Tools', href: '/ai-tools', order: 3 },
   { label: 'Blog', href: '/blog', order: 4 },
   { label: 'Game Jams', href: '/game-jams', order: 5 },
+  {
+    label: 'Glossary',
+    href: '/game-vibe-coding-glossary',
+    order: 6,
+    showInHeader: false,
+    showInFooter: true,
+  },
 ];
 
 /**
@@ -36,4 +45,12 @@ export const navItems: NavItem[] = [
  */
 export function getNavItems(): NavItem[] {
   return [...navItems].sort((a, b) => a.order - b.order);
+}
+
+export function getHeaderNavItems(): NavItem[] {
+  return getNavItems().filter((item) => item.showInHeader !== false);
+}
+
+export function getFooterNavItems(): NavItem[] {
+  return getNavItems().filter((item) => item.showInFooter !== false);
 }

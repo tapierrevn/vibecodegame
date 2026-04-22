@@ -18,7 +18,7 @@
  */
 import type { HTMLAttributes } from 'astro/types';
 import { cn } from '@/lib/cn';
-import { getNavItems, type NavItem as NavConfigItem } from '@/config/nav.config';
+import { getFooterNavItems, type NavItem as NavConfigItem } from '@/config/nav.config';
 import { footerVariants, footerColumnGridVariants } from './footer.variants';
 import Logo from '@/components/ui/marketing/Logo/Logo.astro';
 import Icon from '@/components/ui/primitives/Icon/Icon.astro';
@@ -91,7 +91,7 @@ const {
 } = Astro.props;
 
 // Get navigation items
-const defaultNav: NavItem[] = getNavItems().map((item: NavConfigItem) => ({
+const defaultNav: NavItem[] = getFooterNavItems().map((item: NavConfigItem) => ({
   label: item.label,
   href: item.href,
 }));

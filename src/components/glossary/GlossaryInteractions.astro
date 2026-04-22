@@ -1,0 +1,334 @@
+<script>
+  function slugify(value: string): string {
+    return value
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function smoothScrollToY(targetY: number, durationMs = 850) {
+    const startY = window.scrollY;
+    const delta = targetY - startY;
+    if (Math.abs(delta) < 2) return;
+
+    const startTime = performance.now();
+    const easeInOutQuint = (t: number) =>
+      t < 0.5 ? 16 * t * t * t * t * t : 1 - Math.pow(-2 * t + 2, 5) / 2;
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / durationMs, 1);
+      const eased = easeInOutQuint(progress);
+      window.scrollTo(0, startY + delta * eased);
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  }
+
+  function formatInPracticeQuotes() {
+    const article = document.querySelector<HTMLElement>('[data-glossary-root]');
+    if (!article || article.dataset.glossaryEnhanced === 'true') return;
+    article.dataset.glossaryEnhanced = 'true';
+
+    const legendIntro = Array.from(article.querySelectorAll('p')).find((p) =>
+      (p.textContent || '').trim().toLowerCase() === 'terms are tagged by type and level:'
+    );
+    if (legendIntro) {
+      let cursor = legendIntro.nextElementSibling as HTMLElement | null;
+      while (cursor && cursor.tagName === 'TABLE') {
+        const next = cursor.nextElementSibling as HTMLElement | null;
+        cursor.remove();
+        cursor = next;
+      }
+      legendIntro.remove();
+    }
+
+    const children = Array.from(article.children) as HTMLElement[];
+    const categoryHeadings = children.filter((el) => el.tagName === 'H2');
+    categoryHeadings.forEach((heading, categoryIdx) => {
+      if ((heading.textContent || '').trim().toLowerCase() === 'alphabetical index') return;
+
+      const sectionEndMarker = categoryHeadings[categoryIdx + 1] ?? null;
+      const sectionNodes: HTMLElement[] = [];
+      for (let i = children.indexOf(heading) + 1; i < children.length; i++) {
+        const node = children[i];
+        if (sectionEndMarker && node === sectionEndMarker) break;
+        sectionNodes.push(node);
+      }
+
+      const termBlocks: { title: string; nodes: HTMLElement[] }[] = [];
+      for (let i = 0; i < sectionNodes.length; i++) {
+        if (sectionNodes[i].tagName !== 'H3') continue;
+        const block: HTMLElement[] = [sectionNodes[i]];
+        let j = i + 1;
+        while (j < sectionNodes.length && sectionNodes[j].tagName !== 'H3') {
+          block.push(sectionNodes[j]);
+          j++;
+        }
+        termBlocks.push({
+          title: (sectionNodes[i].textContent || '').trim().toLowerCase(),
+          nodes: block,
+        });
+        i = j - 1;
+      }
+
+      if (!termBlocks.length) return;
+      const sortedBlocks = [...termBlocks].sort((a, b) => a.title.localeCompare(b.title));
+      sortedBlocks.forEach((block) => {
+        block.nodes.forEach((node) => {
+          if (sectionEndMarker) {
+            article.insertBefore(node, sectionEndMarker);
+          } else {
+            article.appendChild(node);
+          }
+        });
+      });
+    });
+
+    const termAnchors = new Map<string, HTMLElement>();
+    const categoryAnchors = new Map<string, HTMLElement>();
+    const termHeadings = Array.from(article.querySelectorAll('h3'));
+    termHeadings.forEach((heading) => {
+      const title = (heading.textContent || '').trim();
+      if (!title) return;
+      const fullKey = slugify(title);
+      const shortKey = slugify(title.replace(/\s*\([^)]*\)\s*/g, ' ').trim());
+      if (!heading.id) heading.id = `term-${fullKey}`;
+      termAnchors.set(fullKey, heading);
+      if (shortKey) termAnchors.set(shortKey, heading);
+    });
+
+    const scrollToTarget = (target: HTMLElement) => {
+      if (!target) return;
+      const headerOffset = Number.parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue('--header-height') || '72',
+        10,
+      );
+      const extraOffset = 72;
+      const targetY = target.getBoundingClientRect().top + window.scrollY - headerOffset - extraOffset;
+      smoothScrollToY(Math.max(targetY, 0));
+      history.replaceState(null, '', `#${target.id}`);
+    };
+
+    const scrollToTerm = (termName: string) => {
+      const key = slugify(termName);
+      const target =
+        termAnchors.get(key) ||
+        termAnchors.get(slugify(termName.replace(/\s*\([^)]*\)\s*/g, ' ').trim()));
+      if (!target) return;
+      scrollToTarget(target);
+    };
+
+    const categoryHeadingsForConsole = Array.from(article.querySelectorAll('h2')).filter((heading) => {
+      const text = (heading.textContent || '').trim().toLowerCase();
+      return text !== 'a note on why this exists' && text !== 'alphabetical index';
+    });
+    categoryHeadingsForConsole.forEach((heading) => {
+      const title = (heading.textContent || '').trim();
+      if (!title) return;
+      if (!heading.id) heading.id = `category-${slugify(title)}`;
+      categoryAnchors.set(title, heading);
+    });
+
+    const categoryConsole = document.getElementById('glossary-category-console');
+    if (categoryConsole && categoryHeadingsForConsole.length) {
+      categoryConsole.innerHTML = '';
+      const label = document.createElement('span');
+      label.className = 'glossary-category-console-label';
+      label.textContent = 'Categories';
+      categoryConsole.appendChild(label);
+
+      categoryHeadingsForConsole.forEach((heading) => {
+        const title = (heading.textContent || '').trim();
+        const target = categoryAnchors.get(title);
+        if (!target) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'glossary-see-also-tag glossary-category-pill';
+        button.textContent = title;
+        button.addEventListener('click', () => scrollToTarget(target));
+        categoryConsole.appendChild(button);
+      });
+    }
+
+    const paragraphs = Array.from(article.querySelectorAll('p'));
+    paragraphs.forEach((paragraph) => {
+      const raw = (paragraph.textContent || '').trim();
+      const normalized = raw.toLowerCase();
+
+      if (/^\[[a-z]+\]\s*·/i.test(raw)) {
+        paragraph.remove();
+        return;
+      }
+
+      if (normalized.startsWith('in practice')) {
+        const quoteText = raw.replace(/^in practice\s*[—-]\s*/i, '').trim();
+        if (!quoteText) return;
+
+        const quote = document.createElement('blockquote');
+        quote.className = 'glossary-in-practice my-4';
+
+        const label = document.createElement('p');
+        label.className = 'glossary-in-practice-label m-0';
+        label.textContent = 'In practice';
+
+        const body = document.createElement('p');
+        body.className = 'glossary-in-practice-body mt-1 mb-0';
+        body.textContent = quoteText;
+
+        quote.appendChild(label);
+        quote.appendChild(body);
+        paragraph.replaceWith(quote);
+        return;
+      }
+
+      if (normalized.startsWith('see also')) {
+        const terms = (raw.split('→')[1] || '')
+          .split(',')
+          .map((item) => item.trim())
+          .filter(Boolean);
+        if (!terms.length) return;
+
+        const wrap = document.createElement('div');
+        wrap.className = 'glossary-see-also my-4 flex flex-wrap items-center gap-2';
+
+        const label = document.createElement('span');
+        label.className = 'glossary-see-also-label';
+        label.textContent = 'See also';
+        wrap.appendChild(label);
+
+        terms.forEach((termName) => {
+          const tag = document.createElement('button');
+          tag.type = 'button';
+          tag.className = 'glossary-see-also-tag';
+          tag.textContent = termName;
+          tag.addEventListener('click', () => scrollToTerm(termName));
+          wrap.appendChild(tag);
+        });
+
+        paragraph.replaceWith(wrap);
+      }
+    });
+
+    const indexHeading = Array.from(article.querySelectorAll('h2')).find(
+      (h2) => (h2.textContent || '').trim().toLowerCase() === 'alphabetical index',
+    );
+    if (indexHeading) {
+      let indexParagraph: HTMLElement | null = null;
+      let cursor = indexHeading.nextElementSibling as HTMLElement | null;
+      while (cursor) {
+        if (cursor.tagName === 'H2') break;
+        if (cursor.tagName === 'P') {
+          indexParagraph = cursor;
+          break;
+        }
+        cursor = cursor.nextElementSibling as HTMLElement | null;
+      }
+
+      if (indexParagraph) {
+        const terms = (indexParagraph.textContent || '')
+          .split('·')
+          .map((item) => item.trim())
+          .filter(Boolean);
+
+        if (terms.length) {
+          const wrap = document.createElement('div');
+          wrap.className = 'glossary-index-pills my-4 flex flex-wrap items-center gap-2';
+
+          terms.forEach((termName) => {
+            const tag = document.createElement('button');
+            tag.type = 'button';
+            tag.className = 'glossary-see-also-tag glossary-index-pill';
+            tag.textContent = termName;
+            tag.addEventListener('click', () => scrollToTerm(termName));
+            wrap.appendChild(tag);
+          });
+
+          indexParagraph.replaceWith(wrap);
+        }
+      }
+    }
+  }
+
+  formatInPracticeQuotes();
+  document.addEventListener('astro:page-load', formatInPracticeQuotes);
+  document.addEventListener('astro:after-swap', formatInPracticeQuotes);
+</script>
+
+<style>
+  :global(.glossary-in-practice) {
+    border-left: 3px solid color-mix(in srgb, var(--color-brand-500, #6366f1) 70%, transparent);
+    background: color-mix(in srgb, var(--color-background-secondary, #111827) 78%, transparent);
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 0.75rem 1rem;
+  }
+
+  :global(.glossary-in-practice-label) {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-brand-500, #6366f1);
+  }
+
+  :global(.glossary-in-practice-body) {
+    color: var(--color-foreground-muted, #9ca3af);
+    line-height: 1.6;
+  }
+
+  :global(.glossary-see-also-tag) {
+    border: 1px solid var(--color-border, #374151);
+    background: var(--color-background-secondary, #111827);
+    color: var(--color-brand-500, #6366f1);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.55rem;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  :global(.glossary-see-also-tag:hover) {
+    border-color: var(--color-brand-500, #6366f1);
+    background: color-mix(in srgb, var(--color-brand-500, #6366f1) 14%, transparent);
+  }
+
+  :global(.glossary-see-also-label) {
+    color: var(--color-foreground-muted, #9ca3af);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-right: 0.25rem;
+  }
+
+  :global(.glossary-category-console-label) {
+    color: var(--color-foreground-muted, #9ca3af);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-right: 0.25rem;
+  }
+
+  :global(.glossary-category-pill) {
+    white-space: nowrap;
+  }
+
+  :global([data-glossary-root] h3[id]) {
+    scroll-margin-top: calc(var(--header-height, 72px) + 80px);
+  }
+
+  :global([data-glossary-root] h2[id]) {
+    scroll-margin-top: calc(var(--header-height, 72px) + 80px);
+  }
+
+  #glossary-controls {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    #glossary-controls {
+      position: static;
+    }
+  }
+</style>

@@ -1,0 +1,862 @@
+---
+layout: ../layouts/PageLayout.astro
+title: "Game Vibe-Coding Glossary: 66 AI Terms for Developers"
+description: "Learn 66 essential vibe-coding and AI game development terms across tools, workflows, models, systems, and quality risks."
+image: "/src/assets/glossary/vibecodeGlossary.png"
+imageAlt: "The definitive glossary for game vibe-coding"
+---
+
+import GlossaryInteractions from '@/components/glossary/GlossaryInteractions.astro';
+import ShareButtons from '@/components/blog/ShareButtons.astro';
+import siteConfig from '@/config/site.config';
+
+<section class="py-[var(--space-section-md)]">
+  <div class="mx-auto max-w-4xl px-6">
+    <article class="prose prose-lg max-w-none" data-glossary-root>
+
+# THE DEFINITIVE VIBE-CODING GLOSSARY
+### For Game Developers Building with AI
+
+> **Version 1.0 — April 2026**
+> 66 terms · 7 categories · Written for practitioners, not spectators
+
+<div class="not-prose my-6">
+  <ShareButtons title="Game Vibe-Coding Glossary: 66 AI Terms for Developers" url={`${siteConfig.url}/glossary`} />
+</div>
+
+---
+
+## A Note on Why This Exists
+
+Most AI glossaries are written for generalists. This one is written for **game developers** — people who want to ship levels, not just learn buzzwords. Every definition here is filtered through a single question: *"What does this mean when you're actually trying to build a game?"*
+
+Terms are tagged by **type** and **level**:
+
+| Tag | Meaning |
+|---|---|
+| `[TOOL]` | A specific platform, app, or IDE you can open right now |
+| `[CONCEPT]` | A fundamental idea that shapes how you think and work |
+| `[WORKFLOW]` | A technique or process you apply inside a dev session |
+| `[CULTURE]` | Slang, community norms, or industry context |
+| `[CAUTION]` | A risk, failure mode, or thing that can quietly kill your project |
+
+| Level | Meaning |
+|---|---|
+| 🟢 Beginner | You need this on day one |
+| 🟡 Intermediate | Comes up once you're past the basics |
+| 🔴 Advanced | Matters when you're scaling, shipping, or going deep |
+
+<div id="glossary-category-console" class="my-6 flex flex-wrap items-center gap-2"></div>
+
+## 🛠️ Tools & Platforms
+
+---
+
+### [Bolt](https://bolt.new)
+`[TOOL]` · 🟢 Beginner
+
+A browser-based AI development environment by StackBlitz. You describe what you want to build, and Bolt writes, runs, and previews the code — all inside the browser, with zero local setup. Ideal for getting a game UI, landing page, or web-based prototype live in under an hour.
+
+Website: [bolt.new](https://bolt.new)
+
+**In practice** — Describe your game's main menu layout to Bolt, and it generates a fully functional HTML/CSS/JS version you can iterate on immediately without touching your local environment.
+
+**See also** → Lovable, Replit, Scaffolding, Vibe-Coding
+
+---
+
+### [Claude](https://claude.ai)
+`[TOOL]` · 🟢 Beginner
+
+An AI assistant by Anthropic. Among game developers, Claude is valued for its ability to reason over long, complex documents — making it well-suited for drafting and iterating on Game Design Documents, writing NPC dialogue systems, debugging logic errors, and designing game economies. Its large context window means you can paste an entire codebase and ask it to reason across the whole thing.
+
+Website: [claude.ai](https://claude.ai)
+
+**In practice** — Paste your entire enemy behavior system and ask Claude to identify why the aggro logic breaks at range. It reads the full file and pinpoints the issue in seconds.
+
+**See also** → Cursor, LLM, Context Window, NPC Dialogue Generation
+
+---
+
+### [ComfyUI](https://www.comfy.org/)
+`[TOOL]` · 🟡 Intermediate
+
+A node-based visual workflow tool for running AI image generation models (Stable Diffusion, FLUX, etc.) locally on your own hardware. Game devs use it to generate sprites, concept art, environment textures, and character portraits without paying per-image API fees. Requires a GPU with sufficient VRAM.
+
+Website: [comfy.org](https://www.comfy.org/)
+
+**In practice** — Build a ComfyUI pipeline that takes a text prompt and outputs tilesheet-ready sprites at a fixed resolution with consistent art style, using a LoRA trained on your game's visual identity.
+
+**See also** → Generative Assets, LoRA, Fine-Tuning
+
+---
+
+### [Cursor](https://cursor.com)
+`[TOOL]` · 🟢 Beginner
+
+A code editor forked from VS Code with deep LLM integration baked in. Unlike copy-pasting between a chat window and your editor, Cursor understands your full codebase — you can ask it to refactor a system, explain why something is broken, or implement a feature across multiple files at once. The most widely adopted dedicated vibe-coding IDE as of 2026.
+
+Website: [cursor.com](https://cursor.com)
+
+**In practice** — Select your entire collision detection module, press Cmd+K, and type "add coyote time to the jump logic." Cursor rewrites the relevant lines in context without touching anything else.
+
+**See also** → Copilot Mode, AI Pair Programming, Vibe-Coding
+
+---
+
+### [Lovable](https://lovable.dev)
+`[TOOL]` · 🟢 Beginner
+
+An AI-powered full-stack builder that converts natural language descriptions into deployed web apps. Targets non-developers and designers who want to ship without writing code. For game developers, it's most useful for quickly building companion web apps — leaderboards, lore wikis, game landing pages, or internal tools.
+
+Website: [lovable.dev](https://lovable.dev)
+
+**In practice** — Describe your game's leaderboard with player stats and match history. Lovable generates a fully styled, database-backed web app you can deploy the same day.
+
+**See also** → Bolt, Replit, Scaffolding
+
+---
+
+### [Replit](https://replit.com)
+`[TOOL]` · 🟢 Beginner
+
+A cloud-based IDE with a built-in AI agent (Replit Agent) that builds and deploys apps from plain language instructions. No local setup, no configuration. Excellent for fast game jam prototypes, browser-based mini-games, and educational game projects where portability and shareability matter more than performance.
+
+Website: [replit.com](https://replit.com)
+
+**In practice** — At hour one of a 48-hour game jam, you open Replit, describe a 2D top-down shooter mechanic, and have a working prototype running in the browser before your teammates finish their coffee.
+
+**See also** → Bolt, Game Jam, Playable Prototype
+
+---
+
+### [Rosebud AI](https://rosebud.ai)
+`[TOOL]` · 🟢 Beginner
+
+An AI-native game development platform built specifically around the vibe-coding paradigm. You describe game mechanics, characters, and worlds in plain language, and Rosebud generates playable game logic and assets in real time. One of the few tools purpose-built for game creation rather than general software development.
+
+Website: [rosebud.ai](https://rosebud.ai)
+
+**In practice** — Describe a wave-based survival game set in a neon city and Rosebud scaffolds the enemy spawning system, player movement, and basic UI — all from a paragraph of text.
+
+**See also** → Vibe-Coding, Generative Assets, Spec-to-Code
+
+---
+
+### [Verse8](https://verse8.io)
+`[TOOL]` · 🟡 Intermediate
+
+An emerging AI-assisted creative development platform focused on game and interactive experience creation. Targets developers who want to use generative AI throughout the creative pipeline — from ideation to playable build — with a workflow designed around rapid creative iteration.
+
+Website: [verse8.io](https://verse8.io)
+
+**In practice** — Use Verse8 to rapidly cycle through game concept variations during pre-production, generating playable micro-prototypes of each direction before committing to a full build.
+
+**See also** → Vibe-Coding, Playable Prototype, Iterative Prompting
+
+---
+
+## 🧠 Vibe-Coding Core Concepts
+
+---
+
+### Vibe-Coding
+`[CONCEPT]` · 🟢 Beginner
+
+The practice of building software — including games — by describing what you want in natural language and letting AI write the implementation. You steer the creative and product direction; the AI handles syntax, boilerplate, and structure. Coined and popularized in 2025, it represents a fundamental shift in who can build games and how fast.
+
+**In practice** — Instead of spending three hours writing a inventory system from scratch, you describe it to an AI in two sentences, get a working draft in 30 seconds, and spend the next hour refining behavior rather than writing syntax.
+
+**See also** → Prompt Engineering, Intent-Driven Development, Scaffolding, Vibe-Coded Game
+
+---
+
+### Vibe-Coded Game
+
+A game that was built primarily through natural language direction to AI tools, where the developer's core contribution is creative vision, design judgment, and iterative guidance — rather than manual code authoring. A vibe-coded game isn't defined by the absence of a developer; it's defined by a fundamental shift in what that developer actually does. They curate, direct, and refine rather than write and debug line by line.
+
+The term is descriptive, not derogatory. A vibe-coded game can be just as polished, original, and intentional as a traditionally built one — the difference is in the process, not the output. What separates a great vibe-coded game from slop is the quality of the creative direction behind the prompts.
+
+**In practice** — You ship a roguelike dungeon crawler where the movement system, enemy AI, procedural level logic, and UI were all scaffolded and iterated via AI prompts over a single weekend. You wrote very little code by hand, but every mechanic reflects deliberate design decisions you made. That's a vibe-coded game.
+
+**See also** → Vibe-Coding, Solo Dev, Slop, Human-in-the-Loop, Playable Prototype
+
+---
+
+### Prompt Engineering
+`[WORKFLOW]` · 🟢 Beginner
+
+The craft of writing instructions that reliably produce the output you actually want from an AI. In game development, poor prompts get you generic boilerplate. Strong prompts — specific about context, constraints, format, and desired behavior — get you production-ready code or compelling game content on the first try.
+
+**In practice** — Instead of "write enemy AI," write: "Write a Unity C# script for a melee enemy that patrols between waypoints, enters chase state when the player is within 8 units, and retreats when health drops below 25%. Use a state machine pattern."
+
+**See also** → System Prompt, Few-Shot Prompting, Chain-of-Thought, Iterative Prompting
+
+---
+
+### Intent-Driven Development
+`[CONCEPT]` · 🟢 Beginner
+
+A development philosophy where you define *what* a system should do, not *how* to implement it. You describe outcomes; the AI proposes architecture. For game developers, this removes the barrier between having a design vision and having a working prototype — you think like a designer and the AI thinks like an engineer.
+
+**In practice** — "I want enemies to feel threatening without being unfair — they should telegraph attacks one second before they land." The AI figures out the animation flag, hitbox timing, and audio cue system to make that happen.
+
+**See also** → Vibe-Coding, Spec-to-Code, Natural Language Programming, Vibe-Coded Game
+
+---
+
+### Natural Language Programming
+`[CONCEPT]` · 🟢 Beginner
+
+Writing software by describing its behavior in plain human language rather than formal code syntax. The AI acts as a compiler between your intent and executable logic. For game devs, this means game designers who aren't programmers can now directly contribute to systems implementation.
+
+**In practice** — A narrative designer writes "When the player enters the throne room for the first time, the king looks up, pauses, and says a randomized line from this list" — and that becomes working game code.
+
+**See also** → Vibe-Coding, Intent-Driven Development, NPC Dialogue Generation, Vibe-Coded Game
+
+---
+
+### AI Pair Programming
+`[WORKFLOW]` · 🟢 Beginner
+
+Working with an AI model as an active, real-time coding collaborator. You maintain creative and architectural control; the AI handles syntax lookups, boilerplate generation, and implementation suggestions. The mental model is a junior developer who types at superhuman speed but needs you to make the important decisions.
+
+**In practice** — You design a damage formula for your RPG out loud in the chat, the AI implements it, you test it, you ask it to rebalance the numbers, it revises — three iterations in five minutes.
+
+**See also** → Copilot Mode, Cursor, Iterative Prompting
+
+---
+
+### Iterative Prompting
+`[WORKFLOW]` · 🟢 Beginner
+
+Refining AI outputs through a series of increasingly specific follow-up prompts rather than trying to get everything right in one shot. The first prompt establishes structure; subsequent prompts refine details, fix edge cases, and improve quality. This is the normal working rhythm of vibe-coding — not a fallback for when things go wrong.
+
+**In practice** — Prompt 1: "Build a basic inventory grid." Prompt 2: "Add drag-and-drop between slots." Prompt 3: "If a weapon slot receives a non-weapon item, reject it and play an error sound." Each prompt builds on a working foundation.
+
+**See also** → Debugging Loop, Prompt Engineering, Scaffolding
+
+---
+
+### Zero-Shot Generation
+`[WORKFLOW]` · 🟡 Intermediate
+
+Asking an AI to generate code or content from scratch with no examples — relying entirely on its training knowledge. Works well for common patterns (basic movement, UI elements, standard AI behaviors). Falls short on game-specific or unconventional systems where examples would sharpen the output.
+
+**In practice** — Asking an AI to generate a jump mechanic zero-shot works reliably. Asking it to generate the specific combo timing system your fighting game uses zero-shot will likely produce something generic.
+
+**See also** → Few-Shot Prompting, Hallucination, Prompt Engineering
+
+---
+
+### Few-Shot Prompting
+`[WORKFLOW]` · 🟡 Intermediate
+
+Providing 1–3 concrete examples inside your prompt to show the AI the pattern, format, or style you want before asking it to generate more. Dramatically improves output quality for game-specific content — dialogue with a consistent character voice, item descriptions with a specific tone, or level data in a custom format.
+
+**In practice** — Provide three sample enemy stat blocks in your game's exact JSON format, then ask the AI to generate fifteen more. The output matches your schema precisely because it learned the pattern from your examples.
+
+**See also** → Zero-Shot Generation, Prompt Engineering, NPC Dialogue Generation
+
+---
+
+### Scaffolding
+`[WORKFLOW]` · 🟢 Beginner
+
+Using AI to instantly generate a project's skeleton — folder structure, base classes, configuration files, and boilerplate code — before writing any real game logic. Eliminates the blank-page problem and hours of repetitive setup. In game development, this means going from "new project" to "working game loop" in minutes.
+
+**In practice** — Ask an AI to scaffold a Unity project with a GameManager, SceneLoader, PlayerController, and basic audio system. Four scripts, properly linked, in 90 seconds.
+
+**See also** → Spec-to-Code, Hot Reload, Game Loop, Vibe-Coded Game
+
+---
+
+### Spec-to-Code
+`[WORKFLOW]` · 🟡 Intermediate
+
+Transforming a written game specification — a GDD section, a feature brief, or even a casual design note — directly into functional code. The quality of the output is directly proportional to the specificity of the spec. Vague specs produce generic code; precise specs produce production-ready systems.
+
+**In practice** — Paste the "Combat System" section of your GDD into Cursor and ask it to implement the damage model. The AI reads the design intent and produces code that matches your design rather than a generic RPG formula.
+
+**See also** → Game Design Document, Intent-Driven Development, Prompt Engineering, Vibe-Coded Game
+
+---
+
+### Prompt Library
+`[WORKFLOW]` · 🟡 Intermediate
+
+A curated, reusable collection of prompts that consistently produce high-quality outputs for recurring game development tasks. Think of it as a recipe book for your AI workflow. Senior teams maintain prompt libraries the way they maintain code libraries — as shared infrastructure that improves everyone's output quality.
+
+**In practice** — Your prompt library has a tested entry for "generate a loot table for [zone] with [rarity distribution]" that your whole team uses, ensuring consistent format and quality across all designers.
+
+**See also** → Prompt Engineering, Few-Shot Prompting, Iterative Prompting
+
+---
+
+### Vibe Shift
+`[CULTURE]` · 🟢 Beginner
+
+Community slang for a mid-build pivot in creative direction, often sparked by an unexpectedly strong AI-generated idea. Where traditional development resists scope changes, vibe-coding's low implementation cost makes following a vibe shift genuinely tempting — and sometimes the right call.
+
+**In practice** — You're building a fantasy RPG, ask the AI for a side quest idea, and it generates something so compelling in a post-apocalyptic direction that your whole team agrees to pivot. That's a vibe shift.
+
+**See also** → Vibe-Coding, Playable Prototype, Technical Debt
+
+---
+
+### Slop
+`[CULTURE]` · 🟢 Beginner
+
+Community term for AI-generated content that is technically functional but creatively empty — generic enemy names, flat dialogue, cookie-cutter level layouts, and asset designs that feel like placeholders rather than intentional choices. The primary creative risk of vibe-coding. Slop passes the bar for "working" but fails the bar for "worth playing."
+
+**In practice** — Your dungeon has rooms named "Cave Room 1," "Cave Room 2," and enemies called "Dark Warrior." Functional? Yes. Memorable? No. That's slop. The fix isn't less AI — it's more specific prompting and stronger creative direction from you.
+
+**See also** → Hallucination, Human-in-the-Loop, Prompt Engineering, Vibe-Coded Game
+
+---
+
+## 🤖 AI Models & Infrastructure
+
+---
+
+### LLM (Large Language Model)
+`[CONCEPT]` · 🟢 Beginner
+
+The class of AI model that powers virtually every vibe-coding and game AI tool in use today. Trained on massive datasets of text and code, LLMs generate human-readable and machine-executable outputs from natural language inputs. Claude, GPT-4, Gemini, and Llama are all LLMs. You don't need to understand how they work — but you need to understand their limits: they predict likely outputs, not correct ones.
+
+**In practice** — Every time Cursor suggests code, every time Rosebud generates a mechanic, every time Claude writes dialogue — an LLM is doing the work. Understanding that they're prediction engines (not logic engines) helps you use them more effectively.
+
+**See also** → Context Window, Hallucination, Fine-Tuning, Temperature
+
+---
+
+### AI Agent
+`[CONCEPT]` · 🟡 Intermediate
+
+An AI system that executes multi-step tasks autonomously — searching, writing code, running tests, reading results, and adjusting — without a human prompt between each step. In game development, agents can handle full feature implementation cycles: read the spec, write the code, run tests, fix errors, and report back when done.
+
+**In practice** — You describe a new save system and start a coffee break. The agent reads your existing codebase, writes the save/load implementation, adds error handling, writes unit tests, fixes the two failures, and pings you with a summary.
+
+**See also** → Agentic Workflow, Model Context Protocol, Human-in-the-Loop
+
+---
+
+### Agentic Workflow
+`[WORKFLOW]` · 🟡 Intermediate
+
+A development pipeline where AI agents chain tasks sequentially or in parallel to achieve complex goals with minimal human interruption. The developer defines the goal and the guardrails; the agent handles execution. Represents the next level beyond prompt-response vibe-coding — where you manage outcomes, not individual prompts.
+
+**In practice** — "Build and test the crafting system from section 4 of the GDD" — and the agent reads the doc, implements the system, runs it, debugs the failures, and surfaces a working build for you to review.
+
+**See also** → AI Agent, Model Context Protocol, Human-in-the-Loop
+
+---
+
+### Context Window
+`[CONCEPT]` · 🟡 Intermediate
+
+The maximum volume of text — code, conversation, documentation — that an AI model can read and reason about in one session. Think of it as the AI's working memory. Hit the limit and it "forgets" earlier parts of the conversation. For game developers, this matters most when working with large codebases or long design documents.
+
+**In practice** — Pasting your 5,000-line game manager into a model with a small context window means it can only see part of the file. Use models with large context windows (Claude, GPT-4o) when you need the AI to reason across your entire codebase.
+
+**See also** → LLM, Hallucination, RAG
+
+---
+
+### RAG (Retrieval-Augmented Generation)
+`[CONCEPT]` · 🔴 Advanced
+
+A technique where an AI is dynamically fed relevant external information — documentation, codebase snippets, design docs — at the moment of a query, instead of relying solely on its training data. Prevents hallucinated API calls and keeps AI output grounded in your actual game's architecture.
+
+**In practice** — Your custom game engine has unique systems. RAG lets an AI query your engine docs in real time before generating code, ensuring it uses your actual function names and patterns instead of inventing plausible-sounding ones.
+
+**See also** → Grounding, Hallucination, Context Window
+
+---
+
+### Fine-Tuning
+`[CONCEPT]` · 🔴 Advanced
+
+Training a base AI model further on a curated dataset specific to your domain — your game's code style, lore bible, dialogue samples, or art direction — so it produces outputs that fit your project without needing exhaustive prompting every time. High effort upfront, major quality payoff at scale.
+
+**In practice** — Fine-tune a model on 200 examples of your game's NPC dialogue and it starts generating on-brand character voice without you having to describe the tone every session.
+
+**See also** → LoRA, LLM, NPC Dialogue Generation
+
+---
+
+### System Prompt
+`[CONCEPT]` · 🟡 Intermediate
+
+The hidden instruction set loaded before a conversation begins, defining the AI's role, rules, output format, and constraints. In game development tools, system prompts shape whether an AI acts as a game designer, a code reviewer, a lore keeper, or a playtester. You can write your own when using AI APIs directly.
+
+**In practice** — A system prompt that says "You are a senior Unity developer who only writes clean, commented C# code using SOLID principles" dramatically improves code quality compared to prompting a default assistant.
+
+**See also** → Prompt Engineering, LLM, Agentic Workflow
+
+---
+
+### Chain-of-Thought (CoT)
+`[WORKFLOW]` · 🟡 Intermediate
+
+A prompting technique where you instruct the AI to reason step-by-step before producing its final output. For complex game logic — combat formulas, AI state machines, economy balancing — CoT dramatically reduces errors by forcing the model to work through the problem before committing to an answer.
+
+**In practice** — Instead of "calculate damage output for this weapon configuration," write "think through the damage formula step by step, then output the final C# function." The reasoning pass catches edge cases that direct generation misses.
+
+**See also** → Prompt Engineering, Debugging Loop, Hallucination
+
+---
+
+### Temperature
+`[CONCEPT]` · 🟡 Intermediate
+
+A parameter (typically 0.0 to 1.0) that controls how random or deterministic an AI's outputs are. Low temperature = consistent, predictable code. High temperature = creative, varied, sometimes surprising output. The right setting depends entirely on what you're generating.
+
+**In practice** — Use low temperature (0.1–0.3) when generating game logic, combat systems, or anything that needs to be correct. Use higher temperature (0.7–0.9) when generating NPC names, item flavor text, or environmental descriptions where variety is valuable.
+
+**See also** → LLM, NPC Dialogue Generation, Procedural Generation
+
+---
+
+### Token
+`[CONCEPT]` · 🟡 Intermediate
+
+The atomic unit an LLM processes — roughly 0.75 words on average. Token limits determine how much content you can send and receive per request, and directly affect API cost. Understanding tokens helps you work within context limits and control costs when building AI-powered game systems at scale.
+
+**In practice** — A 10,000-word game design document is roughly 13,000 tokens. Know your model's context limit before pasting documents or you'll hit the wall mid-analysis.
+
+**See also** → Context Window, LLM, Fine-Tuning
+
+---
+
+### Grounding
+`[CONCEPT]` · 🟡 Intermediate
+
+Anchoring AI outputs to verified, real references — your actual codebase, your engine's documentation, your game's design rules — to reduce hallucinated function names, invented APIs, and plausible-but-wrong implementations. Grounding is the professional discipline of vibe-coding.
+
+**In practice** — Before asking an AI to write Godot-specific code, paste the relevant Godot docs into the prompt. The AI writes against real APIs instead of confidently inventing methods that don't exist.
+
+**See also** → RAG, Hallucination, Context Window
+
+---
+
+### Multimodal Input
+`[CONCEPT]` · 🟡 Intermediate
+
+The ability to provide an AI with multiple input types simultaneously — images, text, audio, sketches, screenshots — and have it reason across all of them. For game developers, this means you can sketch a level layout and ask the AI to code it, or screenshot a UI and ask it to be rebuilt.
+
+**In practice** — Take a photo of a whiteboard sketch of your game's level layout and ask Claude to generate a JSON tilemap representation of it. Sketch-to-data in one step.
+
+**See also** → LLM, Spec-to-Code, Level Design Automation
+
+---
+
+### Model Context Protocol (MCP)
+`[CONCEPT]` · 🔴 Advanced
+
+An open standard that allows AI agents to securely connect to and interact with external tools, APIs, file systems, and services. For game studios, MCP enables AI agents to read your codebase, write files, query databases, call game APIs, and interface with your existing toolchain — all within a governed, auditable framework.
+
+**In practice** — An MCP-enabled agent can open your Unity project files, read the current game state, implement a requested feature, run tests, and commit the diff — all without you switching context.
+
+**See also** → AI Agent, Agentic Workflow, Copilot Mode
+
+---
+
+### Copilot Mode
+`[WORKFLOW]` · 🟢 Beginner
+
+IDE-integrated AI assistance that provides real-time inline code suggestions as you type, without switching to a chat interface. In game development, copilot mode handles the high-frequency, low-stakes work: filling in function bodies, completing repetitive patterns, suggesting variable names — freeing your focus for architecture and design.
+
+**In practice** — Start typing a Unity coroutine for a fade-to-black transition and the AI completes the full implementation before you've typed the method signature. Accept with Tab, move on.
+
+**See also** → Cursor, AI Pair Programming, Code Completion
+
+---
+
+### LoRA (Low-Rank Adaptation)
+`[CONCEPT]` · 🔴 Advanced
+
+A lightweight fine-tuning technique that trains a small set of additional model weights rather than retraining the entire model. For game devs generating visual assets, LoRAs are used to train custom art styles — your game's specific character design language, environment aesthetic, or UI style — and apply them consistently across all generated assets.
+
+**In practice** — Train a LoRA on 50 screenshots of your game's art style. Now every AI-generated sprite, background, and UI element matches your visual identity without hand-correcting each one.
+
+**See also** → Fine-Tuning, Generative Assets, ComfyUI
+
+---
+
+## 🕹️ Game Systems & Design
+
+---
+
+### Procedural Generation
+`[CONCEPT]` · 🟡 Intermediate
+
+Using algorithms to create game content — levels, items, dialogue, quests, weather, enemy configurations — at runtime rather than by hand. AI dramatically expands what's possible: instead of rule-based generators producing repetitive output, LLM-powered generation can create contextually coherent, narratively consistent content on demand.
+
+**In practice** — Instead of hand-crafting 50 side quests, you design a generation system that takes player history, faction reputation, and current location as inputs and produces contextually appropriate quests via LLM at runtime.
+
+**See also** → Dynamic Narrative, Level Design Automation, AI Director
+
+---
+
+### Game Design Document (GDD)
+`[WORKFLOW]` · 🟢 Beginner
+
+A structured document defining a game's mechanics, story, systems, and art direction. In a vibe-coding workflow, the GDD serves double duty: it's both a planning tool and a prompt source. A well-written GDD section can be pasted directly into an AI and converted into working code. The better your GDD, the better your AI output.
+
+**In practice** — Write your GDD in a format that's also good for prompting: specific, structured, with clear behavior descriptions. "When the player enters a new zone, the ambient music crossfades over 2 seconds to the zone theme" is better than "ambient music changes per zone."
+
+**See also** → Spec-to-Code, Prompt Engineering, Intent-Driven Development
+
+---
+
+### Behavior Tree
+`[CONCEPT]` · 🟡 Intermediate
+
+A hierarchical structure defining how an NPC or enemy makes decisions — when to patrol, when to attack, when to retreat, when to call for help. Traditionally written by hand, behavior trees are now frequently scaffolded by AI from plain-language enemy descriptions, then refined by the developer.
+
+**In practice** — Describe your boss enemy's combat phases in plain language. The AI generates a behavior tree structure; you review it, adjust transition conditions, and wire it to your animation system.
+
+**See also** → NPC Dialogue Generation, Pathfinding AI, AI Director
+
+---
+
+### Pathfinding AI
+`[CONCEPT]` · 🟡 Intermediate
+
+Algorithms that calculate how characters navigate a game world — avoiding obstacles, finding shortest paths, handling dynamic environments. Standard implementations (A*, NavMesh) are well understood by LLMs and can be generated quickly. More complex systems (hierarchical pathfinding, multi-agent coordination) benefit from AI-assisted design and debugging.
+
+**In practice** — Ask an AI to implement A* pathfinding for a grid-based game with diagonal movement and variable movement costs. Working implementation in minutes rather than hours of research.
+
+**See also** → Behavior Tree, Procedural Generation, Physics Simulation AI
+
+---
+
+### Adaptive Difficulty
+`[CONCEPT]` · 🟡 Intermediate
+
+Systems that automatically adjust game challenge based on real-time player performance data — death rate, completion time, accuracy, resource levels. AI can both implement these systems and help calibrate the curves. Reduces the design burden of difficulty balancing and improves player retention.
+
+**In practice** — Track the player's last five deaths per zone. If they die more than three times, the AI system reduces enemy health by 10% and increases ammo drops. Describe this in plain language; an AI implements the system logic.
+
+**See also** → Playtesting AI, Dynamic Narrative, Game Loop
+
+---
+
+### NPC Dialogue Generation
+`[CONCEPT]` · 🟡 Intermediate
+
+Using LLMs to write character dialogue — either statically (generated during development) or dynamically (generated at runtime in response to player input). Static generation dramatically speeds up content creation. Dynamic generation creates characters that feel genuinely responsive, at the cost of consistency control.
+
+**In practice** — Define a shopkeeper's personality, backstory, and knowledge scope in a system prompt. Players can ask them anything about the game world and get contextually appropriate, in-character responses without you scripting every exchange.
+
+**See also** → Few-Shot Prompting, Dynamic Narrative, Fine-Tuning
+
+---
+
+### Level Design Automation
+`[WORKFLOW]` · 🟡 Intermediate
+
+Using AI to generate game environments — room layouts, terrain features, obstacle placement, enemy distribution, pacing structures. AI-assisted level design works best as a starting point that humans then tune, rather than final output. It excels at generating volume quickly; human judgment applies quality and intentionality.
+
+**In practice** — Ask an AI to generate 10 dungeon room layouts with specified enemy counts and chest placements in your map format. Review them in 20 minutes and select the five worth developing further.
+
+**See also** → Procedural Generation, Generative Assets, Spec-to-Code
+
+---
+
+### Game Loop
+`[CONCEPT]` · 🟢 Beginner
+
+The core execution cycle of any game: read input → update game state → render frame → repeat. Understanding the game loop is prerequisite knowledge for game development; it's also one of the most reliably generated structures in AI-assisted scaffolding. Ask any vibe-coding tool to start a game and it will build the loop first.
+
+**In practice** — Any time you start a new game project with AI assistance, the first scaffold output will be a working game loop. Review it to understand how the AI has structured your project before building on top of it.
+
+**See also** → Scaffolding, Hot Reload, Debugging Loop
+
+---
+
+### Emergent Gameplay
+`[CONCEPT]` · 🔴 Advanced
+
+Complex, unscripted player behaviors that arise from the interaction of well-designed AI systems rather than scripted events. The design goal is building systems that produce surprising but coherent play — something increasingly achievable when LLMs can design and simulate AI behaviors at speed.
+
+**In practice** — Your enemies use stealth, flanking, and retreat behaviors independently. Players discover that leading enemies through environmental hazards is an unplanned but legitimate strategy. That's emergence — and you couldn't have scripted it.
+
+**See also** → Behavior Tree, AI Director, Procedural Generation
+
+---
+
+### Dynamic Narrative
+`[CONCEPT]` · 🔴 Advanced
+
+Storylines that adapt, branch, and evolve based on player decisions, using AI to generate contextually coherent narrative developments rather than pre-authored branching trees. Represents a significant leap from traditional narrative design — effectively giving every player a unique story.
+
+**In practice** — A player who consistently allies with a faction receives contextually generated rumours, NPC reactions, and quest opportunities that a hostile player never sees — all written by an LLM at runtime from a narrative state model.
+
+**See also** → NPC Dialogue Generation, Procedural Generation, Emergent Gameplay
+
+---
+
+### AI Director
+`[CONCEPT]` · 🔴 Advanced
+
+A meta-layer AI system that monitors player experience in real time and orchestrates pacing, tension, and events to maintain engagement. First pioneered in *Left 4 Dead*, where an AI managed enemy spawning to keep intensity at optimal levels. Now implementable via LLM reasoning at a fraction of the original engineering cost.
+
+**In practice** — Your AI Director tracks player heart rate (via peripheral), death frequency, and time since last combat encounter. It dynamically adjusts enemy density and timing to maintain the tension curve your design document specifies.
+
+**See also** → Adaptive Difficulty, Behavior Tree, Emergent Gameplay
+
+---
+
+### Generative Assets
+`[CONCEPT]` · 🟡 Intermediate
+
+AI-produced art, audio, animation, or 3D models used directly in a shipped game. No longer just for prototyping — generative assets are appearing in commercial releases, especially for environmental textures, ambient audio, and supporting characters. Requires careful quality control and legal awareness.
+
+**In practice** — Generate 200 variations of ambient forest sounds using an AI audio tool. Hand-select the 20 that match your game's tone. You've created a full ambient audio library in an afternoon rather than a week.
+
+**See also** → ComfyUI, LoRA, AI Licensing Ambiguity, Vibe-Coded Game
+
+---
+
+### Shader Generation
+`[WORKFLOW]` · 🔴 Advanced
+
+Using AI to write GLSL or HLSL shader code from plain-language visual descriptions. Shaders are notoriously difficult to write from scratch; AI dramatically lowers the barrier for indie developers to implement complex visual effects that would otherwise require a specialist.
+
+**In practice** — "Write a GLSL fragment shader that creates a scanline CRT effect with screen curvature and chromatic aberration on the edges." Working shader code from a sentence, ready to drop into Unity's shader graph.
+
+**See also** → Generative Assets, Scaffolding, Spec-to-Code
+
+---
+
+### Physics Simulation AI
+`[CONCEPT]` · 🔴 Advanced
+
+Machine learning models that approximate complex physics — cloth simulation, fluid dynamics, structural destruction, soft bodies — at a fraction of the CPU/GPU cost of traditional physics engines. Increasingly relevant as game worlds become more dynamic and player expectations around physical realism increase.
+
+**In practice** — Instead of running full SPH fluid simulation for your game's water effects, use a trained neural physics model that produces visually convincing results at 10% of the compute cost.
+
+**See also** → Generative Assets, Level Design Automation, Emergent Gameplay
+
+---
+
+### Playtesting AI
+`[WORKFLOW]` · 🟡 Intermediate
+
+Autonomous AI bots that play through your game repeatedly, faster than any human QA team, to surface bugs, balance issues, stuck points, and inaccessible content. Catches classes of problems — edge cases in pathfinding, numerical exploits, progression dead ends — that human testers rarely encounter by chance.
+
+**In practice** — Run playtesting AI agents through your roguelike's generation system overnight. By morning you have a report showing which room configurations cause the player to get permanently stuck and which weapon combinations trivialize the mid-game.
+
+**See also** → Debugging Loop, Regression Testing, Adaptive Difficulty
+
+---
+
+## ⚙️ Dev Pipeline & Workflow
+
+---
+
+### Debugging Loop
+`[WORKFLOW]` · 🟢 Beginner
+
+The iterative cycle of feeding AI error messages, stack traces, and unexpected behaviors to receive corrective code and explanations. In a vibe-coding workflow, this replaces solo debugging sessions. The AI has seen millions of similar errors and can often identify the root cause faster than stepping through code line by line.
+
+**In practice** — Your Unity build throws a NullReferenceException at runtime. Paste the full stack trace into your AI tool and describe what you were doing. In most cases it identifies the uninitialized reference and the fix in one response.
+
+**See also** → Iterative Prompting, Code Review Automation, Regression Testing
+
+---
+
+### Code Review Automation
+`[WORKFLOW]` · 🟡 Intermediate
+
+Using AI to analyze code for bugs, anti-patterns, security issues, and logic errors before or during human review. Particularly valuable in vibe-coding pipelines where AI-generated code may contain subtle issues that humans miss because the code looks confident and well-structured.
+
+**In practice** — Before merging any AI-generated gameplay system, paste it into your AI tool with the prompt: "Review this code for bugs, edge cases, and performance issues in the context of a game loop running at 60fps." It catches what both you and the original generation missed.
+
+**See also** → Debugging Loop, Regression Testing, Human-in-the-Loop
+
+---
+
+### Hot Reload
+`[CONCEPT]` · 🟢 Beginner
+
+The ability to apply code changes to a running game without stopping and restarting the build. When combined with vibe-coding's rapid iteration speed, hot reload creates a tight feedback loop — generate, apply, observe, adjust — that compresses the iteration cycle dramatically.
+
+**In practice** — Adjust your enemy's patrol radius mid-playtest without killing the session. The change applies instantly and you watch the behavior update in real time — then prompt for another adjustment and repeat.
+
+**See also** → Iterative Prompting, Sandbox Environment, Game Loop
+
+---
+
+### Sandbox Environment
+`[WORKFLOW]` · 🟡 Intermediate
+
+An isolated runtime for safely testing AI-generated code before integrating it into your main game project. Because AI can generate confident-looking code that contains subtle bugs or incompatibilities, a sandbox catches problems before they corrupt your main build.
+
+**In practice** — AI generates a new save system. You test it in a throwaway project first — verifying it saves, loads, handles corrupt files, and doesn't clobber existing data — before touching your main game.
+
+**See also** → Regression Testing, Debugging Loop, Human-in-the-Loop
+
+---
+
+### Linter / Static Analysis
+`[WORKFLOW]` · 🟡 Intermediate
+
+Automated tools that scan code for syntax errors, style violations, and potential bugs without running it. Essential in AI-assisted pipelines because AI-generated code can look clean while containing subtle issues — type mismatches, unused variables, performance anti-patterns — that a linter catches instantly.
+
+**In practice** — Run every AI-generated script through ESLint or Roslyn analyzers before adding it to your project. This adds 30 seconds and catches the 10% of AI output that looks right but isn't.
+
+**See also** → Code Review Automation, Regression Testing, Debugging Loop
+
+---
+
+### Regression Testing
+`[WORKFLOW]` · 🟡 Intermediate
+
+Automated tests that verify existing features still work correctly after new code is added. Critical in vibe-coding workflows where rapid iteration means changes are frequent and inter-system dependencies can break silently. AI can both generate tests and run them as part of an agentic pipeline.
+
+**In practice** — Ask your AI to write unit tests for your combat system before starting a major refactor. After the refactor, run the tests. If they all pass, you know you haven't broken anything the combat system touches.
+
+**See also** → Debugging Loop, Sandbox Environment, Code Review Automation
+
+---
+
+### Human-in-the-Loop
+`[WORKFLOW]` · 🟢 Beginner
+
+A workflow principle where a human reviews, validates, and approves AI outputs before they are committed to the project. The antidote to pure vibe-coding without quality control. For game development, this means treating AI as a fast first-drafter, not a final authority — you always make the last call.
+
+**In practice** — Your AI agent generates three new enemy attack patterns overnight. You review all three the next morning, select one, modify another, and discard the third. The AI saved you implementation time; your judgment saved the game's quality.
+
+**See also** → Code Review Automation, Slop, Agentic Workflow, Vibe-Coded Game
+
+---
+
+### Code Completion
+`[WORKFLOW]` · 🟢 Beginner
+
+AI automatically suggesting or completing code as you type — finishing function bodies, filling in parameters, completing repetitive patterns. The most ubiquitous form of AI assistance in coding, available in virtually every modern IDE with AI integration.
+
+**In practice** — You type the beginning of a serialization function for your save system and the AI fills in the rest of the implementation based on your method name and the class structure it can see. Accept, move on.
+
+**See also** → Copilot Mode, AI Pair Programming, Cursor
+
+---
+
+## 🌐 Culture, Community & Business
+
+---
+
+### Game Jam
+`[CULTURE]` · 🟢 Beginner
+
+A time-constrained game creation event — typically 48 to 72 hours — where developers build a complete game from scratch. Vibe-coding has transformed game jams: teams that previously needed a programmer, designer, and artist now compete with a solo developer using AI. The minimum viable team has shrunk to one.
+
+**In practice** — At a 48-hour jam, your AI generates the core mechanics in hour one, levels in hours two and three, UI in hour four. You spend the remaining 44 hours polishing, playtesting, and adding the creative details that make your game memorable.
+
+**See also** → Playable Prototype, Solo Dev, Scaffolding, Vibe-Coded Game
+
+---
+
+### AI-Assisted Game Jam
+`[CULTURE]` · 🟢 Beginner
+
+A game jam format that explicitly permits and encourages AI tools — image generators, LLMs, AI sound tools — as first-class development instruments. Distinct from traditional jams where AI use is restricted or contested. Creating new competitive categories and raising questions about what "made by humans" means in game development.
+
+**In practice** — In an AI-assisted jam, your workflow might be: generate concept art with Midjourney, scaffold mechanics with Cursor, write dialogue with Claude, produce audio with a generative music tool — and still spend most of your time on design decisions.
+
+**See also** → Game Jam, Vibe-Coding, Generative Assets, Vibe-Coded Game
+
+---
+
+### Solo Dev
+`[CULTURE]` · 🟢 Beginner
+
+A single developer building and shipping a complete game independently. Previously a heroic undertaking requiring years and mastery of every discipline. AI assistance has made solo dev increasingly viable — one person can now produce what previously required a small team by leaning on AI for implementation, asset generation, and content creation.
+
+**In practice** — A solo dev with strong design instincts and a clear creative vision can ship a polished commercial game by using AI to handle the technical implementation they don't specialize in — collision systems, shader effects, save states — while focusing their energy on the core experience.
+
+**See also** → Vibe-Coding, Playable Prototype, Generative Assets, Vibe-Coded Game
+
+---
+
+### Playable Prototype
+`[CONCEPT]` · 🟢 Beginner
+
+A minimal, functional build demonstrating the core loop of a game concept — enough to play, test, and evaluate whether the idea is worth developing further. With AI scaffolding, a playable prototype can go from idea to testable in hours rather than days, dramatically accelerating the validate-or-kill decision.
+
+**In practice** — Have an idea for a mechanic at 9am. Scaffold it with an AI tool, implement the core loop, and have 10 people playtesting by 2pm. If it's not fun in the prototype, it won't be fun in the full game. Cut it and start the next idea.
+
+**See also** → Scaffolding, Game Jam, Spec-to-Code, Vibe-Coded Game
+
+---
+
+### Technical Debt
+`[CAUTION]` · 🟡 Intermediate
+
+Accumulated shortcuts, unoptimized AI-generated code, and deferred refactoring that progressively slows development velocity. Vibe-coding creates technical debt faster than traditional development because the AI prioritizes working code over clean code. Ignoring it is fine for prototypes; it becomes a serious problem in production builds.
+
+**In practice** — Your game's inventory system was generated in 20 minutes and works fine for the prototype. For production, the AI wrote it without separation of concerns — the UI, data model, and game logic are tangled together. Untangling it is technical debt you'll pay eventually.
+
+**See also** → Code Review Automation, Regression Testing, Human-in-the-Loop, Vibe-Coded Game
+
+---
+
+## ⚠️ Risks, Quality & Ownership
+
+---
+
+### Hallucination
+`[CAUTION]` · 🟢 Beginner
+
+When an AI generates output that is confidently wrong — plausible-sounding function names that don't exist, API methods that were never real, logic that looks correct but is subtly broken. The AI doesn't know it's wrong; it produces hallucinations with the same confident tone as correct outputs. The most important failure mode for every vibe-coder to understand.
+
+**In practice** — An AI generates a Unity call to `Physics.RaycastFromCharacter()` — a method that doesn't exist in any version of the Unity API. It compiles-ish, fails at runtime, and you waste an hour figuring out why. Test every AI-generated API call.
+
+**See also** → Grounding, RAG, Debugging Loop, Human-in-the-Loop, Vibe-Coded Game
+
+---
+
+### AI Licensing Ambiguity
+`[CAUTION]` · 🔴 Advanced
+
+Unresolved legal questions surrounding IP ownership of AI-generated game content — code, art, audio, and narrative. Current legal precedent is evolving rapidly and varies by jurisdiction. Using AI-generated assets in a commercial release carries risk you should understand before you ship.
+
+**In practice** — Before releasing a commercial game with AI-generated art, understand what training data your chosen tools used, what their terms of service say about commercial use, and whether your jurisdiction has relevant case law. "The AI made it" is not a legal defense.
+
+**See also** → Generative Assets, Fine-Tuning, Human-in-the-Loop, Vibe-Coded Game
+
+---
+
+### Determinism
+`[CONCEPT]` · 🔴 Advanced
+
+The property of a system producing identical outputs given identical inputs, every time, across every execution environment. Critical for multiplayer games (both clients must simulate the same world), replay systems (the recording must recreate the original session), and any system where reproducibility matters. AI-generated code frequently introduces non-determinism inadvertently.
+
+**In practice** — Your AI-generated combat system uses `Random.Range()` calls that aren't seeded correctly. Two clients running the same simulation diverge after 30 seconds, causing desync. Review all AI-generated randomness for determinism compliance.
+
+**See also** → Regression Testing, Debugging Loop, Physics Simulation AI, Vibe-Coded Game
+
+---
+
+### Overfitting
+`[CAUTION]` · 🔴 Advanced
+
+When a fine-tuned AI model becomes so specialized on its training examples that it fails to generalize to new situations. In game development, an overfitted dialogue model might only produce responses that closely mirror the training samples, making every NPC sound like a variant of the same character.
+
+**In practice** — You fine-tune a model on your game's dialogue but accidentally use only the main character's lines. The model now writes every NPC in the protagonist's voice. Diversity in training data prevents overfitting.
+
+**See also** → Fine-Tuning, NPC Dialogue Generation, LLM
+
+---
+
+## Alphabetical Index
+
+Adaptive Difficulty · AI Agent · AI Director · AI-Assisted Game Jam · AI Licensing Ambiguity · AI Pair Programming · Agentic Workflow · Behavior Tree · Bolt · Chain-of-Thought · Claude · Code Completion · Code Review Automation · ComfyUI · Context Window · Copilot Mode · Cursor · Debugging Loop · Determinism · Dynamic Narrative · Emergent Gameplay · Few-Shot Prompting · Fine-Tuning · Game Design Document · Game Jam · Game Loop · Generative Assets · Grounding · Hallucination · Hot Reload · Human-in-the-Loop · Intent-Driven Development · Iterative Prompting · Level Design Automation · Linter / Static Analysis · LLM · LoRA · Lovable · Model Context Protocol · Multimodal Input · Natural Language Programming · NPC Dialogue Generation · Overfitting · Pathfinding AI · Physics Simulation AI · Playable Prototype · Playtesting AI · Procedural Generation · Prompt Engineering · Prompt Library · RAG · Regression Testing · Replit · Rosebud AI · Sandbox Environment · Scaffolding · Shader Generation · Slop · Solo Dev · Spec-to-Code · System Prompt · Technical Debt · Temperature · Token · Verse8 · Vibe-Coded Game · Vibe-Coding · Vibe Shift · Zero-Shot Generation
+
+    </article>
+  </div>
+</section>
+<GlossaryInteractions />

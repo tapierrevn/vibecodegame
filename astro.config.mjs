@@ -15,6 +15,7 @@ export default defineConfig({
   redirects: {
     '/games': '/vibe-coded-games',
     '/games/[slug]': '/vibe-coded-games/[slug]',
+    '/glossary': '/game-vibe-coding-glossary',
   },
 
   env: {

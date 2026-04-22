@@ -1,5 +1,19 @@
 ---
-import GlossaryPage from './glossary.mdx';
+import PageLayout from '@/layouts/PageLayout.astro';
+import GlossaryContent from '@/components/glossary/GlossaryContent.mdx';
+import glossaryOgImage from '@/assets/glossary/vibecodeGlossary.png';
+
+const title = 'Game Vibe-Coding Glossary: 66 AI Terms for Developers';
+const description =
+  'Learn 66 essential vibe-coding and AI game development terms across tools, workflows, models, systems, and quality risks.';
 ---
 
-<GlossaryPage />
+<PageLayout
+  title={title}
+  description={description}
+  image={glossaryOgImage.src}
+  imageAlt="The definitive glossary for game vibe-coding"
+  fillViewport={false}
+>
+  <GlossaryContent />
+</PageLayout>

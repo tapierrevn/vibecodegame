@@ -55,15 +55,15 @@ const authors = defineCollection({
     }),
 });
 
-// FAQs collection (for JSON-LD FAQ schema)
+// FAQs collection (FAQ landing page + JSON-LD)
 const faqs = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './src/content/faqs' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/faqs' }),
   schema: z.object({
     question: z.string(),
-    answer: z.string(),
-    category: z.string().optional(),
     order: z.number().default(0),
     locale: z.enum(['en', 'es', 'fr']).default('en'),
+    category: z.string().optional(),
+    relatedTerms: z.array(z.string()).optional(),
   }),
 });
 

@@ -21,7 +21,10 @@ import siteConfig from '@/config/site.config';
 > 66 terms · 7 categories · Written for practitioners, not spectators
 
 <div class="not-prose my-6">
-  <ShareButtons title="Game Vibe-Coding Glossary: 66 AI Terms for Developers" url={`${siteConfig.url}/glossary`} />
+  <ShareButtons
+    title="Game Vibe-Coding Glossary: 66 AI Terms for Developers"
+    url={`${siteConfig.url.replace(/\/$/, '')}/game-vibe-coding-glossary`}
+  />
 </div>
 
 ---
@@ -857,6 +860,32 @@ When a fine-tuned AI model becomes so specialized on its training examples that 
 Adaptive Difficulty · AI Agent · AI Director · AI-Assisted Game Jam · AI Licensing Ambiguity · AI Pair Programming · Agentic Workflow · Behavior Tree · Bolt · Chain-of-Thought · Claude · Code Completion · Code Review Automation · ComfyUI · Context Window · Copilot Mode · Cursor · Debugging Loop · Determinism · Dynamic Narrative · Emergent Gameplay · Few-Shot Prompting · Fine-Tuning · Game Design Document · Game Jam · Game Loop · Generative Assets · Grounding · Hallucination · Hot Reload · Human-in-the-Loop · Intent-Driven Development · Iterative Prompting · Level Design Automation · Linter / Static Analysis · LLM · LoRA · Lovable · Model Context Protocol · Multimodal Input · Natural Language Programming · NPC Dialogue Generation · Overfitting · Pathfinding AI · Physics Simulation AI · Playable Prototype · Playtesting AI · Procedural Generation · Prompt Engineering · Prompt Library · RAG · Regression Testing · Replit · Rosebud AI · Sandbox Environment · Scaffolding · Shader Generation · Slop · Solo Dev · Spec-to-Code · System Prompt · Technical Debt · Temperature · Token · Verse8 · Vibe-Coded Game · Vibe-Coding · Vibe Shift · Zero-Shot Generation
 
     </article>
+
+    <footer class="not-prose border-border mt-12 border-t pt-8">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <a
+          href="/"
+          class="text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+        >
+          <svg
+            class="h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to home page
+        </a>
+        <ShareButtons
+          title="Game Vibe-Coding Glossary: 66 AI Terms for Developers"
+          url={`${siteConfig.url.replace(/\/$/, '')}/game-vibe-coding-glossary`}
+        />
+      </div>
+    </footer>
   </div>
 </section>
 <GlossaryInteractions />

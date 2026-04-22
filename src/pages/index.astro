@@ -142,6 +142,71 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
     </div>
   </section>
 
+  <section
+    class="relative z-10 border-t border-border bg-background-secondary py-[var(--space-section-md)]"
+    aria-labelledby="home-faq-cta-heading"
+  >
+    <div class="relative mx-auto max-w-6xl px-6" data-reveal>
+      <div
+        class="home-faq-glass relative mx-auto max-w-2xl overflow-hidden rounded-3xl border border-border/50 bg-background/55 px-8 py-10 shadow-[0_4px_24px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.04] ring-inset backdrop-blur-xl backdrop-saturate-150 transition-shadow duration-300 ease-out motion-safe:hover:shadow-[0_8px_32px_rgba(0,0,0,0.09)] md:px-12 md:py-14 dark:border-white/[0.1] dark:bg-white/[0.05] dark:shadow-[0_4px_28px_rgba(0,0,0,0.35)] dark:ring-white/[0.06] dark:motion-safe:hover:shadow-[0_10px_36px_rgba(0,0,0,0.42)]"
+      >
+        <div
+          class="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-brand-500/[0.04] via-transparent to-transparent dark:from-brand-400/[0.06]"
+          aria-hidden="true"
+        />
+        <div
+          class="pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-gradient-to-r from-transparent via-black/[0.08] to-transparent dark:via-white/20"
+          aria-hidden="true"
+        />
+        <div
+          class="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-px bg-gradient-to-r from-transparent via-black/[0.04] to-transparent dark:via-white/[0.06]"
+          aria-hidden="true"
+        />
+        <div class="relative z-10 flex flex-col items-center gap-6 text-center">
+          <Badge variant="brand" pill>New to game vibe-coding?</Badge>
+          <h2
+            id="home-faq-cta-heading"
+            class="font-display text-3xl font-bold text-foreground text-balance md:text-4xl"
+          >
+            Questions about vibe-coded games?
+          </h2>
+          <p class="text-lg leading-relaxed text-foreground-muted text-balance">
+            Get plain-language answers on tools, jams, quality, risks, and how AI-assisted game dev actually works —
+            all in one place.
+          </p>
+          <Button size="lg" href="/faq">
+            Read the FAQ
+            <Icon name="arrow-right" size="sm" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Premium glass: micro-noise (feTurbulence), no extra assets */
+    .home-faq-glass::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0.045;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    :global(html.dark) .home-faq-glass::after {
+      opacity: 0.07;
+      mix-blend-mode: soft-light;
+    }
+    @media (prefers-reduced-transparency: reduce) {
+      .home-faq-glass::after {
+        opacity: 0.02;
+      }
+    }
+  </style>
+
   <section class="relative z-10 py-[var(--space-section-md)] bg-background border-t border-border">
     <div class="mx-auto max-w-6xl px-6 flex flex-col gap-8">
       <div class="flex items-end justify-between" data-reveal>

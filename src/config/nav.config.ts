@@ -38,6 +38,13 @@ export const navItems: NavItem[] = [
     showInHeader: false,
     showInFooter: true,
   },
+  {
+    label: 'FAQ',
+    href: '/faq',
+    order: 7,
+    showInHeader: false,
+    showInFooter: true,
+  },
 ];
 
 /**

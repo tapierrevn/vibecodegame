@@ -1,0 +1,119 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Badge from '@/components/ui/data-display/Badge/Badge.astro';
+import { getCollection, render } from 'astro:content';
+import { cn } from '@/lib/cn';
+import { accordionItemVariants, accordionTriggerVariants } from '@/components/ui/overlay/Accordion/accordion.variants';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import RelatedTerms from '@/components/faq/RelatedTerms.astro';
+import ShareButtons from '@/components/blog/ShareButtons.astro';
+import siteConfig from '@/config/site.config';
+import { createFAQSchema } from '@/lib/schema';
+import { faqAnswerPlain } from '@/lib/faq-plain';
+
+const pageTitle = 'Vibe-Coded Games FAQ — AI Game Development Q&A';
+const pageDescription =
+  'Answers for gamers and developers: what vibe-coding is, how to build and play vibe-coded games, tools, jams, quality, risks, and more.';
+
+const faqEntries = (await getCollection('faqs', ({ data }) => data.locale === 'en')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const rendered = await Promise.all(
+  faqEntries.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  })
+);
+
+const faqSchema = createFAQSchema(
+  faqEntries.map((e) => ({
+    question: e.data.question,
+    answer: faqAnswerPlain(e.body ?? ''),
+  }))
+);
+
+const faqShareUrl = `${siteConfig.url.replace(/\/$/, '')}/faq`;
+---
+
+<PageLayout title={pageTitle} description={pageDescription} fillViewport={false}>
+  <JsonLd schema={faqSchema} />
+
+  <section class="py-[var(--space-section-md)] bg-background border-b border-border">
+    <div class="mx-auto max-w-3xl px-6 flex flex-col gap-8">
+      <div class="flex flex-col gap-6 text-center" data-reveal>
+        <Badge variant="brand" pill class="self-center">FAQ</Badge>
+        <h1 class="font-display text-3xl md:text-4xl font-bold text-foreground text-balance">
+          Vibe-coded games — complete FAQ
+        </h1>
+        <p class="text-lg text-foreground-muted text-balance leading-relaxed">
+          For gamers and developers interested in AI game development — concepts, tools, where to play, jams, quality,
+          and risks.
+        </p>
+      </div>
+
+      <div class="w-full [&>details:last-child]:border-b-0" data-reveal data-reveal-delay="1">
+        {
+          rendered.map(({ entry, Content }) => (
+            <details class={cn(accordionItemVariants({ variant: 'default' }))} name="vibe-faq">
+              <summary
+                class={cn(
+                  accordionTriggerVariants({ size: 'md' }),
+                  'cursor-pointer list-none [&::-webkit-details-marker]:hidden'
+                )}
+              >
+                {entry.data.question}
+                <Icon
+                  name="chevron-down"
+                  size="sm"
+                  class="faq-chevron shrink-0 text-foreground-muted transition-transform duration-200"
+                />
+              </summary>
+              <div
+                class={cn(
+                  'prose prose-sm max-w-none pb-6 text-foreground-muted leading-relaxed',
+                  'prose-headings:font-display prose-headings:text-foreground prose-strong:text-foreground'
+                )}
+              >
+                <Content />
+                {entry.data.relatedTerms && entry.data.relatedTerms.length > 0 && (
+                  <RelatedTerms terms={entry.data.relatedTerms} />
+                )}
+              </div>
+            </details>
+          ))
+        }
+      </div>
+
+      <footer class="border-border mt-12 w-full border-t pt-8">
+        <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <a
+            href="/"
+            class="text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+          >
+            <svg
+              class="h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Back to home page
+          </a>
+          <ShareButtons title={pageTitle} url={faqShareUrl} />
+        </div>
+      </footer>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  details[open] > summary .faq-chevron {
+    transform: rotate(180deg);
+  }
+</style>

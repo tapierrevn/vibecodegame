@@ -1,0 +1,91 @@
+---
+/**
+ * Pill links to glossary term anchors (same visual language as glossary “See also” tags).
+ */
+import { GLOSSARY_PAGE_PATH, glossaryTermAnchorId } from '@/lib/glossary-anchors';
+
+interface Props {
+  terms: string[];
+}
+
+const { terms } = Astro.props;
+---
+
+{
+  terms.length > 0 && (
+    <div class="not-prose faq-related-terms mt-4 flex flex-wrap items-center gap-2">
+      <span class="faq-related-terms-label">Related terms</span>
+      {terms.map((raw) => {
+        const label = raw.trim();
+        if (!label) return null;
+        const href = `${GLOSSARY_PAGE_PATH}#${glossaryTermAnchorId(label)}`;
+        return (
+          <a
+            href={href}
+            class="faq-related-term-pill"
+            data-glossary-term-id={glossaryTermAnchorId(label)}
+          >
+            {label}
+          </a>
+        );
+      })}
+    </div>
+  )
+}
+
+<style>
+  .faq-related-terms-label {
+    color: var(--color-foreground-muted, #9ca3af);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-right: 0.25rem;
+  }
+
+  .faq-related-term-pill {
+    display: inline-block;
+    border: 1px solid var(--color-border, #374151);
+    background: var(--color-background-secondary, #111827);
+    color: var(--color-brand-500, #6366f1);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.55rem;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .faq-related-term-pill:hover {
+    border-color: var(--color-brand-500, #6366f1);
+    background: color-mix(in srgb, var(--color-brand-500, #6366f1) 14%, transparent);
+    text-decoration: none;
+    color: var(--color-brand-500, #6366f1);
+  }
+</style>
+
+<script>
+  import { GLOSSARY_HASH_STORAGE_KEY } from '@/lib/glossary-anchors';
+
+  function armFaqGlossaryPills() {
+    document.querySelectorAll<HTMLAnchorElement>('a.faq-related-term-pill[data-glossary-term-id]').forEach((anchor) => {
+      if (anchor.dataset.glossaryPillArmed === 'true') return;
+      anchor.dataset.glossaryPillArmed = 'true';
+      anchor.addEventListener('click', () => {
+        const id = anchor.getAttribute('data-glossary-term-id');
+        if (id) {
+          try {
+            sessionStorage.setItem(GLOSSARY_HASH_STORAGE_KEY, id);
+          } catch {
+            /* private mode / quota */
+          }
+        }
+      });
+    });
+  }
+
+  armFaqGlossaryPills();
+  document.addEventListener('astro:page-load', armFaqGlossaryPills);
+</script>

@@ -1,0 +1,3398 @@
+# Vibecode.game — llms-full.txt
+
+> Auto-generated at build time. Do not edit by hand.
+> Single-file corpus of primary English MD/MDX sources. MDX may contain JSX/HTML fragments.
+
+Generated (UTC): 2026-04-22T19:09:54.476Z
+Canonical site: https://www.vibecode.game
+Index file: https://www.vibecode.game/llms.txt
+
+
+================================================================================
+## Glossary (full)
+URL: https://www.vibecode.game/game-vibe-coding-glossary
+Source: src/components/glossary/GlossaryContent.mdx
+================================================================================
+
+<section class="py-[var(--space-section-md)]">
+  <div class="mx-auto max-w-4xl px-6">
+    <article class="prose prose-lg max-w-none" data-glossary-root>
+
+# THE DEFINITIVE VIBE-CODING GLOSSARY
+### For Game Developers Building with AI
+
+> **Version 1.0 — April 2026**
+> 66 terms · 7 categories · Written for practitioners, not spectators
+
+<div class="not-prose my-6">
+  <ShareButtons
+    title="Game Vibe-Coding Glossary: 66 AI Terms for Developers"
+    url={`${siteConfig.url.replace(/\/$/, '')}/game-vibe-coding-glossary`}
+  />
+</div>
+
+---
+
+## A Note on Why This Exists
+
+Most AI glossaries are written for generalists. This one is written for **game developers** — people who want to ship levels, not just learn buzzwords. Every definition here is filtered through a single question: *"What does this mean when you're actually trying to build a game?"*
+
+Terms are tagged by **type** and **level**:
+
+| Tag | Meaning |
+|---|---|
+| `[TOOL]` | A specific platform, app, or IDE you can open right now |
+| `[CONCEPT]` | A fundamental idea that shapes how you think and work |
+| `[WORKFLOW]` | A technique or process you apply inside a dev session |
+| `[CULTURE]` | Slang, community norms, or industry context |
+| `[CAUTION]` | A risk, failure mode, or thing that can quietly kill your project |
+
+| Level | Meaning |
+|---|---|
+| 🟢 Beginner | You need this on day one |
+| 🟡 Intermediate | Comes up once you're past the basics |
+| 🔴 Advanced | Matters when you're scaling, shipping, or going deep |
+
+<div id="glossary-category-console" class="my-6 flex flex-wrap items-center gap-2"></div>
+
+## 🛠️ Tools & Platforms
+
+---
+
+### [Bolt](https://bolt.new)
+`[TOOL]` · 🟢 Beginner
+
+A browser-based AI development environment by StackBlitz. You describe what you want to build, and Bolt writes, runs, and previews the code — all inside the browser, with zero local setup. Ideal for getting a game UI, landing page, or web-based prototype live in under an hour.
+
+Website: [bolt.new](https://bolt.new)
+
+**In practice** — Describe your game's main menu layout to Bolt, and it generates a fully functional HTML/CSS/JS version you can iterate on immediately without touching your local environment.
+
+**See also** → Lovable, Replit, Scaffolding, Vibe-Coding
+
+---
+
+### [Claude](https://claude.ai)
+`[TOOL]` · 🟢 Beginner
+
+An AI assistant by Anthropic. Among game developers, Claude is valued for its ability to reason over long, complex documents — making it well-suited for drafting and iterating on Game Design Documents, writing NPC dialogue systems, debugging logic errors, and designing game economies. Its large context window means you can paste an entire codebase and ask it to reason across the whole thing.
+
+Website: [claude.ai](https://claude.ai)
+
+**In practice** — Paste your entire enemy behavior system and ask Claude to identify why the aggro logic breaks at range. It reads the full file and pinpoints the issue in seconds.
+
+**See also** → Cursor, LLM, Context Window, NPC Dialogue Generation
+
+---
+
+### [ComfyUI](https://www.comfy.org/)
+`[TOOL]` · 🟡 Intermediate
+
+A node-based visual workflow tool for running AI image generation models (Stable Diffusion, FLUX, etc.) locally on your own hardware. Game devs use it to generate sprites, concept art, environment textures, and character portraits without paying per-image API fees. Requires a GPU with sufficient VRAM.
+
+Website: [comfy.org](https://www.comfy.org/)
+
+**In practice** — Build a ComfyUI pipeline that takes a text prompt and outputs tilesheet-ready sprites at a fixed resolution with consistent art style, using a LoRA trained on your game's visual identity.
+
+**See also** → Generative Assets, LoRA, Fine-Tuning
+
+---
+
+### [Cursor](https://cursor.com)
+`[TOOL]` · 🟢 Beginner
+
+A code editor forked from VS Code with deep LLM integration baked in. Unlike copy-pasting between a chat window and your editor, Cursor understands your full codebase — you can ask it to refactor a system, explain why something is broken, or implement a feature across multiple files at once. The most widely adopted dedicated vibe-coding IDE as of 2026.
+
+Website: [cursor.com](https://cursor.com)
+
+**In practice** — Select your entire collision detection module, press Cmd+K, and type "add coyote time to the jump logic." Cursor rewrites the relevant lines in context without touching anything else.
+
+**See also** → Copilot Mode, AI Pair Programming, Vibe-Coding
+
+---
+
+### [Lovable](https://lovable.dev)
+`[TOOL]` · 🟢 Beginner
+
+An AI-powered full-stack builder that converts natural language descriptions into deployed web apps. Targets non-developers and designers who want to ship without writing code. For game developers, it's most useful for quickly building companion web apps — leaderboards, lore wikis, game landing pages, or internal tools.
+
+Website: [lovable.dev](https://lovable.dev)
+
+**In practice** — Describe your game's leaderboard with player stats and match history. Lovable generates a fully styled, database-backed web app you can deploy the same day.
+
+**See also** → Bolt, Replit, Scaffolding
+
+---
+
+### [Replit](https://replit.com)
+`[TOOL]` · 🟢 Beginner
+
+A cloud-based IDE with a built-in AI agent (Replit Agent) that builds and deploys apps from plain language instructions. No local setup, no configuration. Excellent for fast game jam prototypes, browser-based mini-games, and educational game projects where portability and shareability matter more than performance.
+
+Website: [replit.com](https://replit.com)
+
+**In practice** — At hour one of a 48-hour game jam, you open Replit, describe a 2D top-down shooter mechanic, and have a working prototype running in the browser before your teammates finish their coffee.
+
+**See also** → Bolt, Game Jam, Playable Prototype
+
+---
+
+### [Rosebud AI](https://rosebud.ai)
+`[TOOL]` · 🟢 Beginner
+
+An AI-native game development platform built specifically around the vibe-coding paradigm. You describe game mechanics, characters, and worlds in plain language, and Rosebud generates playable game logic and assets in real time. One of the few tools purpose-built for game creation rather than general software development.
+
+Website: [rosebud.ai](https://rosebud.ai)
+
+**In practice** — Describe a wave-based survival game set in a neon city and Rosebud scaffolds the enemy spawning system, player movement, and basic UI — all from a paragraph of text.
+
+**See also** → Vibe-Coding, Generative Assets, Spec-to-Code
+
+---
+
+### [Verse8](https://verse8.io)
+`[TOOL]` · 🟡 Intermediate
+
+An emerging AI-assisted creative development platform focused on game and interactive experience creation. Targets developers who want to use generative AI throughout the creative pipeline — from ideation to playable build — with a workflow designed around rapid creative iteration.
+
+Website: [verse8.io](https://verse8.io)
+
+**In practice** — Use Verse8 to rapidly cycle through game concept variations during pre-production, generating playable micro-prototypes of each direction before committing to a full build.
+
+**See also** → Vibe-Coding, Playable Prototype, Iterative Prompting
+
+---
+
+## 🧠 Vibe-Coding Core Concepts
+
+---
+
+### Vibe-Coding
+`[CONCEPT]` · 🟢 Beginner
+
+The practice of building software — including games — by describing what you want in natural language and letting AI write the implementation. You steer the creative and product direction; the AI handles syntax, boilerplate, and structure. Coined and popularized in 2025, it represents a fundamental shift in who can build games and how fast.
+
+**In practice** — Instead of spending three hours writing a inventory system from scratch, you describe it to an AI in two sentences, get a working draft in 30 seconds, and spend the next hour refining behavior rather than writing syntax.
+
+**See also** → Prompt Engineering, Intent-Driven Development, Scaffolding, Vibe-Coded Game
+
+---
+
+### Vibe-Coded Game
+
+A game that was built primarily through natural language direction to AI tools, where the developer's core contribution is creative vision, design judgment, and iterative guidance — rather than manual code authoring. A vibe-coded game isn't defined by the absence of a developer; it's defined by a fundamental shift in what that developer actually does. They curate, direct, and refine rather than write and debug line by line.
+
+The term is descriptive, not derogatory. A vibe-coded game can be just as polished, original, and intentional as a traditionally built one — the difference is in the process, not the output. What separates a great vibe-coded game from slop is the quality of the creative direction behind the prompts.
+
+**In practice** — You ship a roguelike dungeon crawler where the movement system, enemy AI, procedural level logic, and UI were all scaffolded and iterated via AI prompts over a single weekend. You wrote very little code by hand, but every mechanic reflects deliberate design decisions you made. That's a vibe-coded game.
+
+**See also** → Vibe-Coding, Solo Dev, Slop, Human-in-the-Loop, Playable Prototype
+
+---
+
+### Prompt Engineering
+`[WORKFLOW]` · 🟢 Beginner
+
+The craft of writing instructions that reliably produce the output you actually want from an AI. In game development, poor prompts get you generic boilerplate. Strong prompts — specific about context, constraints, format, and desired behavior — get you production-ready code or compelling game content on the first try.
+
+**In practice** — Instead of "write enemy AI," write: "Write a Unity C# script for a melee enemy that patrols between waypoints, enters chase state when the player is within 8 units, and retreats when health drops below 25%. Use a state machine pattern."
+
+**See also** → System Prompt, Few-Shot Prompting, Chain-of-Thought, Iterative Prompting
+
+---
+
+### Intent-Driven Development
+`[CONCEPT]` · 🟢 Beginner
+
+A development philosophy where you define *what* a system should do, not *how* to implement it. You describe outcomes; the AI proposes architecture. For game developers, this removes the barrier between having a design vision and having a working prototype — you think like a designer and the AI thinks like an engineer.
+
+**In practice** — "I want enemies to feel threatening without being unfair — they should telegraph attacks one second before they land." The AI figures out the animation flag, hitbox timing, and audio cue system to make that happen.
+
+**See also** → Vibe-Coding, Spec-to-Code, Natural Language Programming, Vibe-Coded Game
+
+---
+
+### Natural Language Programming
+`[CONCEPT]` · 🟢 Beginner
+
+Writing software by describing its behavior in plain human language rather than formal code syntax. The AI acts as a compiler between your intent and executable logic. For game devs, this means game designers who aren't programmers can now directly contribute to systems implementation.
+
+**In practice** — A narrative designer writes "When the player enters the throne room for the first time, the king looks up, pauses, and says a randomized line from this list" — and that becomes working game code.
+
+**See also** → Vibe-Coding, Intent-Driven Development, NPC Dialogue Generation, Vibe-Coded Game
+
+---
+
+### AI Pair Programming
+`[WORKFLOW]` · 🟢 Beginner
+
+Working with an AI model as an active, real-time coding collaborator. You maintain creative and architectural control; the AI handles syntax lookups, boilerplate generation, and implementation suggestions. The mental model is a junior developer who types at superhuman speed but needs you to make the important decisions.
+
+**In practice** — You design a damage formula for your RPG out loud in the chat, the AI implements it, you test it, you ask it to rebalance the numbers, it revises — three iterations in five minutes.
+
+**See also** → Copilot Mode, Cursor, Iterative Prompting
+
+---
+
+### Iterative Prompting
+`[WORKFLOW]` · 🟢 Beginner
+
+Refining AI outputs through a series of increasingly specific follow-up prompts rather than trying to get everything right in one shot. The first prompt establishes structure; subsequent prompts refine details, fix edge cases, and improve quality. This is the normal working rhythm of vibe-coding — not a fallback for when things go wrong.
+
+**In practice** — Prompt 1: "Build a basic inventory grid." Prompt 2: "Add drag-and-drop between slots." Prompt 3: "If a weapon slot receives a non-weapon item, reject it and play an error sound." Each prompt builds on a working foundation.
+
+**See also** → Debugging Loop, Prompt Engineering, Scaffolding
+
+---
+
+### Zero-Shot Generation
+`[WORKFLOW]` · 🟡 Intermediate
+
+Asking an AI to generate code or content from scratch with no examples — relying entirely on its training knowledge. Works well for common patterns (basic movement, UI elements, standard AI behaviors). Falls short on game-specific or unconventional systems where examples would sharpen the output.
+
+**In practice** — Asking an AI to generate a jump mechanic zero-shot works reliably. Asking it to generate the specific combo timing system your fighting game uses zero-shot will likely produce something generic.
+
+**See also** → Few-Shot Prompting, Hallucination, Prompt Engineering
+
+---
+
+### Few-Shot Prompting
+`[WORKFLOW]` · 🟡 Intermediate
+
+Providing 1–3 concrete examples inside your prompt to show the AI the pattern, format, or style you want before asking it to generate more. Dramatically improves output quality for game-specific content — dialogue with a consistent character voice, item descriptions with a specific tone, or level data in a custom format.
+
+**In practice** — Provide three sample enemy stat blocks in your game's exact JSON format, then ask the AI to generate fifteen more. The output matches your schema precisely because it learned the pattern from your examples.
+
+**See also** → Zero-Shot Generation, Prompt Engineering, NPC Dialogue Generation
+
+---
+
+### Scaffolding
+`[WORKFLOW]` · 🟢 Beginner
+
+Using AI to instantly generate a project's skeleton — folder structure, base classes, configuration files, and boilerplate code — before writing any real game logic. Eliminates the blank-page problem and hours of repetitive setup. In game development, this means going from "new project" to "working game loop" in minutes.
+
+**In practice** — Ask an AI to scaffold a Unity project with a GameManager, SceneLoader, PlayerController, and basic audio system. Four scripts, properly linked, in 90 seconds.
+
+**See also** → Spec-to-Code, Hot Reload, Game Loop, Vibe-Coded Game
+
+---
+
+### Spec-to-Code
+`[WORKFLOW]` · 🟡 Intermediate
+
+Transforming a written game specification — a GDD section, a feature brief, or even a casual design note — directly into functional code. The quality of the output is directly proportional to the specificity of the spec. Vague specs produce generic code; precise specs produce production-ready systems.
+
+**In practice** — Paste the "Combat System" section of your GDD into Cursor and ask it to implement the damage model. The AI reads the design intent and produces code that matches your design rather than a generic RPG formula.
+
+**See also** → Game Design Document, Intent-Driven Development, Prompt Engineering, Vibe-Coded Game
+
+---
+
+### Prompt Library
+`[WORKFLOW]` · 🟡 Intermediate
+
+A curated, reusable collection of prompts that consistently produce high-quality outputs for recurring game development tasks. Think of it as a recipe book for your AI workflow. Senior teams maintain prompt libraries the way they maintain code libraries — as shared infrastructure that improves everyone's output quality.
+
+**In practice** — Your prompt library has a tested entry for "generate a loot table for [zone] with [rarity distribution]" that your whole team uses, ensuring consistent format and quality across all designers.
+
+**See also** → Prompt Engineering, Few-Shot Prompting, Iterative Prompting
+
+---
+
+### Vibe Shift
+`[CULTURE]` · 🟢 Beginner
+
+Community slang for a mid-build pivot in creative direction, often sparked by an unexpectedly strong AI-generated idea. Where traditional development resists scope changes, vibe-coding's low implementation cost makes following a vibe shift genuinely tempting — and sometimes the right call.
+
+**In practice** — You're building a fantasy RPG, ask the AI for a side quest idea, and it generates something so compelling in a post-apocalyptic direction that your whole team agrees to pivot. That's a vibe shift.
+
+**See also** → Vibe-Coding, Playable Prototype, Technical Debt
+
+---
+
+### Slop
+`[CULTURE]` · 🟢 Beginner
+
+Community term for AI-generated content that is technically functional but creatively empty — generic enemy names, flat dialogue, cookie-cutter level layouts, and asset designs that feel like placeholders rather than intentional choices. The primary creative risk of vibe-coding. Slop passes the bar for "working" but fails the bar for "worth playing."
+
+**In practice** — Your dungeon has rooms named "Cave Room 1," "Cave Room 2," and enemies called "Dark Warrior." Functional? Yes. Memorable? No. That's slop. The fix isn't less AI — it's more specific prompting and stronger creative direction from you.
+
+**See also** → Hallucination, Human-in-the-Loop, Prompt Engineering, Vibe-Coded Game
+
+---
+
+## 🤖 AI Models & Infrastructure
+
+---
+
+### LLM (Large Language Model)
+`[CONCEPT]` · 🟢 Beginner
+
+The class of AI model that powers virtually every vibe-coding and game AI tool in use today. Trained on massive datasets of text and code, LLMs generate human-readable and machine-executable outputs from natural language inputs. Claude, GPT-4, Gemini, and Llama are all LLMs. You don't need to understand how they work — but you need to understand their limits: they predict likely outputs, not correct ones.
+
+**In practice** — Every time Cursor suggests code, every time Rosebud generates a mechanic, every time Claude writes dialogue — an LLM is doing the work. Understanding that they're prediction engines (not logic engines) helps you use them more effectively.
+
+**See also** → Context Window, Hallucination, Fine-Tuning, Temperature
+
+---
+
+### AI Agent
+`[CONCEPT]` · 🟡 Intermediate
+
+An AI system that executes multi-step tasks autonomously — searching, writing code, running tests, reading results, and adjusting — without a human prompt between each step. In game development, agents can handle full feature implementation cycles: read the spec, write the code, run tests, fix errors, and report back when done.
+
+**In practice** — You describe a new save system and start a coffee break. The agent reads your existing codebase, writes the save/load implementation, adds error handling, writes unit tests, fixes the two failures, and pings you with a summary.
+
+**See also** → Agentic Workflow, Model Context Protocol, Human-in-the-Loop
+
+---
+
+### Agentic Workflow
+`[WORKFLOW]` · 🟡 Intermediate
+
+A development pipeline where AI agents chain tasks sequentially or in parallel to achieve complex goals with minimal human interruption. The developer defines the goal and the guardrails; the agent handles execution. Represents the next level beyond prompt-response vibe-coding — where you manage outcomes, not individual prompts.
+
+**In practice** — "Build and test the crafting system from section 4 of the GDD" — and the agent reads the doc, implements the system, runs it, debugs the failures, and surfaces a working build for you to review.
+
+**See also** → AI Agent, Model Context Protocol, Human-in-the-Loop
+
+---
+
+### Context Window
+`[CONCEPT]` · 🟡 Intermediate
+
+The maximum volume of text — code, conversation, documentation — that an AI model can read and reason about in one session. Think of it as the AI's working memory. Hit the limit and it "forgets" earlier parts of the conversation. For game developers, this matters most when working with large codebases or long design documents.
+
+**In practice** — Pasting your 5,000-line game manager into a model with a small context window means it can only see part of the file. Use models with large context windows (Claude, GPT-4o) when you need the AI to reason across your entire codebase.
+
+**See also** → LLM, Hallucination, RAG
+
+---
+
+### RAG (Retrieval-Augmented Generation)
+`[CONCEPT]` · 🔴 Advanced
+
+A technique where an AI is dynamically fed relevant external information — documentation, codebase snippets, design docs — at the moment of a query, instead of relying solely on its training data. Prevents hallucinated API calls and keeps AI output grounded in your actual game's architecture.
+
+**In practice** — Your custom game engine has unique systems. RAG lets an AI query your engine docs in real time before generating code, ensuring it uses your actual function names and patterns instead of inventing plausible-sounding ones.
+
+**See also** → Grounding, Hallucination, Context Window
+
+---
+
+### Fine-Tuning
+`[CONCEPT]` · 🔴 Advanced
+
+Training a base AI model further on a curated dataset specific to your domain — your game's code style, lore bible, dialogue samples, or art direction — so it produces outputs that fit your project without needing exhaustive prompting every time. High effort upfront, major quality payoff at scale.
+
+**In practice** — Fine-tune a model on 200 examples of your game's NPC dialogue and it starts generating on-brand character voice without you having to describe the tone every session.
+
+**See also** → LoRA, LLM, NPC Dialogue Generation
+
+---
+
+### System Prompt
+`[CONCEPT]` · 🟡 Intermediate
+
+The hidden instruction set loaded before a conversation begins, defining the AI's role, rules, output format, and constraints. In game development tools, system prompts shape whether an AI acts as a game designer, a code reviewer, a lore keeper, or a playtester. You can write your own when using AI APIs directly.
+
+**In practice** — A system prompt that says "You are a senior Unity developer who only writes clean, commented C# code using SOLID principles" dramatically improves code quality compared to prompting a default assistant.
+
+**See also** → Prompt Engineering, LLM, Agentic Workflow
+
+---
+
+### Chain-of-Thought (CoT)
+`[WORKFLOW]` · 🟡 Intermediate
+
+A prompting technique where you instruct the AI to reason step-by-step before producing its final output. For complex game logic — combat formulas, AI state machines, economy balancing — CoT dramatically reduces errors by forcing the model to work through the problem before committing to an answer.
+
+**In practice** — Instead of "calculate damage output for this weapon configuration," write "think through the damage formula step by step, then output the final C# function." The reasoning pass catches edge cases that direct generation misses.
+
+**See also** → Prompt Engineering, Debugging Loop, Hallucination
+
+---
+
+### Temperature
+`[CONCEPT]` · 🟡 Intermediate
+
+A parameter (typically 0.0 to 1.0) that controls how random or deterministic an AI's outputs are. Low temperature = consistent, predictable code. High temperature = creative, varied, sometimes surprising output. The right setting depends entirely on what you're generating.
+
+**In practice** — Use low temperature (0.1–0.3) when generating game logic, combat systems, or anything that needs to be correct. Use higher temperature (0.7–0.9) when generating NPC names, item flavor text, or environmental descriptions where variety is valuable.
+
+**See also** → LLM, NPC Dialogue Generation, Procedural Generation
+
+---
+
+### Token
+`[CONCEPT]` · 🟡 Intermediate
+
+The atomic unit an LLM processes — roughly 0.75 words on average. Token limits determine how much content you can send and receive per request, and directly affect API cost. Understanding tokens helps you work within context limits and control costs when building AI-powered game systems at scale.
+
+**In practice** — A 10,000-word game design document is roughly 13,000 tokens. Know your model's context limit before pasting documents or you'll hit the wall mid-analysis.
+
+**See also** → Context Window, LLM, Fine-Tuning
+
+---
+
+### Grounding
+`[CONCEPT]` · 🟡 Intermediate
+
+Anchoring AI outputs to verified, real references — your actual codebase, your engine's documentation, your game's design rules — to reduce hallucinated function names, invented APIs, and plausible-but-wrong implementations. Grounding is the professional discipline of vibe-coding.
+
+**In practice** — Before asking an AI to write Godot-specific code, paste the relevant Godot docs into the prompt. The AI writes against real APIs instead of confidently inventing methods that don't exist.
+
+**See also** → RAG, Hallucination, Context Window
+
+---
+
+### Multimodal Input
+`[CONCEPT]` · 🟡 Intermediate
+
+The ability to provide an AI with multiple input types simultaneously — images, text, audio, sketches, screenshots — and have it reason across all of them. For game developers, this means you can sketch a level layout and ask the AI to code it, or screenshot a UI and ask it to be rebuilt.
+
+**In practice** — Take a photo of a whiteboard sketch of your game's level layout and ask Claude to generate a JSON tilemap representation of it. Sketch-to-data in one step.
+
+**See also** → LLM, Spec-to-Code, Level Design Automation
+
+---
+
+### Model Context Protocol (MCP)
+`[CONCEPT]` · 🔴 Advanced
+
+An open standard that allows AI agents to securely connect to and interact with external tools, APIs, file systems, and services. For game studios, MCP enables AI agents to read your codebase, write files, query databases, call game APIs, and interface with your existing toolchain — all within a governed, auditable framework.
+
+**In practice** — An MCP-enabled agent can open your Unity project files, read the current game state, implement a requested feature, run tests, and commit the diff — all without you switching context.
+
+**See also** → AI Agent, Agentic Workflow, Copilot Mode
+
+---
+
+### Copilot Mode
+`[WORKFLOW]` · 🟢 Beginner
+
+IDE-integrated AI assistance that provides real-time inline code suggestions as you type, without switching to a chat interface. In game development, copilot mode handles the high-frequency, low-stakes work: filling in function bodies, completing repetitive patterns, suggesting variable names — freeing your focus for architecture and design.
+
+**In practice** — Start typing a Unity coroutine for a fade-to-black transition and the AI completes the full implementation before you've typed the method signature. Accept with Tab, move on.
+
+**See also** → Cursor, AI Pair Programming, Code Completion
+
+---
+
+### LoRA (Low-Rank Adaptation)
+`[CONCEPT]` · 🔴 Advanced
+
+A lightweight fine-tuning technique that trains a small set of additional model weights rather than retraining the entire model. For game devs generating visual assets, LoRAs are used to train custom art styles — your game's specific character design language, environment aesthetic, or UI style — and apply them consistently across all generated assets.
+
+**In practice** — Train a LoRA on 50 screenshots of your game's art style. Now every AI-generated sprite, background, and UI element matches your visual identity without hand-correcting each one.
+
+**See also** → Fine-Tuning, Generative Assets, ComfyUI
+
+---
+
+## 🕹️ Game Systems & Design
+
+---
+
+### Procedural Generation
+`[CONCEPT]` · 🟡 Intermediate
+
+Using algorithms to create game content — levels, items, dialogue, quests, weather, enemy configurations — at runtime rather than by hand. AI dramatically expands what's possible: instead of rule-based generators producing repetitive output, LLM-powered generation can create contextually coherent, narratively consistent content on demand.
+
+**In practice** — Instead of hand-crafting 50 side quests, you design a generation system that takes player history, faction reputation, and current location as inputs and produces contextually appropriate quests via LLM at runtime.
+
+**See also** → Dynamic Narrative, Level Design Automation, AI Director
+
+---
+
+### Game Design Document (GDD)
+`[WORKFLOW]` · 🟢 Beginner
+
+A structured document defining a game's mechanics, story, systems, and art direction. In a vibe-coding workflow, the GDD serves double duty: it's both a planning tool and a prompt source. A well-written GDD section can be pasted directly into an AI and converted into working code. The better your GDD, the better your AI output.
+
+**In practice** — Write your GDD in a format that's also good for prompting: specific, structured, with clear behavior descriptions. "When the player enters a new zone, the ambient music crossfades over 2 seconds to the zone theme" is better than "ambient music changes per zone."
+
+**See also** → Spec-to-Code, Prompt Engineering, Intent-Driven Development
+
+---
+
+### Behavior Tree
+`[CONCEPT]` · 🟡 Intermediate
+
+A hierarchical structure defining how an NPC or enemy makes decisions — when to patrol, when to attack, when to retreat, when to call for help. Traditionally written by hand, behavior trees are now frequently scaffolded by AI from plain-language enemy descriptions, then refined by the developer.
+
+**In practice** — Describe your boss enemy's combat phases in plain language. The AI generates a behavior tree structure; you review it, adjust transition conditions, and wire it to your animation system.
+
+**See also** → NPC Dialogue Generation, Pathfinding AI, AI Director
+
+---
+
+### Pathfinding AI
+`[CONCEPT]` · 🟡 Intermediate
+
+Algorithms that calculate how characters navigate a game world — avoiding obstacles, finding shortest paths, handling dynamic environments. Standard implementations (A*, NavMesh) are well understood by LLMs and can be generated quickly. More complex systems (hierarchical pathfinding, multi-agent coordination) benefit from AI-assisted design and debugging.
+
+**In practice** — Ask an AI to implement A* pathfinding for a grid-based game with diagonal movement and variable movement costs. Working implementation in minutes rather than hours of research.
+
+**See also** → Behavior Tree, Procedural Generation, Physics Simulation AI
+
+---
+
+### Adaptive Difficulty
+`[CONCEPT]` · 🟡 Intermediate
+
+Systems that automatically adjust game challenge based on real-time player performance data — death rate, completion time, accuracy, resource levels. AI can both implement these systems and help calibrate the curves. Reduces the design burden of difficulty balancing and improves player retention.
+
+**In practice** — Track the player's last five deaths per zone. If they die more than three times, the AI system reduces enemy health by 10% and increases ammo drops. Describe this in plain language; an AI implements the system logic.
+
+**See also** → Playtesting AI, Dynamic Narrative, Game Loop
+
+---
+
+### NPC Dialogue Generation
+`[CONCEPT]` · 🟡 Intermediate
+
+Using LLMs to write character dialogue — either statically (generated during development) or dynamically (generated at runtime in response to player input). Static generation dramatically speeds up content creation. Dynamic generation creates characters that feel genuinely responsive, at the cost of consistency control.
+
+**In practice** — Define a shopkeeper's personality, backstory, and knowledge scope in a system prompt. Players can ask them anything about the game world and get contextually appropriate, in-character responses without you scripting every exchange.
+
+**See also** → Few-Shot Prompting, Dynamic Narrative, Fine-Tuning
+
+---
+
+### Level Design Automation
+`[WORKFLOW]` · 🟡 Intermediate
+
+Using AI to generate game environments — room layouts, terrain features, obstacle placement, enemy distribution, pacing structures. AI-assisted level design works best as a starting point that humans then tune, rather than final output. It excels at generating volume quickly; human judgment applies quality and intentionality.
+
+**In practice** — Ask an AI to generate 10 dungeon room layouts with specified enemy counts and chest placements in your map format. Review them in 20 minutes and select the five worth developing further.
+
+**See also** → Procedural Generation, Generative Assets, Spec-to-Code
+
+---
+
+### Game Loop
+`[CONCEPT]` · 🟢 Beginner
+
+The core execution cycle of any game: read input → update game state → render frame → repeat. Understanding the game loop is prerequisite knowledge for game development; it's also one of the most reliably generated structures in AI-assisted scaffolding. Ask any vibe-coding tool to start a game and it will build the loop first.
+
+**In practice** — Any time you start a new game project with AI assistance, the first scaffold output will be a working game loop. Review it to understand how the AI has structured your project before building on top of it.
+
+**See also** → Scaffolding, Hot Reload, Debugging Loop
+
+---
+
+### Emergent Gameplay
+`[CONCEPT]` · 🔴 Advanced
+
+Complex, unscripted player behaviors that arise from the interaction of well-designed AI systems rather than scripted events. The design goal is building systems that produce surprising but coherent play — something increasingly achievable when LLMs can design and simulate AI behaviors at speed.
+
+**In practice** — Your enemies use stealth, flanking, and retreat behaviors independently. Players discover that leading enemies through environmental hazards is an unplanned but legitimate strategy. That's emergence — and you couldn't have scripted it.
+
+**See also** → Behavior Tree, AI Director, Procedural Generation
+
+---
+
+### Dynamic Narrative
+`[CONCEPT]` · 🔴 Advanced
+
+Storylines that adapt, branch, and evolve based on player decisions, using AI to generate contextually coherent narrative developments rather than pre-authored branching trees. Represents a significant leap from traditional narrative design — effectively giving every player a unique story.
+
+**In practice** — A player who consistently allies with a faction receives contextually generated rumours, NPC reactions, and quest opportunities that a hostile player never sees — all written by an LLM at runtime from a narrative state model.
+
+**See also** → NPC Dialogue Generation, Procedural Generation, Emergent Gameplay
+
+---
+
+### AI Director
+`[CONCEPT]` · 🔴 Advanced
+
+A meta-layer AI system that monitors player experience in real time and orchestrates pacing, tension, and events to maintain engagement. First pioneered in *Left 4 Dead*, where an AI managed enemy spawning to keep intensity at optimal levels. Now implementable via LLM reasoning at a fraction of the original engineering cost.
+
+**In practice** — Your AI Director tracks player heart rate (via peripheral), death frequency, and time since last combat encounter. It dynamically adjusts enemy density and timing to maintain the tension curve your design document specifies.
+
+**See also** → Adaptive Difficulty, Behavior Tree, Emergent Gameplay
+
+---
+
+### Generative Assets
+`[CONCEPT]` · 🟡 Intermediate
+
+AI-produced art, audio, animation, or 3D models used directly in a shipped game. No longer just for prototyping — generative assets are appearing in commercial releases, especially for environmental textures, ambient audio, and supporting characters. Requires careful quality control and legal awareness.
+
+**In practice** — Generate 200 variations of ambient forest sounds using an AI audio tool. Hand-select the 20 that match your game's tone. You've created a full ambient audio library in an afternoon rather than a week.
+
+**See also** → ComfyUI, LoRA, AI Licensing Ambiguity, Vibe-Coded Game
+
+---
+
+### Shader Generation
+`[WORKFLOW]` · 🔴 Advanced
+
+Using AI to write GLSL or HLSL shader code from plain-language visual descriptions. Shaders are notoriously difficult to write from scratch; AI dramatically lowers the barrier for indie developers to implement complex visual effects that would otherwise require a specialist.
+
+**In practice** — "Write a GLSL fragment shader that creates a scanline CRT effect with screen curvature and chromatic aberration on the edges." Working shader code from a sentence, ready to drop into Unity's shader graph.
+
+**See also** → Generative Assets, Scaffolding, Spec-to-Code
+
+---
+
+### Physics Simulation AI
+`[CONCEPT]` · 🔴 Advanced
+
+Machine learning models that approximate complex physics — cloth simulation, fluid dynamics, structural destruction, soft bodies — at a fraction of the CPU/GPU cost of traditional physics engines. Increasingly relevant as game worlds become more dynamic and player expectations around physical realism increase.
+
+**In practice** — Instead of running full SPH fluid simulation for your game's water effects, use a trained neural physics model that produces visually convincing results at 10% of the compute cost.
+
+**See also** → Generative Assets, Level Design Automation, Emergent Gameplay
+
+---
+
+### Playtesting AI
+`[WORKFLOW]` · 🟡 Intermediate
+
+Autonomous AI bots that play through your game repeatedly, faster than any human QA team, to surface bugs, balance issues, stuck points, and inaccessible content. Catches classes of problems — edge cases in pathfinding, numerical exploits, progression dead ends — that human testers rarely encounter by chance.
+
+**In practice** — Run playtesting AI agents through your roguelike's generation system overnight. By morning you have a report showing which room configurations cause the player to get permanently stuck and which weapon combinations trivialize the mid-game.
+
+**See also** → Debugging Loop, Regression Testing, Adaptive Difficulty
+
+---
+
+## ⚙️ Dev Pipeline & Workflow
+
+---
+
+### Debugging Loop
+`[WORKFLOW]` · 🟢 Beginner
+
+The iterative cycle of feeding AI error messages, stack traces, and unexpected behaviors to receive corrective code and explanations. In a vibe-coding workflow, this replaces solo debugging sessions. The AI has seen millions of similar errors and can often identify the root cause faster than stepping through code line by line.
+
+**In practice** — Your Unity build throws a NullReferenceException at runtime. Paste the full stack trace into your AI tool and describe what you were doing. In most cases it identifies the uninitialized reference and the fix in one response.
+
+**See also** → Iterative Prompting, Code Review Automation, Regression Testing
+
+---
+
+### Code Review Automation
+`[WORKFLOW]` · 🟡 Intermediate
+
+Using AI to analyze code for bugs, anti-patterns, security issues, and logic errors before or during human review. Particularly valuable in vibe-coding pipelines where AI-generated code may contain subtle issues that humans miss because the code looks confident and well-structured.
+
+**In practice** — Before merging any AI-generated gameplay system, paste it into your AI tool with the prompt: "Review this code for bugs, edge cases, and performance issues in the context of a game loop running at 60fps." It catches what both you and the original generation missed.
+
+**See also** → Debugging Loop, Regression Testing, Human-in-the-Loop
+
+---
+
+### Hot Reload
+`[CONCEPT]` · 🟢 Beginner
+
+The ability to apply code changes to a running game without stopping and restarting the build. When combined with vibe-coding's rapid iteration speed, hot reload creates a tight feedback loop — generate, apply, observe, adjust — that compresses the iteration cycle dramatically.
+
+**In practice** — Adjust your enemy's patrol radius mid-playtest without killing the session. The change applies instantly and you watch the behavior update in real time — then prompt for another adjustment and repeat.
+
+**See also** → Iterative Prompting, Sandbox Environment, Game Loop
+
+---
+
+### Sandbox Environment
+`[WORKFLOW]` · 🟡 Intermediate
+
+An isolated runtime for safely testing AI-generated code before integrating it into your main game project. Because AI can generate confident-looking code that contains subtle bugs or incompatibilities, a sandbox catches problems before they corrupt your main build.
+
+**In practice** — AI generates a new save system. You test it in a throwaway project first — verifying it saves, loads, handles corrupt files, and doesn't clobber existing data — before touching your main game.
+
+**See also** → Regression Testing, Debugging Loop, Human-in-the-Loop
+
+---
+
+### Linter / Static Analysis
+`[WORKFLOW]` · 🟡 Intermediate
+
+Automated tools that scan code for syntax errors, style violations, and potential bugs without running it. Essential in AI-assisted pipelines because AI-generated code can look clean while containing subtle issues — type mismatches, unused variables, performance anti-patterns — that a linter catches instantly.
+
+**In practice** — Run every AI-generated script through ESLint or Roslyn analyzers before adding it to your project. This adds 30 seconds and catches the 10% of AI output that looks right but isn't.
+
+**See also** → Code Review Automation, Regression Testing, Debugging Loop
+
+---
+
+### Regression Testing
+`[WORKFLOW]` · 🟡 Intermediate
+
+Automated tests that verify existing features still work correctly after new code is added. Critical in vibe-coding workflows where rapid iteration means changes are frequent and inter-system dependencies can break silently. AI can both generate tests and run them as part of an agentic pipeline.
+
+**In practice** — Ask your AI to write unit tests for your combat system before starting a major refactor. After the refactor, run the tests. If they all pass, you know you haven't broken anything the combat system touches.
+
+**See also** → Debugging Loop, Sandbox Environment, Code Review Automation
+
+---
+
+### Human-in-the-Loop
+`[WORKFLOW]` · 🟢 Beginner
+
+A workflow principle where a human reviews, validates, and approves AI outputs before they are committed to the project. The antidote to pure vibe-coding without quality control. For game development, this means treating AI as a fast first-drafter, not a final authority — you always make the last call.
+
+**In practice** — Your AI agent generates three new enemy attack patterns overnight. You review all three the next morning, select one, modify another, and discard the third. The AI saved you implementation time; your judgment saved the game's quality.
+
+**See also** → Code Review Automation, Slop, Agentic Workflow, Vibe-Coded Game
+
+---
+
+### Code Completion
+`[WORKFLOW]` · 🟢 Beginner
+
+AI automatically suggesting or completing code as you type — finishing function bodies, filling in parameters, completing repetitive patterns. The most ubiquitous form of AI assistance in coding, available in virtually every modern IDE with AI integration.
+
+**In practice** — You type the beginning of a serialization function for your save system and the AI fills in the rest of the implementation based on your method name and the class structure it can see. Accept, move on.
+
+**See also** → Copilot Mode, AI Pair Programming, Cursor
+
+---
+
+## 🌐 Culture, Community & Business
+
+---
+
+### Game Jam
+`[CULTURE]` · 🟢 Beginner
+
+A time-constrained game creation event — typically 48 to 72 hours — where developers build a complete game from scratch. Vibe-coding has transformed game jams: teams that previously needed a programmer, designer, and artist now compete with a solo developer using AI. The minimum viable team has shrunk to one.
+
+**In practice** — At a 48-hour jam, your AI generates the core mechanics in hour one, levels in hours two and three, UI in hour four. You spend the remaining 44 hours polishing, playtesting, and adding the creative details that make your game memorable.
+
+**See also** → Playable Prototype, Solo Dev, Scaffolding, Vibe-Coded Game
+
+---
+
+### AI-Assisted Game Jam
+`[CULTURE]` · 🟢 Beginner
+
+A game jam format that explicitly permits and encourages AI tools — image generators, LLMs, AI sound tools — as first-class development instruments. Distinct from traditional jams where AI use is restricted or contested. Creating new competitive categories and raising questions about what "made by humans" means in game development.
+
+**In practice** — In an AI-assisted jam, your workflow might be: generate concept art with Midjourney, scaffold mechanics with Cursor, write dialogue with Claude, produce audio with a generative music tool — and still spend most of your time on design decisions.
+
+**See also** → Game Jam, Vibe-Coding, Generative Assets, Vibe-Coded Game
+
+---
+
+### Solo Dev
+`[CULTURE]` · 🟢 Beginner
+
+A single developer building and shipping a complete game independently. Previously a heroic undertaking requiring years and mastery of every discipline. AI assistance has made solo dev increasingly viable — one person can now produce what previously required a small team by leaning on AI for implementation, asset generation, and content creation.
+
+**In practice** — A solo dev with strong design instincts and a clear creative vision can ship a polished commercial game by using AI to handle the technical implementation they don't specialize in — collision systems, shader effects, save states — while focusing their energy on the core experience.
+
+**See also** → Vibe-Coding, Playable Prototype, Generative Assets, Vibe-Coded Game
+
+---
+
+### Playable Prototype
+`[CONCEPT]` · 🟢 Beginner
+
+A minimal, functional build demonstrating the core loop of a game concept — enough to play, test, and evaluate whether the idea is worth developing further. With AI scaffolding, a playable prototype can go from idea to testable in hours rather than days, dramatically accelerating the validate-or-kill decision.
+
+**In practice** — Have an idea for a mechanic at 9am. Scaffold it with an AI tool, implement the core loop, and have 10 people playtesting by 2pm. If it's not fun in the prototype, it won't be fun in the full game. Cut it and start the next idea.
+
+**See also** → Scaffolding, Game Jam, Spec-to-Code, Vibe-Coded Game
+
+---
+
+### Technical Debt
+`[CAUTION]` · 🟡 Intermediate
+
+Accumulated shortcuts, unoptimized AI-generated code, and deferred refactoring that progressively slows development velocity. Vibe-coding creates technical debt faster than traditional development because the AI prioritizes working code over clean code. Ignoring it is fine for prototypes; it becomes a serious problem in production builds.
+
+**In practice** — Your game's inventory system was generated in 20 minutes and works fine for the prototype. For production, the AI wrote it without separation of concerns — the UI, data model, and game logic are tangled together. Untangling it is technical debt you'll pay eventually.
+
+**See also** → Code Review Automation, Regression Testing, Human-in-the-Loop, Vibe-Coded Game
+
+---
+
+## ⚠️ Risks, Quality & Ownership
+
+---
+
+### Hallucination
+`[CAUTION]` · 🟢 Beginner
+
+When an AI generates output that is confidently wrong — plausible-sounding function names that don't exist, API methods that were never real, logic that looks correct but is subtly broken. The AI doesn't know it's wrong; it produces hallucinations with the same confident tone as correct outputs. The most important failure mode for every vibe-coder to understand.
+
+**In practice** — An AI generates a Unity call to `Physics.RaycastFromCharacter()` — a method that doesn't exist in any version of the Unity API. It compiles-ish, fails at runtime, and you waste an hour figuring out why. Test every AI-generated API call.
+
+**See also** → Grounding, RAG, Debugging Loop, Human-in-the-Loop, Vibe-Coded Game
+
+---
+
+### AI Licensing Ambiguity
+`[CAUTION]` · 🔴 Advanced
+
+Unresolved legal questions surrounding IP ownership of AI-generated game content — code, art, audio, and narrative. Current legal precedent is evolving rapidly and varies by jurisdiction. Using AI-generated assets in a commercial release carries risk you should understand before you ship.
+
+**In practice** — Before releasing a commercial game with AI-generated art, understand what training data your chosen tools used, what their terms of service say about commercial use, and whether your jurisdiction has relevant case law. "The AI made it" is not a legal defense.
+
+**See also** → Generative Assets, Fine-Tuning, Human-in-the-Loop, Vibe-Coded Game
+
+---
+
+### Determinism
+`[CONCEPT]` · 🔴 Advanced
+
+The property of a system producing identical outputs given identical inputs, every time, across every execution environment. Critical for multiplayer games (both clients must simulate the same world), replay systems (the recording must recreate the original session), and any system where reproducibility matters. AI-generated code frequently introduces non-determinism inadvertently.
+
+**In practice** — Your AI-generated combat system uses `Random.Range()` calls that aren't seeded correctly. Two clients running the same simulation diverge after 30 seconds, causing desync. Review all AI-generated randomness for determinism compliance.
+
+**See also** → Regression Testing, Debugging Loop, Physics Simulation AI, Vibe-Coded Game
+
+---
+
+### Overfitting
+`[CAUTION]` · 🔴 Advanced
+
+When a fine-tuned AI model becomes so specialized on its training examples that it fails to generalize to new situations. In game development, an overfitted dialogue model might only produce responses that closely mirror the training samples, making every NPC sound like a variant of the same character.
+
+**In practice** — You fine-tune a model on your game's dialogue but accidentally use only the main character's lines. The model now writes every NPC in the protagonist's voice. Diversity in training data prevents overfitting.
+
+**See also** → Fine-Tuning, NPC Dialogue Generation, LLM
+
+---
+
+## Alphabetical Index
+
+Adaptive Difficulty · AI Agent · AI Director · AI-Assisted Game Jam · AI Licensing Ambiguity · AI Pair Programming · Agentic Workflow · Behavior Tree · Bolt · Chain-of-Thought · Claude · Code Completion · Code Review Automation · ComfyUI · Context Window · Copilot Mode · Cursor · Debugging Loop · Determinism · Dynamic Narrative · Emergent Gameplay · Few-Shot Prompting · Fine-Tuning · Game Design Document · Game Jam · Game Loop · Generative Assets · Grounding · Hallucination · Hot Reload · Human-in-the-Loop · Intent-Driven Development · Iterative Prompting · Level Design Automation · Linter / Static Analysis · LLM · LoRA · Lovable · Model Context Protocol · Multimodal Input · Natural Language Programming · NPC Dialogue Generation · Overfitting · Pathfinding AI · Physics Simulation AI · Playable Prototype · Playtesting AI · Procedural Generation · Prompt Engineering · Prompt Library · RAG · Regression Testing · Replit · Rosebud AI · Sandbox Environment · Scaffolding · Shader Generation · Slop · Solo Dev · Spec-to-Code · System Prompt · Technical Debt · Temperature · Token · Verse8 · Vibe-Coded Game · Vibe-Coding · Vibe Shift · Zero-Shot Generation
+
+    </article>
+
+    <footer class="not-prose border-border mt-12 border-t pt-8">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <a
+          href="/"
+          class="text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+        >
+          <svg
+            class="h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to home page
+        </a>
+        <ShareButtons
+          title="Game Vibe-Coding Glossary: 66 AI Terms for Developers"
+          url={`${siteConfig.url.replace(/\/$/, '')}/game-vibe-coding-glossary`}
+        />
+      </div>
+    </footer>
+  </div>
+</section>
+<GlossaryInteractions />
+
+================================================================================
+## FAQ: What is vibe-coding in game development?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/01-what-is-vibe-coding.md
+================================================================================
+
+**Vibe-coding** is an AI-assisted development approach where you build software — including games — by describing what you want in plain language, and letting an AI write the implementation. Instead of manually writing every line of code, you direct the process through natural language prompts while the AI handles syntax, boilerplate, and structure.
+
+In game development specifically, vibe-coding means you can describe a game mechanic, an enemy behavior, a UI layout, or an entire game loop in plain English — and have a working prototype running in minutes. Tools like **Cursor**, **Rosebud AI**, **Bolt**, and **Replit** have made vibe-coding accessible to both experienced developers looking to accelerate their workflow and complete beginners building their first game.
+
+Vibe-coding doesn't remove the developer from the equation — it changes what the developer does. Instead of writing code, you're making creative decisions, directing AI outputs, and refining the result. The best vibe-coded games come from developers with strong creative vision, not from people who simply hand everything to an AI and accept the first output.
+
+================================================================================
+## FAQ: What are vibe-coded games?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/02-what-are-vibe-coded-games.md
+================================================================================
+
+**Vibe-coded games** are games built primarily through natural language direction to AI tools, where the developer's core contribution is creative vision, design judgment, and iterative guidance — rather than manual code authoring line by line.
+
+The term covers a wide spectrum. At one end: a game jam prototype built over a weekend by a solo developer using Rosebud AI or Replit Agent, where every system was scaffolded via prompts. At the other: a commercially released indie game where an experienced developer used AI tools like Cursor or Claude throughout production to accelerate development, generate assets, and write content at scale.
+
+What vibe-coded games are *not* is a fixed quality tier. A vibe-coded game can be just as polished, original, and intentional as a traditionally built one. What separates a great vibe-coded game from low-quality AI output — sometimes called **slop** — is the quality of the creative direction behind the prompts. The AI writes the code; the developer makes the game.
+
+As of 2026, vibe-coded games are appearing in commercial storefronts, game jam winners' circles, and indie showcases. The category is growing fast and blurring the boundary between "who can make a game" and "who used to be able to."
+
+================================================================================
+## FAQ: What are the best vibe-coded games?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/03-best-vibe-coded-games.md
+================================================================================
+
+The vibe-coded game landscape is young and moving fast, but several titles and categories stand out as benchmarks for what AI-assisted game development can produce.
+
+**Game jam standouts** are currently the richest source of high-quality vibe-coded games. AI-assisted game jams — 48 to 72-hour events where AI tools are explicitly permitted — have produced a wave of creative, technically impressive games built by solo developers in timeframes that would have been impossible without AI assistance. Platforms like **itch.io** host the largest concentration of these games, and jam results pages are the best place to discover them.
+
+**Rosebud AI** hosts a growing library of games built entirely on its platform using natural language prompts — making it one of the most accessible places to both play and study vibe-coded games in their purest form.
+
+Beyond specific titles, the best vibe-coded games tend to share a few qualities: a strong, specific creative concept (not generic genre execution), tight core loops with polished feel, and evidence of deliberate human direction rather than raw AI output. The creative vision behind the prompts is what elevates them.
+
+As the category matures, expect dedicated showcases, storefronts, and critical coverage specifically for AI-assisted games to emerge. The best titles of 2025–2026 are being built right now.
+
+================================================================================
+## FAQ: How do I make a vibe-coded game?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/04-how-to-make-a-vibe-coded-game.md
+================================================================================
+
+Making a vibe-coded game follows a fundamentally different workflow from traditional game development — and a much faster one. Here's how to approach it:
+
+**Step 1 — Define your concept clearly**
+Before opening any AI tool, know what you're building. Write a clear, specific description of your game's core loop, target feel, and one or two defining mechanics. The more specific your creative vision, the better your AI outputs will be. Vague concepts produce generic games.
+
+**Step 2 — Choose your tool based on your goal**
+
+- No coding experience at all → Start with **Rosebud AI** or **Replit**. Both are designed for natural language game creation with no technical prerequisites.
+- Some coding experience, want maximum speed → Use **Cursor** (VS Code with deep AI integration) or **Bolt** for web-based games.
+- Want a full-stack companion app alongside your game → **Lovable** handles web interfaces fast.
+
+**Step 3 — Scaffold first, refine second**
+Use AI to generate your project's skeleton — the game loop, core classes, basic movement — before adding any specific mechanics. This gives you a working foundation to iterate on.
+
+**Step 4 — Iterate through prompts, not rewrites**
+Vibe-coding works through successive, increasingly specific prompts rather than rewriting from scratch. Describe what's wrong or what you want improved, feed the AI the error message or the specific behavior you want changed, and build on each working output.
+
+**Step 5 — Stay in the loop**
+Review everything the AI generates before shipping it. AI produces confident-sounding code that can contain subtle bugs, non-existent API calls (called **hallucinations**), or generic implementations that miss your design intent. Your creative judgment is the quality filter.
+
+**Step 6 — Use AI for content and assets too**
+Beyond code, AI can generate NPC dialogue, enemy stat tables, level layouts, sprite variations, ambient audio, and item descriptions. Tools like **ComfyUI** handle image generation; LLMs like **Claude** handle writing and design document work.
+
+**The honest timeline:** A vibe-coded prototype of a focused concept is achievable in one to three days. A polished, shippable game still takes weeks to months — AI accelerates implementation, but playtesting, balancing, and polish require human time regardless.
+
+================================================================================
+## FAQ: What tools can I use to vibe-code a game?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/05-vibe-code-tools.md
+================================================================================
+
+The vibe-coding tool landscape in 2026 is rich and growing. The right choice depends on your experience level, your target platform, and what kind of game you're building.
+
+**Purpose-Built Game Creation (No coding required)**
+
+- **Rosebud AI** — The most accessible starting point for non-developers. Describe your game in natural language and Rosebud generates playable game logic and assets in real time. Built specifically for vibe-coded game creation.
+- **Verse8** — An AI-assisted creative development platform focused on games and interactive experiences. Designed for rapid creative iteration from concept to playable build.
+
+**General AI Development Environments (Some familiarity helps)**
+
+- **Cursor** — The leading vibe-coding IDE. Built on VS Code with deep LLM integration — understands your full codebase, supports multi-file edits, and handles natural language refactoring. The tool most adopted by developers who want to accelerate real game projects.
+- **Bolt** — Browser-based, zero setup. Best for web-based games and companion apps. Fast prototyping without touching a local environment.
+- **Replit** — Cloud IDE with a built-in AI agent. Strong for browser games, game jam prototypes, and educational projects.
+- **Lovable** — Best for game companion web apps: leaderboards, lore wikis, landing pages.
+
+**AI Assistants (Used alongside your main IDE)**
+
+- **Claude** — Excellent for long-context reasoning: GDD analysis, NPC dialogue systems, debugging complex logic, game economy design.
+- **GitHub Copilot** — Inline code completion inside any supported IDE. Handles boilerplate and repetitive patterns fast.
+
+**Asset Generation**
+
+- **ComfyUI** — Node-based local pipeline for generating game sprites, concept art, and textures using Stable Diffusion or FLUX. Best for developers with a GPU who want cost-free, high-volume asset generation.
+- **Midjourney / Stable Diffusion** — Concept art, environment mood boards, and character design references.
+
+**The honest answer on tool choice:** Don't chase the newest tool. Pick one that matches your current skill level, build one complete project with it, and *then* evaluate whether a different tool would serve your workflow better. The best vibe-coding tool is the one you finish a game with.
+
+================================================================================
+## FAQ: Where can I play vibe-coded games?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/06-where-to-play.md
+================================================================================
+
+Vibe-coded games are distributed across the same platforms as any indie game, but a few destinations have the highest concentration:
+
+**itch.io**
+The largest and most active hub for vibe-coded and AI-assisted games. Game jam results — especially from AI-assisted jams — are published here. Searching for "AI-assisted," "vibe-coded," or browsing jam result pages surfaces the most current releases. Free to play, free to publish.
+
+**Rosebud AI**
+Rosebud hosts a native library of games built on its platform. Because it's purpose-built for vibe-coded creation, every game here was made using natural language prompts. The best place to see what pure vibe-coding produces at scale.
+
+**Replit**
+Many games built in Replit are published directly from the platform and playable in the browser without installation. The Replit community pages surface active game projects.
+
+**Game Jam Showcases**
+Events like Ludum Dare, Global Game Jam, and dedicated AI game jams publish all submissions with playable builds. Following these showcases is the best way to track the leading edge of vibe-coded game quality over time.
+
+**Steam and Commercial Storefronts**
+AI-assisted indie games are increasingly appearing on Steam. They aren't labeled as "vibe-coded" in any official category yet, but developer blogs, post-mortems, and community discussions often disclose AI-assisted workflows. Following indie game dev communities on X and Reddit surfaces these releases.
+
+================================================================================
+## FAQ: Is vibe-coding cheating in game development?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/07-is-vibe-coding-cheating.md
+================================================================================
+
+No — but it's a question worth taking seriously, because the concern behind it is legitimate.
+
+The "cheating" framing usually comes from one of two places: the idea that real game development requires writing every line of code by hand, or the concern that AI-generated games displace human creative work. Both deserve honest responses.
+
+**On writing code by hand:** Every generation of game developers has used tools that automated previously manual work — game engines, visual scripting, asset stores, procedural generation libraries. No one calls Unity "cheating" because it handles the rendering pipeline. AI tools are the next layer of abstraction. The value a developer creates is in their creative vision, design decisions, and the quality of what they ship — not in how many lines they typed.
+
+**On creative displacement:** This concern has more weight. There is a real difference between a developer who uses AI as a force multiplier for their creative vision, and someone who accepts raw AI output without direction or refinement. The latter produces **slop** — generic, forgettable games that dilute the market. But the solution to that is better creative standards, not a ban on AI tools.
+
+**The practical reality:** Most game jams now have explicit AI use disclosure policies rather than outright bans. Commercial developers are integrating AI across their pipelines. The industry is treating vibe-coding as a tool category, not a moral question.
+
+The question that actually matters isn't "did you use AI?" It's "did you make something worth playing?"
+
+================================================================================
+## FAQ: Do I need to know how to code to vibe-code a game?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/08-need-to-know-code.md
+================================================================================
+
+Not necessarily — but the honest answer is more nuanced than a flat "no."
+
+**If you have zero coding experience**, tools like **Rosebud AI**, **Bolt**, and **Replit** are genuinely accessible starting points. You can describe a game concept in plain English, generate a working prototype, and iterate on it without writing a single line of code manually. For simple game concepts — a casual puzzle, a basic platformer, a text-based adventure — you can ship something real.
+
+**Where coding knowledge helps:** The more complex your game concept, the more likely you'll encounter AI outputs that look correct but don't quite work, systems that need to integrate with each other in ways the AI doesn't anticipate, or performance issues that require understanding what the code is actually doing. A developer with coding fundamentals can catch these problems, correct them, and push past them. A developer without any coding background may get stuck when the AI's output fails in ways they can't diagnose.
+
+**The practical recommendation:** If you want to make games seriously using vibe-coding, learning the fundamentals of at least one language — GDScript for Godot, C# for Unity, JavaScript for web games — will dramatically increase the ceiling of what you can build. You don't need to become a professional programmer. You need enough to read AI-generated code, understand roughly what it does, and identify when something is wrong.
+
+Think of it like directing a film. You don't need to operate every camera yourself, but understanding how cameras work makes you a better director.
+
+================================================================================
+## FAQ: How long does it take to vibe-code a game?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/09-how-long-to-vibe-code.md
+================================================================================
+
+It depends entirely on the scope of the game — but across every scope, vibe-coding is significantly faster than traditional development. Here are realistic timelines:
+
+**A game jam prototype (core loop only)**
+1–3 days. With a focused concept, a clear prompt strategy, and a tool like Rosebud AI or Cursor, a solo developer can have a playable prototype with basic mechanics, a win/lose state, and minimal UI in a weekend. This is where vibe-coding's speed advantage is most dramatic.
+
+**A polished game jam entry**
+3–7 days. Adding proper game feel — juice, sound effects, visual polish, difficulty tuning — still requires time regardless of how fast the code was generated. The AI builds the skeleton fast; human iteration fills in the quality.
+
+**A small commercial release**
+4–12 weeks. A focused, well-scoped indie game — think a short narrative game, a mobile casual title, or a roguelike with limited content — is achievable in this window for a solo developer using AI throughout. Traditional equivalent: 6–18 months solo.
+
+**A mid-scale indie game**
+3–6 months with a small team. AI compresses implementation time on individual systems, but design iteration, content production, QA, and platform certification still take real time. The team spends less time on code and more time on what actually makes the game good.
+
+**The most common mistake:** Underestimating how much time goes into everything *after* the code works. Vibe-coding gets you to "it runs" fast. Getting from "it runs" to "it's worth playing" to "it's worth paying for" is where the traditional game development timeline still applies.
+
+================================================================================
+## FAQ: What is the difference between vibe-coding and traditional game development?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/10-vibe-coding-vs-traditional.md
+================================================================================
+
+The difference is in the developer's primary activity — and everything downstream of that.
+
+| | Traditional Development | Vibe-Coding |
+|---|---|---|
+| **Primary activity** | Writing and debugging code | Directing and refining AI output |
+| **Speed to prototype** | Days to weeks | Hours to days |
+| **Skill floor** | High (programming required) | Low (natural language sufficient) |
+| **Skill ceiling** | Unchanged | Unchanged |
+| **Creative bottleneck** | Implementation speed | Prompt quality and creative direction |
+| **Risk profile** | Bugs, scope creep | Hallucinations, technical debt, slop |
+| **Asset production** | Manual or outsourced | AI-generatable |
+| **Team size required** | Usually 2+ for full game | Viable solo at small-to-mid scope |
+
+**What stays the same:** Game design fundamentals don't change. What makes a game fun, balanced, and worth playing is entirely human judgment — no AI tool generates good game feel automatically. Playtesting, iteration, and creative decision-making are as important in vibe-coding as in traditional development.
+
+**What changes:** The barrier to getting something running is dramatically lower. A game designer who isn't a programmer can now implement their own designs. A developer who is a programmer can ship features in a fraction of the time. The ratio of creative work to technical execution shifts significantly in favor of creative work.
+
+The best way to think about it: traditional game development is limited by how fast you can write code. Vibe-coded game development is limited by how clearly you can think about what you're building.
+
+================================================================================
+## FAQ: Are vibe-coded games lower quality than traditionally made games?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/11-quality-comparison.md
+================================================================================
+
+Not inherently — but the failure modes are different and worth understanding.
+
+**The case that they can be lower quality:** AI tools generate the most likely output, not the best output. Without strong creative direction, the result is **slop** — games that are technically functional but creatively generic. Enemy designs that feel copy-pasted, level layouts that have no spatial logic, dialogue that sounds like placeholder text. The speed advantage of vibe-coding can lead developers to ship before a game has been meaningfully playtested or refined, because the prototype came together so quickly it felt done.
+
+**The case that they're not:** Quality in games has never been a function of how the code was written. It's a function of how well the design was conceived and executed. Some of the most interesting, creative games released in 2025–2026 were built primarily through AI-assisted workflows. The developers who made them had strong creative visions, used AI as a precision tool rather than a crutch, and applied the same standard of care to playtesting and polish as any traditional developer.
+
+**The realistic picture:** The *distribution* of quality in vibe-coded games is probably wider than in traditionally made games. The floor is lower — it's easier to ship something generic — but the ceiling isn't. What's changed is access: more people can now make games, and more games means more mediocrity alongside more genuine creativity.
+
+The question to ask of any game isn't "was it vibe-coded?" It's "is it worth playing?"
+
+================================================================================
+## FAQ: Can I make money from a vibe-coded game?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/12-make-money.md
+================================================================================
+
+Yes — with the same caveats that apply to any indie game, plus a few specific to AI-assisted development.
+
+**The straightforward answer:** Vibe-coded games can be sold on Steam, itch.io, the App Store, Google Play, and any other storefront. The workflow used to build a game has no bearing on its commercial eligibility. If the game is good, it can sell.
+
+**The AI licensing caveat:** If your game contains AI-generated assets — art, audio, or other content — you need to understand the terms of service of the tools you used and the current legal status of AI-generated IP in your jurisdiction. This is an evolving area of law. Most major AI image generation tools have commercial use clauses in their terms, but they vary significantly. Using a tool without reading its commercial terms is a risk.
+
+**The practical monetization picture:** Vibe-coding dramatically lowers the cost of production, which changes the economics of indie development. A game that costs two weeks of a solo developer's time to build has a very different break-even point than one that took two years. This makes smaller, more focused commercial releases more viable — short narrative games, mobile casual titles, niche genre entries — because the investment required to recoup is much lower.
+
+**What still matters commercially:** Marketing, discoverability, and review scores are identical challenges for vibe-coded and traditionally made games. Building an audience, getting visibility on storefronts, and generating press coverage require the same effort regardless of how the game was built. The production shortcut doesn't extend to distribution.
+
+================================================================================
+## FAQ: What are the best AI tools for game development in 2026?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/13-best-ai-tools-2026.md
+================================================================================
+
+The best AI tools for game development in 2026 break down by use case:
+
+**For building game logic and code**
+
+- **Cursor** — The most capable vibe-coding IDE for developers with some technical background. Deep codebase understanding, multi-file editing, natural language refactoring.
+- **Rosebud AI** — The most accessible for non-developers. Purpose-built for AI game creation from natural language.
+- **Replit** — Best for browser-based games and rapid game jam prototypes with zero local setup.
+- **Bolt** — Fast web-app and game UI prototyping entirely in the browser.
+
+**For AI assistance within your existing workflow**
+
+- **Claude** — Best for long-context reasoning tasks: GDD analysis, complex debugging, NPC dialogue systems, game economy design.
+- **GitHub Copilot** — Inline code completion in any major IDE. Handles boilerplate and repetitive implementation fast.
+
+**For generating game assets**
+
+- **ComfyUI** — Local pipeline for high-volume sprite, texture, and concept art generation. Best for developers with a GPU.
+- **Midjourney** — High-quality concept art and environment reference generation.
+- **Stable Audio / Suno** — AI-generated music and ambient sound for game soundtracks.
+
+**For game design and content**
+
+- **Claude / GPT-4o** — Writing NPC dialogue, quest text, item descriptions, lore documents, and game design analysis.
+- **Verse8** — AI-assisted creative development for interactive experiences.
+
+**The meta-tool that matters most:** Your **Prompt Library** — a personal collection of tested, refined prompts for the game dev tasks you do repeatedly. The developers getting the most out of AI tools are the ones who treat their prompts as a professional asset.
+
+================================================================================
+## FAQ: Can I enter a vibe-coded game in a game jam?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/14-game-jam-entry.md
+================================================================================
+
+Yes — and game jams are currently one of the best places to build and showcase vibe-coded games.
+
+**AI-Assisted Game Jams** are now an established format that explicitly embraces AI tools as first-class development instruments. These events are designed around the vibe-coding workflow and attract developers who want to explore what's possible when AI handles implementation speed and humans handle creative direction.
+
+**Traditional game jams** have varying policies on AI use that are evolving rapidly. Most major jams — including Ludum Dare and itch.io-hosted events — now require disclosure of AI tool usage rather than prohibiting it outright. Some have created separate AI-assisted categories. A few still restrict AI use entirely.
+
+**The practical checklist before entering:**
+
+- Read the jam's rules on AI tool usage carefully — they vary significantly
+- Understand the disclosure requirements — most jams now require you to declare which AI tools you used
+- Check whether AI-generated assets (art, audio) are treated differently from AI-generated code — some jams permit one but not the other
+- Know that other participants and judges may have opinions about AI use — factor that into how you present your work
+
+**Why game jams are ideal for vibe-coded games:** The time compression of a 48-72 hour jam is where vibe-coding's speed advantage is most dramatic. A solo developer using AI tools can compete with teams of three or four in terms of scope and polish. Some of the most creative vibe-coded games to date have come out of jam environments precisely because the constraints forced focused, creative prompt direction.
+
+================================================================================
+## FAQ: What are the risks of building a game with AI?
+URL: https://www.vibecode.game/faq
+Source: src/content/faqs/15-risks-of-ai-game-dev.md
+================================================================================
+
+Building with AI is faster and more accessible than traditional development — but it introduces a specific set of risks that every vibe-coder should understand before shipping.
+
+**Hallucination**
+AI tools generate plausible-sounding code that can be factually wrong — inventing function names that don't exist, producing API calls that were never real, writing logic that looks correct but fails at runtime. Hallucinations are the most common and most dangerous quality risk in vibe-coded games. Mitigation: always test AI-generated code, use **grounding** techniques (pasting real documentation into your prompts), and run a linter before trusting any output.
+
+**Technical Debt**
+AI prioritizes working code over clean code. A prototype built entirely through vibe-coding tends to accumulate tangled, unoptimized, hard-to-maintain systems fast. For a jam game this doesn't matter; for a commercial release it can make the codebase nearly impossible to extend or debug after six months. Mitigation: schedule deliberate refactoring passes and use **code review automation** tools throughout development.
+
+**Slop**
+Without strong creative direction, AI produces generic output — forgettable level designs, flat dialogue, uninspired mechanics. The risk isn't that AI can't produce quality content; it's that it defaults to average. Mitigation: be specific in your prompts, maintain a strong creative vision, and apply **human-in-the-loop** review to all content.
+
+**AI Licensing Ambiguity**
+The legal status of AI-generated assets in commercial games is still being established. If you use AI-generated art, audio, or other content in a game you sell, you carry IP risk that varies by tool, jurisdiction, and how the content was generated. Mitigation: read the terms of service of every AI tool you use commercially, document your process, and consult legal advice before a significant commercial release.
+
+**Determinism Issues**
+AI-generated code frequently introduces unseeded randomness and non-deterministic behaviors that cause problems in multiplayer games, replay systems, and anything requiring consistent simulation. Mitigation: audit all AI-generated code for random calls and ensure they're properly seeded.
+
+**Over-reliance**
+The speed of vibe-coding can create a false sense of completeness. A game that runs in 48 hours still needs weeks of playtesting, balancing, and polish before it's ready to ship. Mitigation: treat the working prototype as the start of development, not the end.
+
+================================================================================
+## Blog: Leaderboards and Saves for AI-Built Web Games (Without Regret)
+URL: https://www.vibecode.game/blog/add-leaderboards-save-data-ai-built-web-game
+Source: src/content/blog/en/add-leaderboards-save-data-ai-built-web-game.mdx
+================================================================================
+
+Description: Start with anonymous scores, add tamper resistance later, and pick storage that matches your honesty bar.
+
+Persistence turns a toy into a **habit**. It also turns debugging into **nightmares** if you bolt on databases before you understand your threat model. For AI-assisted prototypes, bias toward **boring technology** until players ask for more.
+
+## Local-first saves
+
+`localStorage` or `IndexedDB` fits single-player progression: settings, unlocked levels, best times. **Version your save schema** (`save.v3`) so migrations do not brick testers.
+
+**Pitfalls:** quota limits, private browsing wipes, and **no sync** across devices—communicate that in UI.
+
+## Anonymous leaderboards
+
+Post scores with `{ score, name?, seed? }` to a tiny serverless endpoint. **Rate-limit** by IP and cap name length. Expect cheating; decide if you care for v1.
+
+| Approach | Effort | Integrity |
+|----------|--------|-----------|
+| Client-only high score | Trivial | None |
+| Signed payloads | Medium | Better |
+| Server-simulated runs | High | Strong |
+
+## Privacy and compliance
+
+If you store emails or IDs, publish a **short privacy note**: what you collect, retention, delete path. Kids’ games add extra obligations—know your audience.
+
+## FAQ
+
+**Do I need Redis day one?** No. A single table or KV with TTL often suffices for jam traffic.
+
+**Can AI write my backend?** Yes—with tests. Ask for idempotent handlers and structured logs.
+
+**Where to showcase?** List on [vibe-coded games](/vibe-coded-games) once your save flow is stable.
+
+## Next steps
+
+- Read [AI tools](/ai-tools) to pick assistants for API code.
+- Meet builders on [developer profiles](/developers).
+
+---
+
+*YGG Play helps indies ship trustworthy web games.*
+
+================================================================================
+## Blog: The AI Game Dev Tool Landscape in 2026 (So Far)
+URL: https://www.vibecode.game/blog/ai-game-dev-tools-landscape-2026
+Source: src/content/blog/en/ai-game-dev-tools-landscape-2026.mdx
+================================================================================
+
+Description: Assistants, app builders, and runtimes are converging—here is how working teams actually pick tools today.
+
+If 2024 was the year of **wow demos**, and 2025 the year of **shipping arguments**, 2026 is shaping up as the year of **workflow integration**: teams mix **IDE assistants**, **browser builders**, and **classic engines** without treating any as a religion.
+
+## What “landscape” means now
+
+- **Coding copilots** (Cursor, Copilot, Claude Code) excel at **refactors, tests, glue**—not taste.
+- **Higher-level builders** (Lovable-class tools) compress **UI iteration**—not netcode.
+- **Engines** still win on **tooling depth** for 3D and large content teams.
+
+We are seeing **more hybrid repos**: generated UI shell + hand-tuned gameplay module.
+
+## Evaluation criteria that survive hype
+
+1. **Export story** — who owns the `git` history?
+2. **Latency budget** — AI suggestions must not block flow states.
+3. **Licensing clarity** for generated assets.
+4. **Offline / airplane mode** needs for crunch travel.
+
+## Risks to name plainly
+
+- **Over-trust** in unverified snippets for security-sensitive code.
+- **Hidden vendor lock** when projects cannot build locally.
+- **Marketing claims** about “full game in a prompt”—buyer beware.
+
+## What builders should do this quarter
+
+- Pick **one** assistant + **one** deployment path; log decisions in your README.
+- Tag tools honestly when you list on [vibe-coded games](/vibe-coded-games).
+- Compare notes on [AI tools](/ai-tools) pages before switching stacks mid-jam.
+
+## FAQ
+
+**Is there one best tool?** No—there is a best **fit** for your loop length and team skill.
+
+**Will engines disappear?** Unlikely—**abstraction layers** shift, craft remains.
+
+## Next steps
+
+- Follow [game jams](/game-jams) for real-world stress tests.
+- Read [developer](/developers) profiles for stack receipts.
+
+---
+
+*YGG Play covers the vibe-coded games ecosystem with a builder-first lens.*
+
+================================================================================
+## Blog: How AI Prototyping Compresses Indie Marketing Timelines
+URL: https://www.vibecode.game/blog/ai-prototyping-indie-marketing-timelines
+Source: src/content/blog/en/ai-prototyping-indie-marketing-timelines.mdx
+================================================================================
+
+Description: Earlier playable hooks, shorter feedback loops, and new expectations for ‘first look’ content.
+
+Marketing timelines assume **assets exist**. When prototypes arrive **48 hours sooner**, your content calendar shifts left—but **player expectations** shift too: more WIP footage, more candid tool talk, less “big reveal only” mystique.
+
+## What compresses
+
+- **Vertical slice** availability for streamers.
+- **Screenshot iteration** (lighting passes, HUD tweaks).
+- **Pitch deck** diagrams if you fundraise.
+
+## What does not compress
+
+- **Trust building** with communities.
+- **Platform policy** reviews for commercial releases.
+- **Localization** and **accessibility** hardening.
+
+## Practical GTM stack for web-first indies
+
+1. **Stable play URL** + changelog.
+2. **Short-loop social** (GIF > essay).
+3. **Hub presence** on [vibe-coded games](/vibe-coded-games) with tool tags.
+4. **Developer story** on [developers](/developers).
+
+## FAQ
+
+**Wishlist before polish?** Only if your page sets honest expectations.
+
+**Influencers?** Lead with **30s hook**, not roadmap fantasies.
+
+---
+
+*YGG Play connects build velocity with audience reality.*
+
+================================================================================
+## Blog: The Rise of Browser-First Indie Games from AI Builders
+URL: https://www.vibecode.game/blog/browser-first-indie-games-ai-builders
+Source: src/content/blog/en/browser-first-indie-games-ai-builders.mdx
+================================================================================
+
+Description: URLs beat installers for experiments—and discovery is learning to love the link again.
+
+**Browser-first** does not mean “lesser”—it means **friction budget** spent on gameplay, not installers. AI tooling lowers the cost of **UI + glue**, so more teams ship **playable URLs** before greenlight politics begin.
+
+## Why players benefit
+
+- **Instant try** on lunch break.
+- **Cross-platform** without store gates for experiments.
+- **Iteration** visible refresh-by-refresh during early access.
+
+## Why builders benefit
+
+- **Analytics** simpler at small scale.
+- **Embedding** in jams, hubs, and portfolios with one iframe.
+
+## Constraints to respect
+
+- **Storage limits** and **audio autoplay** policies.
+- **Safari** testing non-optional for global reach.
+
+## Connect the ecosystem
+
+List builds on [vibe-coded games](/vibe-coded-games), tag tools via [AI tools](/ai-tools), and signal jam history on [game jams](/game-jams).
+
+## FAQ
+
+**Desktop-only OK?** Say so loudly in the first screen.
+
+**Monetization?** Start cosmetic or tip jar; ads complicate perf.
+
+---
+
+*YGG Play champions linkable games in a hub-friendly web.*
+
+================================================================================
+## Blog: How to Choose an AI-Friendly Stack for 2D Web Games
+URL: https://www.vibecode.game/blog/choose-ai-coding-stack-2d-web-games
+Source: src/content/blog/en/choose-ai-coding-stack-2d-web-games.mdx
+================================================================================
+
+Description: Match tooling to loop length: canvas microgames, Phaser midweight, or engines when you need editors.
+
+Stacks are **temporary contracts** between you, your players, and your calendar. The “best” stack is the one that lets you **ship your current loop** with the fewest unknowns.
+
+## Decision axes
+
+1. **Time to first input** — how fast from `git init` to moving sprite.
+2. **AI leverage** — does your assistant know the framework’s idioms?
+3. **Deploy shape** — static, server, or hybrid.
+4. **Escape hatch** — can you eject without rewriting everything?
+
+## Three tiers we recommend
+
+| Tier | Good for | Watch-outs |
+|------|----------|------------|
+| Canvas/DOM micro | Weekend toys, learning | You own all systems |
+| Phaser/Kaboom mid | Jam + early access | Scope creep into RPG features |
+| Full engine (Godot export web) | Content-heavy | Build size, load time |
+
+## When to switch
+
+Switch when **two** of these hurt: tooling friction, perf ceiling, hiring/collab needs, or port targets (mobile wrapper).
+
+## FAQ
+
+**TypeScript everywhere?** Prefer yes for multi-file games; JS is fine for small toys under 500 lines of code.
+
+**Do hubs care about stack?** Players care about **playability**; builders browse stacks on [AI tools](/ai-tools) and [developer profiles](/developers).
+
+## Next steps
+
+- Browse [vibe-coded games](/vibe-coded-games) for proof of what ships.
+- Commit to a [game jam](/game-jams) date.
+
+---
+
+*YGG Play helps you pick boring-winning stacks.*
+
+================================================================================
+## Blog: Cursor vs Claude Code vs Copilot for Game Prototypes
+URL: https://www.vibecode.game/blog/cursor-claude-copilot-game-prototypes-compared
+Source: src/content/blog/en/cursor-claude-copilot-game-prototypes-compared.mdx
+================================================================================
+
+Description: No crown—just trade-offs: repo awareness, inline edits, and where each tool shines in a jam weekend.
+
+Headline truth: **the best tool is the one your team already ships with**. That said, prototypes expose different **failure modes** per assistant family.
+
+## Cursor (IDE-native)
+
+**Strengths:** inline refactors, multi-file awareness inside the editor, fast “apply diff” loops.  
+**Watch-outs:** temptation to accept giant patches without tests.
+
+## Claude Code / terminal-first flows
+
+**Strengths:** strong planning responses, good for **scaffolding services** or **CI** when you feed repo context.  
+**Watch-outs:** still need human verification on gameplay feel.
+
+## GitHub Copilot
+
+**Strengths:** frictionless in VS Code; great for **micro-completions**.  
+**Watch-outs:** less “project narrator” unless paired with chat features you actually use.
+
+## Comparison rubric
+
+| Need | Lean toward… |
+|------|--------------|
+| Jam UI iteration | Cursor |
+| Backend + scripts | Claude-flavored workflows |
+| Daily typing speed | Copilot |
+
+## Disclosure
+
+YGG Play does not partner with vendors for rankings; revisit this piece as models update quarterly.
+
+## Next steps
+
+- Deep-link tool pages from [AI tools](/ai-tools).
+- Ship something to [vibe-coded games](/vibe-coded-games) and **tag honestly**.
+
+---
+
+*YGG Play publishes criteria, not endorsements.*
+
+================================================================================
+## Blog: Discovering AI-Built Games: Platforms, Feeds, and 2026 Signals
+URL: https://www.vibecode.game/blog/discovering-ai-built-games-platforms-trends
+Source: src/content/blog/en/discovering-ai-built-games-platforms-trends.mdx
+================================================================================
+
+Description: Curated hubs, Discord deep cuts, and the slow return of RSS—how players find weird, wonderful web games now.
+
+Discovery is **balkanized**: TikTok spikes, Itch buries, Steam ignores your `.html` unless wrapped. **Curated hubs** and **maker transparency** are rising as antidotes—players want “**play now**” plus “**built how?**”
+
+## Channels that still convert
+
+- **Short video** with three seconds of uninterrupted gameplay before talking.
+- **Curated hubs** with honest tool tags—see [vibe-coded games](/vibe-coded-games).
+- **Newsletters** from communities that respect your inbox.
+
+## Signals we watch
+
+- **Tool-literate players** asking smarter questions in comments.
+- **Cross-posting** between jams, hubs, and personal portfolios shrinking.
+- **Credit screens** listing assistants and human roles—becoming standard.
+
+## Advice for listers
+
+- One **primary URL** everywhere.
+- **GIF + controls** in first screen of any social post.
+- Link your **stack writeup** on [AI tools](/ai-tools) pages you actually used.
+
+## FAQ
+
+**Is SEO dead?** No—**long-tail** searches (“browser roguelike cursor”) still work with good copy.
+
+**Do I need Discord?** Only if you will **staff** it; otherwise use issue trackers or email.
+
+---
+
+*YGG Play connects discovery demand with builder supply.*
+
+================================================================================
+## Blog: Your First itch.io Page for a Vibe-Coded Game
+URL: https://www.vibecode.game/blog/first-itch-io-page-vibe-coded-game
+Source: src/content/blog/en/first-itch-io-page-vibe-coded-game.mdx
+================================================================================
+
+Description: Metadata, embeds, and pricing psychology for browser-first indies—without burying the play button.
+
+**itch.io** remains the friendliest home for **experimental browser games**. Your job is to reduce friction: **play in one click**, understand controls in **five seconds**, and trust you with **updates**.
+
+## Page structure
+
+- **Title + genre tag** in first line of description.
+- **Embed** above the fold on desktop; mobile gets a giant **Play** link.
+- **Controls** section duplicated near embed and in README.
+
+## Pricing
+
+Pay-what-you-want with a **suggested price** signals confidence. Free with tip jar works for portfolio builds—say so honestly.
+
+## Builds
+
+For HTML5, zip the **smallest** `dist/` that runs standalone. Test unzip → open `index.html` locally (or host static) before upload.
+
+## Devlogs
+
+Short, dated entries beat manifestos. “**0.2 — fixed Safari audio**” builds follower trust.
+
+## FAQ
+
+**Do I need a trailer?** Helpful; a **30s capture** is enough at first.
+
+**Cross-link hub listing?** Yes—link your [vibe-coded games](/vibe-coded-games) entry and [developer profile](/developers).
+
+## Next steps
+
+- Join a [game jam](/game-jams) to force a deadline.
+- Compare AI stacks in [AI tools](/ai-tools).
+
+---
+
+*YGG Play helps indies meet players where they already browse.*
+
+================================================================================
+## Blog: Turn a Game Idea into a One-Page Design Doc AI Tools Understand
+URL: https://www.vibecode.game/blog/game-idea-to-one-page-design-doc-for-ai-tools
+Source: src/content/blog/en/game-idea-to-one-page-design-doc-for-ai-tools.mdx
+================================================================================
+
+Description: Constraints, loops, and acceptance tests—so your assistant stops freelancing your design.
+
+Great prompts start as **boring documents**. One page forces **clarity**; clarity reduces hallucinated features.
+
+## Sections (in order)
+
+1. **Elevator** — 2 sentences.
+2. **Core loop** — bullet timeline of one round.
+3. **Inputs & platforms** — keyboard, touch, gamepad?
+4. **Entities** — player, enemies, pickups; max counts.
+5. **Progression** — what changes between rounds?
+6. **Non-goals** — explicit cuts.
+7. **Acceptance tests** — verifiable sentences.
+
+## Example acceptance test
+
+> Given two players join room `ABCD`, when player one presses **Space**, round starts within **200ms** and timer counts down from **60**.
+
+## Why non-goals matter
+
+AI fills silence. Tell it **what not to build** (no accounts, no shop, no story mode).
+
+## FAQ
+
+**Length?** One page, 12pt, no appendix. Link art references instead of embedding essays.
+
+**Versioning?** `design-v3.md` in repo; mention version in prompts.
+
+## Next steps
+
+- Ship something listable on [vibe-coded games](/vibe-coded-games).
+- Meet collaborators via [developers](/developers).
+
+---
+
+*YGG Play turns vague ideas into shippable constraints.*
+
+================================================================================
+## Blog: Why Game Jams Hit Different in the Vibe-Coding Era
+URL: https://www.vibecode.game/blog/game-jams-vibe-coding-era
+Source: src/content/blog/en/game-jams-vibe-coding-era.mdx
+================================================================================
+
+Description: Deadlines still matter—but prototypes arrive denser, and judges read tool tags with more curiosity than suspicion.
+
+**Game jams** always rewarded **clarity of vision** over raw engineering hours. Vibe-coding tools tilt the curve: more teams reach **playable vertical slices**, which raises the bar for **polish, narrative framing, and originality**.
+
+## What is improving
+
+- **Iteration velocity** during the first 12 hours—UI and scaffolding arrive faster.
+- **Cross-discipline solo entries** where one person covers code + rough art passes.
+- **Documentation**: assistants help README and control schemes appear earlier.
+
+## What still hurts
+
+- **Integration bugs** when generated modules disagree.
+- **Performance surprises** on low-end laptops if testing is desktop-only.
+- **Judging fairness** when disclosure of AI use varies by region and platform.
+
+## Community norms we support
+
+- **Say what you used**—players are curious, not allergic.
+- **Credit human collaborators** explicitly.
+- **Separate “AI-assisted” from “AI-generated art”** when possible.
+
+## Builders: treat jams as marketing labs
+
+A jam build is a **time-boxed trailer** for your skills. Link it from your [developer profile](/developers) and consider a hub listing on [vibe-coded games](/vibe-coded-games) if the URL stays stable.
+
+## FAQ
+
+**Are AI games “less legit”?** Players reward **fun**; historians reward **context**. Provide both.
+
+**Where to find jams?** Start at [game jams](/game-jams) on Vibecode.game and follow organizers you trust.
+
+---
+
+*YGG Play champions jams as on-ramps for new listers.*
+
+================================================================================
+## Blog: Build a Tiny Multiplayer Game with Cursor in One Evening
+URL: https://www.vibecode.game/blog/how-to-multiplayer-game-cursor-two-hours
+Source: src/content/blog/en/how-to-multiplayer-game-cursor-two-hours.mdx
+================================================================================
+
+Description: A practical evening sprint: lobby, shared state, and a playable loop—using Cursor to move fast without drowning in boilerplate.
+
+You do not need a perfect netcode stack to **learn multiplayer** or to ship a jam-sized proof. You need a **tight scope**, a single transport choice, and a workflow that keeps you coding instead of debating architecture. This guide assumes you are comfortable with JavaScript or TypeScript, have [Cursor](https://cursor.com) installed, and want a **two-hour ceiling** you can defend when motivation is high but time is not.
+
+## What you will have at the end
+
+- A **browser game** where two tabs (or two devices on your LAN) see the same world state update in near real time.
+- A **minimal message protocol** (JSON over WebSockets) you can explain in one slide.
+- A **checklist** for turning the prototype into something you would list on [Vibecode.game](/vibe-coded-games) with screenshots and a clear “how it was built” story.
+
+## Hour zero: lock the design
+
+Pick **one verb** for players: *dodge*, *tag*, *collect*, or *push*. Cap interactions at **three inputs** (e.g. WASD). One arena, no menus, no accounts. If you cannot describe the win condition in **one sentence**, cut scope until you can.
+
+| Scope lever | Tight (good) | Too wide (cut) |
+|-------------|--------------|----------------|
+| Players | 2–8 | MMO-style persistence |
+| State | One shared JSON object | Per-entity physics engine |
+| Auth | Room code in URL | Accounts + ELO |
+
+## Hour one: server + socket skeleton
+
+Use a tiny Node server (`ws` or your framework’s WebSocket helper). **Rooms** map to random four-letter codes. On join, push the current state snapshot; after that, broadcast **only deltas** you care about (player position, score ticks).
+
+Cursor shines when you **paste your constraints** into the chat: transport (WebSocket), message shape, and “no database.” Ask for a single-file server plus a matching client module, then refactor once it runs.
+
+**Milestone:** two clients connect; server logs two sockets; you can broadcast a `{ type: 'ping' }` and see it in both tabs.
+
+## Hour two: game loop + playtest
+
+Run the simulation at a fixed tick (e.g. 10–20 Hz) or event-driven if movement is sparse. **Client prediction** can wait—start with server-authoritative positions to avoid desync rabbit holes in a short sprint.
+
+Playtest with a friend or a second browser profile. Watch for **message storms** (sending full state 60 times a second) and **NaN positions** from bad input handling.
+
+## Common mistakes in two-hour multiplayer sprints
+
+1. **Starting with matchmaking** instead of a hard-coded room.
+2. **Encoding everything as strings** with no schema—add a one-page TypeScript `type` for messages.
+3. **Skipping disconnect handling**—at minimum, remove stale players server-side.
+
+## FAQ
+
+**Is WebSocket always the right choice?** For browser prototypes with continuous state, usually yes. For turn-based games, HTTP + polling can be enough.
+
+**Can AI tools replace understanding netcode?** No—but they accelerate boilerplate if *you* keep the scope and invariants clear.
+
+**Where do I list the shipped build?** When you have a stable URL, add your game to the community catalog and polish your [developer profile](/developers) so players see your stack and tools.
+
+## Next steps
+
+- Compare AI coding stacks in our [AI tools directory](/ai-tools).
+- Plan a jam submission using [game jams](/game-jams) as your deadline.
+- Browse [vibe-coded games](/vibe-coded-games) for pacing and presentation ideas from other listers.
+
+---
+
+*YGG Play publishes hands-on guides for builders who ship browser-first games with modern AI-assisted workflows.*
+
+================================================================================
+## Blog: Local Co-op in an Afternoon: Cursor + Phaser 3
+URL: https://www.vibecode.game/blog/local-co-op-prototype-cursor-phaser-afternoon
+Source: src/content/blog/en/local-co-op-prototype-cursor-phaser-afternoon.mdx
+================================================================================
+
+Description: Shared keyboard, simple physics, and a finish line you can hit before dinner.
+
+**Local co-op** avoids networking complexity while still teaching **input routing**, **collision layers**, and **game feel**. Phaser 3 gives you scenes, arcade physics, and sprite plumbing—Cursor helps you avoid boilerplate traps if you describe **inputs and win rules** crisply.
+
+## Afternoon schedule
+
+| Block | Focus |
+|-------|-------|
+| :00–:45 | Scene boot, two sprites, tilemap or bounds |
+| :45–1:30 | Controls (WASD + arrows), collisions, score |
+| 1:30–2:30 | Juice: screenshake lite, sfx hooks, pause |
+| 2:30–3:00 | Build + static deploy smoke test |
+
+## Input map
+
+Explicitly bind **separate key sets**. On gamepad day two, you will thank yourself for clean abstraction (`p1`, `p2` objects).
+
+## Physics honesty
+
+Start **arcade**; swap to matter only if puzzles need it. AI often over-engineers physics—reject that diff.
+
+## Deploy
+
+Phaser bundles cleanly with Vite. Ensure **asset paths** work from `/` and from nested routes if your host uses subpaths.
+
+## FAQ
+
+**Controllers?** Defer unless afternoon scope creeps—keyboard proves the loop.
+
+**Online later?** Finish hot-seat first; read our [multiplayer Cursor guide](/blog/how-to-multiplayer-game-cursor-two-hours).
+
+## Next steps
+
+- List when playable on [vibe-coded games](/vibe-coded-games).
+- Tag tools on [AI tools](/ai-tools).
+
+---
+
+*YGG Play celebrates small slices that ship.*
+
+================================================================================
+## Blog: How Niche Game News Finds Sources—and How to Be One
+URL: https://www.vibecode.game/blog/niche-game-news-backlinks-source-guide
+Source: src/content/blog/en/niche-game-news-backlinks-source-guide.mdx
+================================================================================
+
+Description: Be quotable, fast to verify, and generous with embeds: the boring playbook for earning links.
+
+**Backlinks** follow **credibility**. Niche outlets want **primary sources**: builds that run, founders who reply, and facts that check out.
+
+## Make a /press page
+
+- **Factsheet** (bullet studio, genre, platforms, price).
+- **Logo & screenshots** ZIP.
+- **Contact** with SLA you can keep (e.g. 48h).
+
+## Be quotable
+
+Share **measurable** claims: load time, player count order-of-magnitude, jam placement—avoid unverifiable superlatives.
+
+## Embeds and exclusives
+
+Offer **GIF-first** assets; journalists live on deadlines.
+
+## Ethical outreach
+
+- Personalize **one** sentence proving you read their column.
+- No mass mail merge guilt trips.
+
+## Tie-ins
+
+List where you **ship** on [vibe-coded games](/vibe-coded-games); point to [developers](/developers) for bio depth.
+
+## FAQ
+
+**Follow up?** Once, politely; then move on.
+
+**Harassment?** Never—reputation is a long game.
+
+---
+
+*YGG Play helps builders earn attention without burning bridges.*
+
+================================================================================
+## Blog: Prepare Your Indie Game for a Community Hub Listing
+URL: https://www.vibecode.game/blog/prepare-indie-game-for-community-hub-listing
+Source: src/content/blog/en/prepare-indie-game-for-community-hub-listing.mdx
+================================================================================
+
+Description: Screenshots, honest tool tags, and a ‘making of’ blurb players trust—before you hit publish.
+
+Hubs like **Vibecode.game** work when listings answer three questions in **ten seconds**: *What is it?* *Can I play now?* *Why should I trust this build?* AI-assisted development makes disclosure **more** important, not less—players celebrate craft when you are transparent.
+
+## The five-minute scroll test
+
+Open your listing on a phone you have never used before. If the **first screen** does not show gameplay, fix that before writing lore.
+
+## Media package
+
+- **Cover:** 16:9, readable at thumbnail size—no micro-text.
+- **3–5 GIFs or short clips** showing **input → outcome**.
+- **Still of controls** on first-run overlay.
+
+## Honest tool tags
+
+List **primary** tools (engine, major AI assistants, art pipeline). Players use tags to **filter** and learn. Misleading tags burn trust.
+
+## Copy that converts
+
+Structure:
+
+1. **One-line hook** (genre + twist).
+2. **How to play** in bullets.
+3. **What is vibe-coded** about it—constraints, jams, stack.
+4. **Roadmap** if early access.
+
+## Performance truthfulness
+
+State target devices. “**Desktop Chrome** recommended” is fine; silent failure on mobile is not.
+
+## Table: listing readiness
+
+| Item | Ready? |
+|------|--------|
+| Stable play URL | ☐ |
+| Credits + license for assets | ☐ |
+| Privacy if you collect data | ☐ |
+| Contact or Discord for bugs | ☐ |
+
+## FAQ
+
+**Do I need a trailer?** Nice, not mandatory—**GIF loop** often beats a padded trailer.
+
+**Where do I start?** Open [vibe-coded games](/vibe-coded-games), study listings you admire, then polish your [developer profile](/developers).
+
+## Next steps
+
+- Explore [AI tools](/ai-tools) to tag accurately.
+- Join momentum via [game jams](/game-jams).
+
+---
+
+*YGG Play helps players find AI-built games worth their time.*
+
+================================================================================
+## Blog: From Prompt to Playable: A Lovable-First Web Game Workflow
+URL: https://www.vibecode.game/blog/prompt-to-playable-lovable-web-game-workflow
+Source: src/content/blog/en/prompt-to-playable-lovable-web-game-workflow.mdx
+================================================================================
+
+Description: Use Lovable’s UI velocity for scaffolding, then tighten gameplay in focused passes—without losing your creative north star.
+
+**Lovable**-style builders reward **clear prompts** and punish vague dreams. Treat the tool like a senior UI engineer who needs acceptance criteria, not a mind reader who invents your game design.
+
+## Frame the vertical slice
+
+Write a **one-paragraph design brief** before touching the generator:
+
+- Camera perspective (top-down, side, isometric-lite).
+- Win/lose in one line.
+- Input scheme (touch-first vs keyboard-first).
+
+Attach **reference games** as comparisons (“*Downwell*-style gravity” not “something cool”).
+
+## Structure prompts in layers
+
+1. **Layout shell** — navigation, canvas region, HUD placeholders.
+2. **State module** — score, lives, timers as plain data structures.
+3. **Interaction pass** — collisions, spawning, juice (particles later).
+
+Ask for **file names** explicitly so you can navigate diffs. Reject drive-by rewrites; insist on **patch-sized** changes when something already works.
+
+## Playtest cadence
+
+Every **20 minutes**, play one round on **phone + desktop**. Input latency shows up differently. Note framerate dips before adding shaders.
+
+## Integration with hand-written code
+
+Export or sync to your repo early. **Lock dependencies** and add a tiny unit test around scoring if you plan competitive leaderboards later.
+
+## Table: prompt smells vs strong prompts
+
+| Weak | Strong |
+|------|--------|
+| “Make it fun” | “Increase difficulty every 30s by +10% spawn rate cap 200%” |
+| “Fix bugs” | “On Safari iOS, touchmove prevents scroll; lock body overflow during play” |
+| “Better art” | “Replace circles with 32×32 placeholder tiles; keep hitboxes AABB” |
+
+## Pitfalls
+
+- **Over-automating juice** before core loop is tight.
+- **Hidden magic numbers**—centralize tuning in one config object.
+- **Skipping sound off** during meetings—mute is a feature.
+
+## FAQ
+
+**Is Lovable “real” engineering?** Shipping is real engineering. Generated code still needs review, perf passes, and ownership.
+
+**When do I list on Vibecode.game?** When you have a stable URL, honest tool tags, and a short making-of—see [vibe-coded games](/vibe-coded-games).
+
+## Next steps
+
+- Compare other stacks in [AI tools](/ai-tools).
+- Find a deadline via [game jams](/game-jams).
+
+---
+
+*YGG Play connects builders, tools, and players in the vibe-coded games space.*
+
+================================================================================
+## Blog: Ship Every Jam Build with Claude and GitHub Actions
+URL: https://www.vibecode.game/blog/ship-game-jam-build-claude-github-actions
+Source: src/content/blog/en/ship-game-jam-build-claude-github-actions.mdx
+================================================================================
+
+Description: Turn “it works on my machine” into repeatable artifacts: CI checks, tagged releases, and itch uploads you can trigger from main.
+
+Game jams punish **manual deploys**. The last hour should be **tuning feel**, not watching a stalled upload. Pairing **Claude** (or any strong coding model) with **GitHub Actions** gives you a boring pipeline—exactly what you want when adrenaline is high.
+
+## What a minimal jam CI does
+
+1. **Install** dependencies with a lockfile.
+2. **Build** your static export or bundled `dist/`.
+3. **Archive** the playable folder as an artifact you can download—or push to itch with `butler` if you use secrets.
+
+You do not need Kubernetes. You need **repeatability**.
+
+## Designing the workflow file
+
+Keep jobs split: `lint` (optional), `build`, `package`. Use concurrency groups so double-pushes cancel stale runs. Cache your package manager directory.
+
+When prompting Claude, include:
+
+- Your **package manager** and **build command**.
+- Target **Node version** pinned in `.node-version` or `engines`.
+- Whether you deploy **WebGL**, **static HTML**, or **Electron** (Electron needs signing—often out of scope for 48h jams).
+
+## Secrets and itch.io
+
+Store `BUTLER_API_KEY` as an Actions secret. Never echo secrets in logs. Test `butler push` locally once before wiring CI so failures are understandable.
+
+## Branch strategy that survives sleep deprivation
+
+- `main` always **builds green**.
+- Jam experiments live in **short-lived branches** merged via PR even if you are solo—PRs force a diff story you can revert.
+
+## Table: when to skip automation
+
+| Situation | Automate? |
+|-----------|-----------|
+| First hour of jam | No—prototype freely |
+| 6h before deadline | Yes—one-button package |
+| Post-jam polish | Yes—release tags |
+
+## Common failures
+
+- **Missing lockfile** → CI installs random minors.
+- **Case-sensitive paths** → works on Windows, fails on Linux runners.
+- **Huge artifacts** → trim unused assets before upload.
+
+## FAQ
+
+**Can Claude write my workflow YAML?** Start from official templates, then ask it to adapt—verify every action pin.
+
+**What if my game is client-only?** Static export to `dist/` + upload is enough; add Lighthouse CI only if you care about perf budgets.
+
+**Where do jams fit in discovery?** Track upcoming events on [game jams](/game-jams) and cross-link your release from your [developer hub entry](/developers).
+
+## Next steps
+
+- Browse [vibe-coded games](/vibe-coded-games) for how shipped jams present builds.
+- Compare AI assistants in [AI tools](/ai-tools) for your next jam stack.
+
+---
+
+*YGG Play publishes practical pipelines for builders who ship on deadlines.*
+
+================================================================================
+## Blog: Testing and Debugging Browser Games You Built with AI
+URL: https://www.vibecode.game/blog/test-debug-browser-games-built-with-ai
+Source: src/content/blog/en/test-debug-browser-games-built-with-ai.mdx
+================================================================================
+
+Description: Make AI-generated code legible: reproducible bugs, DevTools habits, and checklists that survive midnight shipping.
+
+AI accelerates typing, not **observability**. Treat debugging as a **first-class skill**: log with intent, reproduce with scripts, and refuse “it works on my laptop” as a closing statement.
+
+## Build a reproduction recipe
+
+For every bug: **URL**, **browser + version**, **steps**, **expected vs actual**, **console trace**. Paste that into your assistant—models solve faster with receipts.
+
+## DevTools habits
+
+- **Performance panel** for rAF spikes.
+- **Network** throttling before blaming “lag.”
+- **Mobile emulation** then a **real device** pass.
+
+## Deterministic seeds
+
+Wire a `?seed=123` query or debug overlay to replay RNG-heavy levels. Screenshots from the same seed should match—if not, you have nondeterminism to hunt.
+
+## Automated checks that pay rent
+
+- **Unit tests** for scoring and inventory rules.
+- **Smoke test** that boots the game and clicks start.
+- **Lint** to catch undefined vars introduced by giant diffs.
+
+## Table: bug classes common in AI prototypes
+
+| Symptom | Likely cause | Quick fix |
+|---------|--------------|-----------|
+| Works once then blank | Event listener duplication | Teardown on scene change |
+| Drift on Safari | `100vh` quirks | Use dvh or measure container |
+| Desync multiplayer | Full state spam | Throttle + authoritative server |
+
+## FAQ
+
+**Should AI write tests?** Let it draft—**you** pick invariants worth locking.
+
+**When is logging enough?** Until you have paying players or tournaments—then metrics.
+
+## Next steps
+
+- Browse [vibe-coded games](/vibe-coded-games) for polish references.
+- Compare assistants in [AI tools](/ai-tools).
+
+---
+
+*YGG Play publishes reliability guides for fast-moving indies.*
+
+================================================================================
+## Blog: IP Essentials for Vibe-Coded Games (High Level, Not Legal Advice)
+URL: https://www.vibecode.game/blog/vibe-coded-games-ip-essentials
+Source: src/content/blog/en/vibe-coded-games-ip-essentials.mdx
+================================================================================
+
+Description: Trademarks, music, and AI outputs: where teams ask lawyers—and where common sense saves you first.
+
+**Not legal advice.** If you ship commercially, **hire counsel** in your jurisdiction. This article orients **solo and micro teams** toward the questions lawyers expect you to have already considered.
+
+## Content buckets
+
+- **Code** you wrote vs generated—keep licenses and attribution straight in your repo.
+- **Art & audio**—prefer assets with **clear licenses**; track provenance.
+- **Names & logos**—trademark conflicts hurt storefront visibility.
+
+## AI outputs
+
+Policies evolve. Maintain **prompt logs** and **model/version notes** for commercial work where contracts require it. When platforms ask **how** something was made, clarity protects you.
+
+## Fan works and jams
+
+Read jam rules **before** using third-party IP—even “obvious” homages.
+
+## When to call a lawyer
+
+- Revenue crosses thresholds you are uncomfortable self-judging.
+- You receive **cease/desist** correspondence.
+- You sign **publisher** or **platform** agreements.
+
+## FAQ
+
+**CC0 everything?** Possible for jam toys; commercial branding usually needs more thought.
+
+**Where to list safely?** Use honest tags on [vibe-coded games](/vibe-coded-games) and keep credits visible.
+
+---
+
+*YGG Play encourages informed builders—not anonymous risk.*
+
+================================================================================
+## Blog: Your First Browser Game: Vibe-Coding from Zero to Playable
+URL: https://www.vibecode.game/blog/vibe-coding-first-browser-game-beginners-guide
+Source: src/content/blog/en/vibe-coding-first-browser-game-beginners-guide.mdx
+================================================================================
+
+Description: No engine PhD required—start with HTML canvas or a micro-framework, let AI handle glue code, and finish with something you can share.
+
+**Vibe-coding** is not a single tool—it is a loop: *clarify intent → generate scaffolding → test → tighten prompts → ship a slice*. For your **first browser game**, the goal is not originality; it is **closure**: a URL you are proud to hand someone, running on mobile Safari and desktop Chrome without a lecture.
+
+## Choose your rendering surface
+
+You have three sane starting points:
+
+1. **Canvas 2D** — maximum control, minimal dependencies. Great for arcade prototypes.
+2. **DOM + CSS** — surprisingly strong for puzzle and narrative micro-games.
+3. **Light framework** (Phaser, Kaboom, Pixi)—faster if you already know one; slower if you are fighting docs.
+
+For week-one success, **canvas or DOM** usually wins because the mental model stays small.
+
+## The one-loop rule
+
+Define **one core loop** that takes under sixty seconds per run: *spawn → interact → resolve → score*. Everything else—menus, skins, audio packs—is **stretch goals** tracked in a “later.md” file you do not open until the loop feels juicy.
+
+## Prompting patterns that actually work
+
+Paste a **fixed template** into your assistant:
+
+- **Goal:** one sentence player fantasy.
+- **Constraints:** language, max files, no build step (or Vite only).
+- **Acceptance tests:** “Space starts the game,” “collision reduces HP,” “game over shows score.”
+
+Ask for **the smallest diff** that passes tests, not a rewrite. Rewrites burn beginners; diffs teach.
+
+## Performance and guilt-free corners
+
+Ship at **30 FPS** if 60 is fighting you. Use **integer math** where possible. Lazy-load assets. Your first game teaches **habits**; optimization culture comes after you have shipped twice.
+
+## Accessibility and fairness
+
+Even jam games benefit from **keyboard focus**, **color contrast**, and **mute**. Add a single toggle early; players remember thoughtfulness.
+
+## Table: first-game stack shortcuts
+
+| If you want… | Start with… | Avoid on day one… |
+|--------------|-------------|-------------------|
+| Fast movement feel | Canvas rAF loop | Full ECS |
+| Grid puzzles | DOM grid + CSS | Custom render pipeline |
+| Learning multiplayer | Single-screen hot-seat | Dedicated game server |
+
+## Mistakes we see in beginner listings
+
+- **No build instructions** in the README or itch page.
+- **No loop video**—three seconds of GIF beats three paragraphs of lore.
+- **Mystery controls**—show them on first paint.
+
+## FAQ
+
+**Do I need TypeScript?** Helpful, not mandatory. If errors confuse you, start JS and migrate hot files later.
+
+**Where does AI help most?** Boilerplate, collision helpers, and refactors—not high-level taste. You still direct tone and pacing.
+
+**How do I join the ecosystem?** Publish your stack honestly on your [developer profile](/developers) and browse [AI tools](/ai-tools) others used.
+
+## What to do this weekend
+
+1. Pick canvas or DOM.
+2. Implement the loop with touch + keyboard.
+3. Deploy to static hosting.
+4. Add your page to [vibe-coded games](/vibe-coded-games) when you are ready for players.
+
+---
+
+*YGG Play helps builders ship browser-first games and find players who care how games are made.*
+
+================================================================================
+## Blog: Engine & Tooling Updates Web-First Indies Should Watch
+URL: https://www.vibecode.game/blog/web-first-indies-engine-tooling-updates
+Source: src/content/blog/en/web-first-indies-engine-tooling-updates.mdx
+================================================================================
+
+Description: WASM maturity, GPU defaults, and export pipelines—without chasing every changelog.
+
+You cannot read every **release note**—so track **themes**: runtime performance, **bundle size**, **audio**, and **mobile GPU** behavior.
+
+## Themes for 2026-era web games
+
+- **WebGPU availability** improving on Android—test fallbacks.
+- **Compression** codecs for textures/audio affecting cold load.
+- **Threading models** in WASM ports impacting physics-heavy titles.
+
+## Process
+
+Set a **quarterly calendar reminder** to read your engine’s **breaking changes** section only—skip marketing fluff.
+
+## Builder actions
+
+- Maintain **device lab** of one iPhone + one budget Android.
+- Log **load time** beside feature work in changelog.
+
+## Links
+
+Discover what ships in the wild via [vibe-coded games](/vibe-coded-games) and compare stacks on [AI tools](/ai-tools).
+
+## FAQ
+
+**Upgrade day one?** Only if security or store compliance demands it.
+
+---
+
+*YGG Play prefers boring upgrade discipline over hype chasing.*
+
+================================================================================
+## Blog: WebSockets for Vibe-Coded Games: A Primer Before You Code
+URL: https://www.vibecode.game/blog/websockets-multiplayer-vibe-coding-primer
+Source: src/content/blog/en/websockets-multiplayer-vibe-coding-primer.mdx
+================================================================================
+
+Description: Messages, rooms, ticks, and failure modes—so your first socket project does not become a science project.
+
+**WebSockets** give you a persistent, bidirectional pipe—great for frequent state updates. They are not magic: you still design **schemas**, **authority**, and **failure recovery**.
+
+## Mental model
+
+- **Server** owns truth for competitive games (usually).
+- **Clients** send intents (`move`, `jump`), not outcomes (`I scored`).
+- **Broadcast** deltas, not the universe—bandwidth is a UX issue.
+
+## Message design
+
+Start JSON for readability; optimize to binary if metrics prove need. Always include **`type`**, **`seq` or `tick`**, and **`roomId`**.
+
+## Rooms and matchmaking v0
+
+Random room codes in URL query are enough for prototypes. Swap to a matchmaker when retention demands it.
+
+## Failure modes
+
+- **Silent disconnects** — heartbeat/ping.
+- **Replay floods** — rate limit.
+- **Cheaty clients** — validate bounds server-side.
+
+## FAQ
+
+**UDP instead?** Browsers do not expose raw UDP; WebRTC data channels exist but add signaling complexity—graduate when needed.
+
+**Hands-on next?** Try [our Cursor multiplayer sprint](/blog/how-to-multiplayer-game-cursor-two-hours).
+
+## Next steps
+
+- Explore listings in [vibe-coded games](/vibe-coded-games).
+- Compare tools at [AI tools](/ai-tools).
+
+---
+
+*YGG Play helps you learn multiplayer without myth-making.*
+
+================================================================================
+## Blog: YGG Play and the Vibe-Coded Games Community
+URL: https://www.vibecode.game/blog/ygg-play-vibe-coded-games-community
+Source: src/content/blog/en/ygg-play-vibe-coded-games-community.mdx
+================================================================================
+
+Description: Why we care about transparent listings, builder profiles, and players who read credits.
+
+**YGG Play** backs a simple idea: **players and builders both win** when games are easy to try and **honest about how they were made**. Vibe-coding is a **method**, not a genre—arcade, puzzle, and narrative games all belong.
+
+## What we optimize for
+
+- **Fast play** paths and clear controls.
+- **Builder identity** through [developer profiles](/developers).
+- **Tool literacy** via [AI tools](/ai-tools) pages you can cite.
+- **Deadlines** that ship art via [game jams](/game-jams).
+
+## For listers
+
+Bring a **stable URL**, **media**, and **truthful tags**. We surface games to players who want **new mechanics** and **new workflows**, not only AAA polish.
+
+## For players
+
+Expect **browser-first** experiments alongside downloadable titles. Use filters and follow creators whose taste you trust.
+
+## FAQ
+
+**Is everything AI-generated?** No—**AI-assisted** spans a spectrum; read credits and tool tags.
+
+**How to contribute?** Ship something listable on [vibe-coded games](/vibe-coded-games) and tell your story.
+
+---
+
+*YGG Play grows communities that respect craft and context.*
+
+================================================================================
+## Game: Arcade Blitz
+URL: https://www.vibecode.game/vibe-coded-games/arcade-blitz
+Source: src/content/games/en/arcade-blitz.mdx
+================================================================================
+
+Description: Fast arena dodging with combo chains and escalating waves.
+
+Arcade Blitz is a high-tempo arena action game built around movement mastery, fast reads, and combo routing under pressure.
+
+## Gameplay
+
+Each run drops you into compact combat arenas with escalating enemy patterns. You chain dashes, parries, and ability cancels to keep your score multiplier alive while surviving increasingly dense wave compositions.
+
+## Key Features
+
+- Skill-based dodge and counter loop with responsive inputs
+- Combo meter that rewards aggressive, clean execution
+- Wave modifiers that change enemy behavior every round
+- Short-session structure designed for repeat runs and leaderboard climbs
+
+## Why It Stands Out
+
+Arcade Blitz blends classic arcade readability with modern action pacing. Attacks are clearly telegraphed, but decisions still need to happen in split seconds, which keeps each attempt tense and satisfying.
+
+## AI-Assisted Development
+
+`ChatGPT` was used to prototype enemy pattern variants and scoring rules, while `Cursor` accelerated iteration on wave tuning scripts and state-machine refactors.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Byte Brawlers
+URL: https://www.vibecode.game/vibe-coded-games/byte-brawlers
+Source: src/content/games/en/byte-brawlers.mdx
+================================================================================
+
+Description: 2D team battles with gadgets, ultimates, and map control.
+
+Byte Brawlers is a competitive 2D team fighter focused on coordinated pushes, gadget timing, and objective control.
+
+## Gameplay
+
+Matches are played in fast rounds where two squads contest map objectives while managing cooldowns and ult economy. Team comp decisions matter: bruisers open space, supports sustain pressure, and flankers punish bad positioning.
+
+## Key Features
+
+- 3v3 objective modes with quick round turnover
+- Distinct brawler classes with unique ultimates
+- Gadget system for zoning, displacement, and setup plays
+- Ranked and custom lobbies for competitive or casual sessions
+
+## Why It Stands Out
+
+Unlike pure duel fighters, Byte Brawlers emphasizes communication and tempo swings. Well-timed ult chains can flip a match instantly, making teamwork and adaptation the core skill.
+
+## AI-Assisted Development
+
+`ChatGPT` supported prototype balance notes and matchup documentation, while `GitHub Copilot` sped up ability scripting and UI state handling for loadouts.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Cipher Heist
+URL: https://www.vibecode.game/vibe-coded-games/cipher-heist
+Source: src/content/games/en/cipher-heist.mdx
+================================================================================
+
+Description: Stealth puzzler where timing and route planning are everything.
+
+Cipher Heist is a stealth-puzzle experience where route planning, timing windows, and system manipulation are the heart of every mission.
+
+## Gameplay
+
+You infiltrate high-security facilities, map patrol loops, and chain silent interactions to reach extraction undetected. Levels are designed as logic spaces, so success comes from observation and clean execution rather than brute force.
+
+## Key Features
+
+- Multi-path stealth sandboxes with layered security systems
+- Environmental puzzles tied to cameras, locks, and power grids
+- Alert-state escalation that changes enemy routes dynamically
+- Mission scoring based on noise, visibility, and completion speed
+
+## Why It Stands Out
+
+Cipher Heist rewards patience and planning. Every successful run feels authored by the player because solutions emerge from understanding systems, not following a single scripted path.
+
+## AI-Assisted Development
+
+`Cursor` helped structure mission scripting and trigger logic, while `Claude` supported puzzle flow reviews to keep challenge curves fair and readable.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Cosmic Farm
+URL: https://www.vibecode.game/vibe-coded-games/cosmic-farm
+Source: src/content/games/en/cosmic-farm.mdx
+================================================================================
+
+Description: Relaxed farming sim on alien planets with cozy progression.
+
+Cosmic Farm is a cozy farming simulation set across small alien worlds, built for relaxed progression and expressive base customization.
+
+## Gameplay
+
+You cultivate biome-specific crops, befriend local creatures, and automate simple production chains to expand your interplanetary homestead. Sessions are intentionally low-pressure, with optional goals that let you play at your own pace.
+
+## Key Features
+
+- Multiple planets with unique weather and soil mechanics
+- Crop, crafting, and habitat systems that interconnect naturally
+- Decorative building tools for personalized farm layouts
+- Bite-sized quests and seasonal events for steady progression
+
+## Why It Stands Out
+
+Cosmic Farm keeps the loop calm without becoming shallow. It mixes light optimization with cozy worldbuilding so players can choose between efficiency and creativity each session.
+
+## AI-Assisted Development
+
+`Claude` was used to iterate quest text and progression beats, while `Copilot` accelerated implementation of inventory helpers and farming simulation utilities.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Dungeon Dash
+URL: https://www.vibecode.game/vibe-coded-games/dungeon-dash
+Source: src/content/games/en/dungeon-dash.mdx
+================================================================================
+
+Description: Roguelite runs through trap-heavy dungeons with randomized loot.
+
+Dungeon Dash is a run-based roguelite RPG that combines pattern-driven combat with high-variance loot decisions.
+
+## Gameplay
+
+Each descent is procedurally assembled from combat rooms, trap corridors, and elite encounters. You build around found gear and relic synergies, deciding whether to play safely for consistency or push deeper for rare rewards.
+
+## Key Features
+
+- Procedural dungeon layouts with branching risk/reward paths
+- Class-like build identities created through relic combinations
+- Boss fights with learnable telegraphs and escalating phases
+- Meta progression that unlocks new run modifiers and options
+
+## Why It Stands Out
+
+Dungeon Dash balances accessibility and depth: controls are immediate, but long-term mastery comes from build adaptation and encounter knowledge.
+
+## AI-Assisted Development
+
+`ChatGPT` supported early item and relic ideation, while `Claude` helped refine enemy behavior specs and run-economy balancing notes.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Forest Keepers
+URL: https://www.vibecode.game/vibe-coded-games/forest-keepers
+Source: src/content/games/en/forest-keepers.mdx
+================================================================================
+
+Description: Co-op defense game where teams protect biomes from corruption.
+
+Forest Keepers is a co-op strategy defense game where squads protect living biomes from corruption waves.
+
+## Gameplay
+
+Teams coordinate resource routes, place defenses, and rotate between lanes as threats evolve in real time. Match success depends on communication, role coverage, and timing defensive cooldowns across multiple fronts.
+
+## Key Features
+
+- Cooperative lane-defense gameplay for up to four players
+- Biome-specific objectives that change tactical priorities
+- Upgrade trees for structures, utility tools, and support abilities
+- Dynamic enemy mutations that force mid-match adaptation
+
+## Why It Stands Out
+
+Forest Keepers blends tactical planning with multiplayer urgency. It rewards teams that share information and adjust quickly instead of relying on one fixed build order.
+
+## AI-Assisted Development
+
+`Copilot` accelerated systems code for wave scheduling and upgrades, while `Cursor` improved iteration speed on co-op state sync and balance passes.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Mecha Rally
+URL: https://www.vibecode.game/vibe-coded-games/mecha-rally
+Source: src/content/games/en/mecha-rally.mdx
+================================================================================
+
+Description: Arena racing with customizable mechs and physics-heavy boosts.
+
+Mecha Rally is an action-racing hybrid where customizable mechs battle for position across physics-heavy arena tracks.
+
+## Gameplay
+
+Races combine boost management, weapon timing, and terrain interaction. You tune chassis stats between events, then adapt your driving line and combat choices based on track hazards and rival loadouts.
+
+## Key Features
+
+- Arena circuits with shortcuts, hazards, and verticality
+- Modular mech customization for speed, armor, and handling
+- Mid-race combat tools that create high-risk overtakes
+- Event ladders with escalating AI and mixed rule sets
+
+## Why It Stands Out
+
+Mecha Rally treats racing and combat as one system: positioning creates attack opportunities, and offense reshapes race strategy.
+
+## AI-Assisted Development
+
+`ChatGPT` supported early tuning frameworks and event rule concepts, while `Gemini` assisted with telemetry review summaries and physics parameter experimentation.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Neon Nomads
+URL: https://www.vibecode.game/vibe-coded-games/neon-nomads
+Source: src/content/games/en/neon-nomads.mdx
+================================================================================
+
+Description: Open-world courier missions through a cyberpunk metropolis.
+
+Neon Nomads is an open-world adventure centered on courier contracts, faction reputation, and route mastery in a dense cyberpunk city.
+
+## Gameplay
+
+You accept delivery missions with branching constraints, then navigate districts with different risk profiles, surveillance density, and traffic behavior. Progression unlocks mobility tools and narrative paths tied to the factions you prioritize.
+
+## Key Features
+
+- Large connected city with district-based mission identities
+- Reputation system that alters jobs, rewards, and story beats
+- Traversal upgrades for speed, stealth, and vertical access
+- Optional side contracts that expand world lore and economy depth
+
+## Why It Stands Out
+
+Neon Nomads captures the fantasy of being a high-skill city operator. Movement, planning, and relationship management all feed into a meaningful long-term loop.
+
+## AI-Assisted Development
+
+`ChatGPT` helped draft mission variants and dialogue seeds, `Claude` supported narrative consistency passes, and `Cursor` sped up systemic quest iteration.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Neon Runner
+URL: https://www.vibecode.game/vibe-coded-games/neon-runner
+Source: src/content/games/en/neon-runner.mdx
+================================================================================
+
+Description: A fast-paced endless runner through a synthwave city. Dodge obstacles, collect pulses, and chase the high score — built with vibe coding and a tight feedback loop.
+
+Neon Runner is all about **flow**: one-thumb controls, instant restarts, and a synthwave presentation tuned for high-speed clarity.
+
+## Gameplay
+
+You sprint through procedural lanes, chaining near-misses and pulse pickups to push your multiplier while avoiding late-run pattern overload. Runs are short, but scoring depth comes from route commitment and split-second correction.
+
+## Key Features
+
+- Endless-runner loop designed for rapid retries
+- Score multiplier system that rewards confident movement
+- Procedural obstacle grammar for high replay variety
+- Daily challenge seeds for competitive high-score sessions
+
+## Why It Stands Out
+
+Neon Runner keeps friction low and mastery high. New players can jump in instantly, while advanced players optimize lines and tempo for leaderboard gains.
+
+## AI-Assisted Development
+
+`ChatGPT` helped prototype level grammar and challenge ideas, while `Cursor` accelerated balancing tools and runtime tuning workflows.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Pixel Quest
+URL: https://www.vibecode.game/vibe-coded-games/pixel-quest
+Source: src/content/games/en/pixel-quest.mdx
+================================================================================
+
+Description: A cozy dungeon crawler with chunky pixels, secret rooms, and bosses that telegraph every move. Perfect for short sessions and speedrun attempts.
+
+Pixel Quest is a cozy pixel RPG with tight room-scale combat, rewarding exploration, and short-session dungeon progression.
+
+## Gameplay
+
+You clear handcrafted dungeon floors, decode enemy tells, and choose when to spend resources or push one room deeper. Hidden paths and optional objectives reward players who explore carefully instead of rushing the critical route.
+
+## Key Features
+
+- Readable pixel combat with pattern-based boss encounters
+- Secret rooms, breakables, and optional mini-objectives
+- Gear and charm system that supports different playstyles
+- Compact runs ideal for quick sessions and repeat attempts
+
+## Why It Stands Out
+
+Pixel Quest mixes comfort and challenge well: visuals are nostalgic and warm, but encounter design still asks for deliberate timing and smart positioning.
+
+## AI-Assisted Development
+
+`ChatGPT` supported item and encounter ideation, while `Claude` helped tune tutorial pacing and readability for new players.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Quantum Drift
+URL: https://www.vibecode.game/vibe-coded-games/quantum-drift
+Source: src/content/games/en/quantum-drift.mdx
+================================================================================
+
+Description: Time-bending racing with short tracks and high replay value.
+
+Quantum Drift is a high-speed arcade racer built around time-shift mechanics, precision cornering, and short competitive runs.
+
+## Gameplay
+
+Each track challenges you to alternate between normal pace and controlled time dilation to optimize lines and recover from mistakes. Mastery comes from learning when to spend temporal charge for corner exits versus defensive correction.
+
+## Key Features
+
+- Time-bending driving mechanic with strategic resource use
+- Compact tracks designed for leaderboard replayability
+- Ghost racing and split tracking for lap optimization
+- Vehicle handling profiles for different racing styles
+
+## Why It Stands Out
+
+Quantum Drift feels fresh because it turns time control into a skill expression tool, not a simple boost button. Fast races still leave room for deep optimization.
+
+## AI-Assisted Development
+
+`Claude` supported mechanic documentation and balance notes, while `Cursor` sped up telemetry instrumentation and lap-analysis tooling.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Game: Skyline Tycoon
+URL: https://www.vibecode.game/vibe-coded-games/skyline-tycoon
+Source: src/content/games/en/skyline-tycoon.mdx
+================================================================================
+
+Description: Build and optimize a floating city economy in short sessions.
+
+Skyline Tycoon is a strategy-simulation game where you design and optimize a floating city economy under shifting demand and resource pressure.
+
+## Gameplay
+
+You zone districts, balance production chains, and manage transit throughput while responding to events that disrupt supply or labor. Sessions are structured for meaningful progress in short bursts, with long-term goals tied to city specialization.
+
+## Key Features
+
+- Layered city-economy simulation with clear feedback loops
+- Modular district planning and infrastructure management
+- Scenario events that force strategic trade-offs
+- Sandbox and goal-driven modes for different player styles
+
+## Why It Stands Out
+
+Skyline Tycoon offers satisfying optimization depth without overwhelming onboarding. It gives players enough data to plan intelligently while keeping the interface readable.
+
+## AI-Assisted Development
+
+`Gemini` helped explore economic event scenarios and balancing narratives, while `Cursor` accelerated simulation-system refactors and UI iteration.
+
+<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
+
+================================================================================
+## Developer profile: Aria Nguyen
+URL: https://www.vibecode.game/developers/aria-nguyen
+Source: src/content/developers/en/aria-nguyen.mdx
+================================================================================
+
+### Simulated Interview with Aria Nguyen
+
+**Q1: What kind of games are you most excited to build right now?**  
+I am focused on narrative-forward **adventure** experiences set in dense **open-world** spaces that reward curiosity. I love when a player can ignore the critical path for an hour and still discover a story thread, a strange character, or a hidden environmental clue that feels intentional.
+
+**Q2: How does your role as Worldbuilding Lead shape your process?**  
+As Worldbuilding Lead, I start with the emotional map of a region before I define mechanics. In practice, that means building landmarks, faction tensions, and local myths first, then designing quests that feel like natural consequences of the world rather than isolated mission prompts.
+
+**Q3: What does your AI-assisted workflow look like day to day?**  
+I use **ChatGPT** to brainstorm alternate quest outcomes and optional dialogue arcs, especially when I want to test tonal range quickly. I use **Claude** for long-form lore synthesis and consistency checks across story documents, and **Cursor** to speed up implementation passes for scripting hooks and content tooling.
+
+**Q4: How do adventure and open-world tags influence design decisions?**  
+The **adventure** tag pushes me to prioritize pacing, wonder, and narrative payoff, while the **open-world** tag forces me to design for player-driven order of discovery. Every biome, side activity, and traversal route has to carry storytelling weight, even if a player encounters it "out of sequence."
+
+**Q5: Can you share a recent challenge and how you solved it?**  
+A recent challenge was making side quests feel meaningful without overwhelming players with checklist fatigue. I solved it by grouping quests into small narrative clusters tied to place identity, then used AI-generated variants as drafts before curating them manually for emotional clarity and thematic cohesion.
+
+**Q6: What are you aiming to learn or build next?**  
+I want to build a more reactive open-world narrative layer where NPC memory changes ambient dialogue and quest entrances based on prior player behavior. My goal is to combine handcrafted story direction with AI-assisted prototyping so each adventure still feels authored but more alive.
+
+================================================================================
+## Developer profile: Ava Martinez
+URL: https://www.vibecode.game/developers/ava-martinez
+Source: src/content/developers/en/ava-martinez.mdx
+================================================================================
+
+### Simulated Interview with Ava Martinez
+
+**Q1: What kind of games are you most excited to build right now?**  
+I am building high-energy games that combine **arcade** immediacy with **endless-runner** momentum, then layer in **fighting** depth and **multiplayer** chaos. I want sessions to be instantly fun in 60 seconds but still reward mastery over weeks.
+
+**Q2: How does your role as Creative Director shape your approach?**  
+As Creative Director, I spend a lot of time protecting the core feeling of "speed plus style." I align art, controls, audio, and progression around that promise so every decision supports fast readability, expressive inputs, and replay value for solo and social players.
+
+**Q3: What does your AI-assisted workflow look like each week?**  
+I use **ChatGPT** for rapid ideation on event modifiers, combo challenge prompts, and onboarding copy. I use **Cursor** to accelerate prototype iteration with designers and engineers, and **GitHub Copilot** to speed up repetitive gameplay scaffolding while we focus on polish and balancing.
+
+**Q4: How do your preferred genres influence the final design?**  
+The **arcade** and **endless-runner** tags keep us strict about low-friction controls and instant restart loops. The **fighting** tag pushes us toward readable combat interactions and spacing decisions, while **multiplayer** requires robust comeback systems and fairness under latency.
+
+**Q5: What is one challenge you recently solved?**  
+We had a version where advanced players dominated online rounds too quickly, which hurt retention for newer players. We added dynamic matchmaking rules, clearer telegraphs, and adaptive scoring multipliers, then used AI-supported test scenario generation to validate edge cases before launch.
+
+**Q6: What are you aiming to build next?**  
+I want to ship a seasonal multiplayer mode that blends endless-runner routing decisions with short tactical duels. The long-term plan is a living arcade ecosystem where community-created challenges coexist with curated events and still preserve tight, skill-based game feel.
+
+================================================================================
+## Developer profile: Elena Garcia
+URL: https://www.vibecode.game/developers/elena-garcia
+Source: src/content/developers/en/elena-garcia.mdx
+================================================================================
+
+### Simulated Interview with Elena Garcia
+
+**Q1: What kind of games are you most excited to build right now?**  
+I am most excited by **simulation** games with transparent systems that still generate surprising outcomes. I also enjoy **strategy** layers where players can recover from mistakes through planning rather than brute-force optimization.
+
+**Q2: How does your role as Simulation Designer guide your process?**  
+As a Simulation Designer, I define the rules of the world before content quantity. I map resource flows, friction points, and decision timing so every strategic move has visible trade-offs and players can understand why a system succeeded or failed.
+
+**Q3: How do you use AI tools in your workflow?**  
+I use **Gemini** to explore alternate system architectures and stress-test assumptions in early design docs. I use **Cursor** to quickly implement balancing experiments, telemetry hooks, and simulation parameter tools so iteration cycles stay short and measurable.
+
+**Q4: How do simulation and strategy tags affect your design choices?**  
+The **simulation** tag keeps me focused on systemic coherence and long-term consequences. The **strategy** tag pushes me to ensure players always have multiple viable paths, with enough information to make deliberate choices instead of guessing hidden formulas.
+
+**Q5: Can you share a challenge you recently solved?**  
+We had a late-game economy that became too stable, so player decisions stopped feeling meaningful. I reworked sink-and-source timing, introduced regional constraints, and used AI-assisted scenario generation to test unusual play patterns before final balancing.
+
+**Q6: What are you aiming to build next?**  
+I want to build a strategy simulation where civilian behavior, logistics, and weather all interact without overwhelming the player. The key goal is a clean interface that communicates deep systems clearly, so complexity feels empowering instead of opaque.
+
+================================================================================
+## Developer profile: Ethan Walker
+URL: https://www.vibecode.game/developers/ethan-walker
+Source: src/content/developers/en/ethan-walker.mdx
+================================================================================
+
+### Simulated Interview with Ethan Walker
+
+**Q1: What kind of games are you most excited to build right now?**  
+I am focused on team-first **strategy** games where communication and role clarity decide outcomes. I am especially interested in **multiplayer** experiences that let squads improvise under pressure instead of following rigid meta scripts.
+
+**Q2: How does your role as Technical Producer influence development?**  
+As Technical Producer, I connect design ambition with delivery reality. I help teams sequence features, define technical constraints early, and protect performance budgets so multiplayer systems stay stable while strategy depth continues to grow.
+
+**Q3: What does your AI-assisted workflow look like?**  
+I use **Copilot** for fast implementation support on repetitive systems and integration tasks. I use **Cursor** to accelerate prototype branches, debugging passes, and balancing tools so designers can test strategic changes without long engineering bottlenecks.
+
+**Q4: How do your preferred genres shape game decisions?**  
+The **strategy** tag means we prioritize meaningful information, counterplay, and long-term planning. The **multiplayer** tag means we must design around latency tolerance, communication affordances, and fair recovery opportunities for teams that fall behind early.
+
+**Q5: What is one challenge you recently solved?**  
+We had a cooperative mode where one role became mandatory, reducing team composition creativity. We rebuilt utility distribution across classes, adjusted cooldown interactions, and used AI-assisted test matrix generation to validate more balanced team archetypes.
+
+**Q6: What are you aiming to build next?**  
+I want to ship a modular multiplayer strategy framework where seasonal updates can add new team objectives without destabilizing core systems. The long-term vision is deeper strategic expression with faster balancing cycles and stronger competitive integrity.
+
+================================================================================
+## Developer profile: Liam Chen
+URL: https://www.vibecode.game/developers/liam-chen
+Source: src/content/developers/en/liam-chen.mdx
+================================================================================
+
+### Simulated Interview with Liam Chen
+
+**Q1: What kind of games are you most excited to build right now?**  
+I love blending **arcade** clarity with **RPG** progression and **roguelite** unpredictability. My favorite projects are ones where each run feels immediately readable but character builds and encounter outcomes still surprise experienced players.
+
+**Q2: How does your role as Gameplay Engineer shape your workflow?**  
+As Gameplay Engineer, I focus on making mechanics feel precise under pressure. I care about input timing, combat readability, and encounter cadence, then I reinforce those systems with progression logic that makes each upgrade choice meaningful.
+
+**Q3: What does your AI-assisted process look like in practice?**  
+I use **ChatGPT** to draft alternate combat rules, status-effect interactions, and reward loop ideas during concept phases. I use **Claude** to reason through complex balancing edge cases and to refine implementation plans before coding high-impact changes.
+
+**Q4: How do arcade, RPG, and roguelite tags influence your design decisions?**  
+The **arcade** tag keeps controls crisp and instantly understandable, while the **RPG** tag pushes long-term build identity. The **roguelite** tag ensures failure still teaches something useful, with procedural variation that encourages adaptation rather than repetition.
+
+**Q5: Can you share a recent challenge and solution?**  
+We saw players converging on one dominant build too early in progression. I reworked item synergies, adjusted risk-reward pacing across runs, and used AI-assisted simulation prompts to identify outlier combinations before updating live balance.
+
+**Q6: What are you aiming to build next?**  
+I want to build a combat sandbox where arcade responsiveness and roguelite variety coexist with deeper RPG buildcraft. The next milestone is a smarter encounter director that reacts to player style without sacrificing fairness or readability.
+
+================================================================================
+## Developer profile: Marcus Reed
+URL: https://www.vibecode.game/developers/marcus-reed
+Source: src/content/developers/en/marcus-reed.mdx
+================================================================================
+
+### Simulated Interview with Marcus Reed
+
+**Q1: What kind of games are you most excited to build right now?**  
+I am focused on skill-heavy **racing** games with the immediacy of classic **arcade** design. I want every lap to teach players something about risk, route selection, and momentum management without burying that learning under unnecessary complexity.
+
+**Q2: How does your role as Gameplay Programmer influence your approach?**  
+As Gameplay Programmer, I obsess over feel before feature count. I iterate on handling curves, traction behavior, and boost timing until inputs feel trustworthy, then layer progression systems that reward consistency and experimentation.
+
+**Q3: What does your AI workflow look like day to day?**  
+I use **Claude** to think through tuning logic and to evaluate edge-case behavior in vehicle systems. I use **Cursor** for rapid iteration on gameplay scripts, race-state tools, and debug instrumentation so I can test many handling hypotheses quickly.
+
+**Q4: How do racing and arcade tags guide design choices?**  
+The **racing** tag demands clean competitive readability and strong track identity. The **arcade** tag pushes me toward low-friction onboarding, quick rematches, and satisfying speed feedback so players can enjoy the loop immediately while still mastering deeper mechanics.
+
+**Q5: What challenge did you recently solve?**  
+One track had a shortcut that dominated all leaderboard routes and reduced strategic variety. I rebalanced split times, adjusted collision forgiveness, and used AI-assisted scenario planning to validate more route diversity without removing high-skill expression.
+
+**Q6: What are you aiming to build next?**  
+I want to build a racing toolkit that supports dynamic weather and surface conditions while keeping controls predictable. The goal is to create arcade-accessible racing that still supports long-term mastery and competitive scene depth.
+
+================================================================================
+## Developer profile: Maya Patel
+URL: https://www.vibecode.game/developers/maya-patel
+Source: src/content/developers/en/maya-patel.mdx
+================================================================================
+
+### Simulated Interview with Maya Patel
+
+**Q1: What kind of games are you most excited to build right now?**  
+I am most excited by games that merge logical **puzzle** structures with high-tension **stealth** play. I love experiences where every room is a problem space and every solution reflects the player’s planning style.
+
+**Q2: How does your role as Systems Designer shape your process?**  
+As a Systems Designer, I focus on readable rule sets that create many valid strategies. I design guard behavior, visibility logic, tool affordances, and objective layering so players can improvise while still understanding consequence and risk.
+
+**Q3: How do AI tools fit into your daily workflow?**  
+I use **Cursor** to prototype systemic interactions and quickly test small rule changes in stealth scenarios. I use **Claude** for design reasoning, edge-case exploration, and narrative variant drafting before I curate and tighten each level’s authored intent.
+
+**Q4: How do puzzle and stealth tags influence design decisions?**  
+The **puzzle** tag means clarity is non-negotiable: players must be able to read systems and form hypotheses. The **stealth** tag requires controlled tension, predictable enemy logic, and elegant fail states that encourage adaptation rather than frustration.
+
+**Q5: Can you share a challenge you recently solved?**  
+We had a level where players felt forced into one route, which reduced both stealth creativity and puzzle satisfaction. I added alternate timing windows, tool-based bypasses, and AI-assisted test-path generation to ensure multiple viable strategies.
+
+**Q6: What are you aiming to build next?**  
+I want to build a stealth puzzle framework where mission spaces evolve in response to player behavior across chapters. The next step is stronger systemic reactivity while maintaining the clear mental models that make puzzle-driven stealth rewarding.
+
+================================================================================
+## Developer profile: Noah Kim
+URL: https://www.vibecode.game/developers/noah-kim
+Source: src/content/developers/en/noah-kim.mdx
+================================================================================
+
+### Simulated Interview with Noah Kim
+
+**Q1: What kind of games are you most excited to build right now?**  
+I am excited by high-speed **arcade** titles with the intensity of modern **action** combat. I want players to feel immediate control confidence, then discover deeper timing and spacing layers as they push difficulty.
+
+**Q2: How does your role as Lead Designer shape your approach?**  
+As Lead Designer, I define the core interaction loop first and protect it through every production phase. I align UX, animation timing, and level pacing around that loop so the action feels readable, punchy, and consistently rewarding.
+
+**Q3: What does your AI-assisted workflow look like?**  
+I use **ChatGPT** to generate mechanic variants, tutorial approaches, and encounter ideas during exploration phases. I use **Cursor** for rapid implementation and iteration on prototype logic, then we validate decisions with telemetry and hands-on playtesting.
+
+**Q4: How do arcade and action tags influence your design decisions?**  
+The **arcade** tag pushes us toward low friction, instant retries, and clear feedback loops. The **action** tag demands stronger enemy readability, responsive controls, and encounter escalation that tests skill rather than just reaction speed.
+
+**Q5: Can you share a challenge and how you solved it?**  
+Our mid-game difficulty ramp was too steep, causing churn before players reached advanced mechanics. I restructured encounter sequencing, improved visual telegraphs, and used AI-assisted scenario drafting to test alternate progression curves quickly.
+
+**Q6: What are you aiming to build next?**  
+I want to build an action-forward arcade platform where movement tech, combo routing, and boss scripting all reinforce one skill language. The goal is a game that feels approachable on day one and deeply expressive by week three.
+
+================================================================================
+## Developer profile: Sofia Rossi
+URL: https://www.vibecode.game/developers/sofia-rossi
+Source: src/content/developers/en/sofia-rossi.mdx
+================================================================================
+
+### Simulated Interview with Sofia Rossi
+
+**Q1: What kind of games are you most excited to build right now?**  
+I am most excited by gentle **simulation** games with a warm **casual** rhythm that supports daily play. I want players to feel cared for by the systems: clear goals, low pressure, and meaningful progress through small moments.
+
+**Q2: How does your role as Product Designer influence your process?**  
+As Product Designer, I design for emotional continuity across sessions. I focus on interface tone, progression pacing, and reward cadence so the simulation remains engaging without demanding intense mechanical precision from casual players.
+
+**Q3: What does your AI-assisted workflow look like?**  
+I use **Claude** to shape content frameworks, narrative micro-copy, and consistency checks for long-form progression arcs. I use **Copilot** to accelerate implementation details in UI and systems tooling, then rely on structured playtests for final tuning.
+
+**Q4: How do simulation and casual tags influence design decisions?**  
+The **simulation** tag keeps me focused on coherent world rules and long-term systems depth. The **casual** tag reminds me to reduce friction everywhere: readable onboarding, forgiving mechanics, and progression that feels steady instead of punishing.
+
+**Q5: What challenge have you recently solved?**  
+We noticed players loved early sessions but dropped once management complexity increased too quickly. I rebalanced feature unlock order, simplified decision surfaces, and used AI-assisted content pass planning to keep depth while preserving the cozy casual tone.
+
+**Q6: What are you aiming to build next?**  
+I want to build a simulation game where personalization and seasonal content keep casual players returning for months. The next milestone is a stronger live-content pipeline that scales variety without diluting clarity or emotional warmth.
+
+================================================================================
+## Developer profile: Zoe Park
+URL: https://www.vibecode.game/developers/zoe-park
+Source: src/content/developers/en/zoe-park.mdx
+================================================================================
+
+### Simulated Interview with Zoe Park
+
+**Q1: What kind of games are you most excited to build right now?**  
+I am excited by competitive projects that combine the momentum of **racing** with the intensity of **action** game design. I want speed to be tactical, where movement choices and split-second decisions matter as much as raw reflexes.
+
+**Q2: How does your role as Game Director shape your process?**  
+As Game Director, I define a clear gameplay thesis and keep every discipline aligned to it. I spend a lot of time on decision framing: what to prototype, what to cut, and how to preserve a cohesive player identity from first lap to high-level play.
+
+**Q3: How do you use AI in your day-to-day workflow?**  
+I use **ChatGPT** for early concept exploration, mode ideation, and communication framing for cross-team alignment. I use **Gemini** to compare strategic design alternatives and evaluate system trade-offs before we commit to expensive production decisions.
+
+**Q4: How do racing and action tags influence your design choices?**  
+The **racing** tag means precision handling, readable track language, and skill-based route planning. The **action** tag pushes us toward stronger encounter tension, high-impact feedback, and more expressive risk-reward moments during high-speed play.
+
+**Q5: Can you share a recent challenge and solution?**  
+We had a prototype where spectacle was strong but competitive clarity was weak in crowded matches. I led a redesign of camera rules, collision communication, and visual priority systems, then used AI-assisted review checklists to speed up iteration across teams.
+
+**Q6: What are you aiming to build next?**  
+I want to build a racing-action experience with esports-grade readability and broad player accessibility. The next target is a mode structure that supports both quick public matches and long-term mastery for highly competitive players.
+
+================================================================================
+## AI tool: Bolt
+URL: https://www.vibecode.game/ai-tools/bolt
+Source: src/content/ai-tools/en/bolt.mdx
+================================================================================
+
+Description: Bolt.new lets teams generate and iterate full-stack apps from prompts directly in the browser.
+
+## Why creators use Bolt
+
+Bolt is useful for rapidly prototyping game landing pages, dashboards, and companion web experiences without local setup.
+
+## Tutorials
+
+- [Bolt.new](https://bolt.new/)
+- [StackBlitz docs](https://developer.stackblitz.com/)
+- [Prompting tips for app generation](https://developer.stackblitz.com/platform/webcontainers)
+
+## Video walkthrough
+
+<iframe
+  width="100%"
+  height="420"
+  src="https://www.youtube.com/embed/2fQ4Q0H3j3A"
+  title="Bolt tutorial"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+================================================================================
+## AI tool: Claude
+URL: https://www.vibecode.game/ai-tools/claude
+Source: src/content/ai-tools/en/claude.mdx
+================================================================================
+
+Description: Anthropic's AI assistant for long-context reasoning, coding help, and reliable writing workflows.
+
+## Why creators use Claude
+
+Claude is strong at planning game features, producing structured docs, and iterating on prompt-based gameplay content.
+
+## Tutorials
+
+- [Claude prompt engineering guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
+- [Claude API quickstart](https://docs.anthropic.com/en/docs/initial-setup)
+- [Anthropic developer docs](https://docs.anthropic.com/)
+
+## Video walkthrough
+
+<iframe
+  width="100%"
+  height="420"
+  src="https://www.youtube.com/embed/4sR7x8N4A0g"
+  title="Claude tutorial"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+================================================================================
+## AI tool: Cursor
+URL: https://www.vibecode.game/ai-tools/cursor
+Source: src/content/ai-tools/en/cursor.mdx
+================================================================================
+
+Description: AI-first editor for code generation, refactoring, repository understanding, and agent-assisted development.
+
+## Why creators use Cursor
+
+Cursor helps indie developers go from game idea to working feature quickly with chat, edit, and agent workflows.
+
+## Tutorials
+
+- [Cursor docs](https://docs.cursor.com/)
+- [Rules and project context](https://docs.cursor.com/context/rules)
+- [Agent workflow basics](https://docs.cursor.com/agent/overview)
+
+## Video walkthrough
+
+<iframe
+  width="100%"
+  height="420"
+  src="https://www.youtube.com/embed/sPzB5f7l8vA"
+  title="Cursor tutorial"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+================================================================================
+## AI tool: Lovable
+URL: https://www.vibecode.game/ai-tools/lovable
+Source: src/content/ai-tools/en/lovable.mdx
+================================================================================
+
+Description: Prompt-first app builder focused on shipping polished product interfaces and integrations quickly.
+
+## Why creators use Lovable
+
+Lovable is helpful for rapidly creating game launch pages, onboarding flows, and admin tools from natural-language prompts.
+
+## Tutorials
+
+- [Lovable home](https://lovable.dev)
+- [Lovable guide](https://docs.lovable.dev/)
+- [Building with prompts](https://docs.lovable.dev/getting-started)
+
+## Video walkthrough
+
+<iframe
+  width="100%"
+  height="420"
+  src="https://www.youtube.com/embed/N5J5ZkQjvQg"
+  title="Lovable tutorial"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+================================================================================
+## AI tool: Replit
+URL: https://www.vibecode.game/ai-tools/replit
+Source: src/content/ai-tools/en/replit.mdx
+================================================================================
+
+Description: Cloud coding environment with AI assistance, collaborative editing, and one-click deploy workflows.
+
+## Why creators use Replit
+
+Replit makes it easy to build prototypes, test game logic, and share working demos instantly with teammates.
+
+## Tutorials
+
+- [Replit docs](https://docs.replit.com/)
+- [Replit AI overview](https://docs.replit.com/replitai/overview)
+- [Deployments on Replit](https://docs.replit.com/hosting/deployments/about-deployments)
+
+## Video walkthrough
+
+<iframe
+  width="100%"
+  height="420"
+  src="https://www.youtube.com/embed/jQ0y9k8w0Yk"
+  title="Replit tutorial"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+================================================================================
+## AI tool: Rosebud AI
+URL: https://www.vibecode.game/ai-tools/rosebud-ai
+Source: src/content/ai-tools/en/rosebud-ai.mdx
+================================================================================
+
+Description: AI-powered creative tooling for generating and refining characters, assets, and interactive concepts.
+
+## Why creators use Rosebud AI
+
+Rosebud AI can speed up concepting pipelines by generating early art and style directions for game worlds and characters.
+
+## Tutorials
+
+- [Rosebud AI home](https://www.rosebud.ai)
+- [Rosebud AI platform](https://www.rosebud.ai/platform)
+- [Creative AI references](https://www.rosebud.ai/blog)
+
+## Video walkthrough
+
+<iframe
+  width="100%"
+  height="420"
+  src="https://www.youtube.com/embed/9Xn1Q7g_jnA"
+  title="Rosebud AI tutorial"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+================================================================================
+## AI tool: Verse8
+URL: https://www.vibecode.game/ai-tools/verse8
+Source: src/content/ai-tools/en/verse8.mdx
+================================================================================
+
+Description: AI-assisted creation environment for rapid experimentation with interactive game concepts and workflows.
+
+## Why creators use Verse8
+
+Verse8 is suited for teams experimenting with emergent game systems and AI-assisted creative iteration loops.
+
+## Tutorials
+
+- [Verse8 website](https://verse8.io)
+- [Verse8 product updates](https://verse8.io/blog)
+- [Interactive prototyping concepts](https://verse8.io/resources)
+
+## Video walkthrough
+
+<iframe
+  width="100%"
+  height="420"
+  src="https://www.youtube.com/embed/1X2fA8JHf_I"
+  title="Verse8 tutorial"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+================================================================================
+## Game jam: City Builder Weekend Jam 2024
+URL: https://www.vibecode.game/game-jams/city-builder-weekend-jam-2024
+Source: src/content/game-jams/en/city-builder-weekend-jam-2024.mdx
+================================================================================
+
+Description: A weekend jam dedicated to compact city-building concepts with strong readability and strategic depth.
+
+## Theme
+
+**Grow Under Pressure**. Build a city-building experience where every expansion introduces a meaningful trade-off.
+
+## Event Parameters
+
+- Duration: 48 hours
+- Team size: 1-3 people
+- Platforms: WebGL preferred, desktop accepted
+- Mandatory feature: one district-level decision with visible long-term impact
+
+## Prize Breakdown
+
+Total support package value: **EUR 8,000**
+
+- Best Strategic Depth - EUR 3,000
+- Best UI Readability - EUR 2,000
+- Best Audio Atmosphere - EUR 1,500
+- Community Choice - EUR 1,500
+
+## Submission Workflow
+
+1. Upload playable build and source summary.
+2. Provide one map seed used for evaluation.
+3. Include a balancing note describing your economy loop.
+4. Submit by 20:00 CEST on June 16.
+
+## Judging Dimensions
+
+- Strategy clarity
+- Information hierarchy and UX
+- Replayability and balancing
+- Production completeness
+
+## Submission Highlights
+
+- **Block by Block** - a district zoning sim where transit debt impacts citizen happiness.
+- **Harborline** - a coastal logistics builder with weather-driven resource volatility.
+- **Night Shift Mayor** - a pressure-management city sim with strict 5-minute rounds.
+
+## Final Results
+
+- **Winner:** Harborline (Team Delta Harbor)
+- **2nd Place:** Block by Block (Team Gridform)
+- **Community Choice:** Night Shift Mayor (Team Owl Clock)
+
+The jury emphasized Harborline's clean UI and excellent risk-reward balancing across short sessions.
+
+================================================================================
+## Game jam: EU Cozy Automation Jam 2026
+URL: https://www.vibecode.game/game-jams/eu-cozy-automation-jam-2026
+Source: src/content/game-jams/en/eu-cozy-automation-jam-2026.mdx
+================================================================================
+
+Description: A hybrid game jam in Berlin for cozy systems design, low-pressure progression, and satisfying automation loops.
+
+## Theme
+
+**Small Worlds, Smart Systems**. Participants create short-form games where automation helps the player nurture, craft, or restore a space.
+
+## Format
+
+This jam runs as a hybrid event:
+
+- In-person hub at MotionLab Berlin
+- Remote participation via Discord and daily office hours
+
+## Rules
+
+- Team size: 1-4 people
+- Engine/tooling: open choice
+- Accessibility requirement: include at least one accessibility option (text size, key rebinding, color mode, etc.)
+- Content requirement: no explicit violence or hateful content
+
+## Timeline
+
+- **Theme reveal:** Sep 18, 17:00 CEST
+- **Mentor clinic:** Sep 21 and Sep 24
+- **Final upload cutoff:** Sep 27, 21:00 CEST
+- **Demo night in Berlin:** Oct 2
+
+## Prize Categories
+
+- Best Cozy Loop - EUR 2,500
+- Best Automation Design - EUR 2,000
+- Best Accessibility - EUR 1,500
+- Community Favorite - EUR 1,000
+
+Additional sponsor rewards include playtest sessions with partner studios and Steam page review feedback.
+
+## Submission Checklist
+
+1. Upload build and screenshots to your Itch.io page.
+2. Add design notes documenting your automation system.
+3. Include a one-page controls reference.
+4. Mark the entry as solo or team, and list contributors.
+
+## Judging Rubric
+
+- Clarity of systems
+- Emotional tone consistency
+- Accessibility and UX
+- Technical execution
+
+================================================================================
+## Game jam: Global Arcade Sprint 2027
+URL: https://www.vibecode.game/game-jams/global-arcade-sprint-2027
+Source: src/content/game-jams/en/global-arcade-sprint-2027.mdx
+================================================================================
+
+Description: A 10-day international online game jam focused on score-driven arcade loops and instant replayability.
+
+## Theme
+
+**One More Run**. Build an arcade experience where the core loop is clear in under 20 seconds and players immediately want to retry.
+
+## Eligibility and Team Rules
+
+- Solo developers and teams up to 5 members are welcome.
+- Entries must be built during the jam window.
+- Reused assets are allowed if disclosed on your submission page.
+- AI-assisted workflows are allowed, but the game design and final integration decisions must be your own.
+
+## Schedule
+
+- **Kickoff stream:** Feb 5, 18:00 UTC
+- **Mid-jam playtest checkpoint:** Feb 10, 19:00 UTC
+- **Submission deadline:** Feb 14, 23:59 UTC
+- **Community voting:** Feb 15-20
+- **Jury finals showcase:** Feb 23
+
+## Prize Pool
+
+Total prize pool: **$12,500**
+
+- 1st Place: $6,000 + publishing mentorship package
+- 2nd Place: $3,000
+- 3rd Place: $1,500
+- Best Audio Feel: $1,000
+- Best Onboarding: $1,000
+
+Sponsored by Studio Vertex, ByteRift Audio, and InputLab.
+
+## Submission Process
+
+1. Publish your game on Itch.io with downloadable build and web build (if available).
+2. Include a 60-90 second gameplay video.
+3. Add a short postmortem covering core mechanic, tools used, and technical risks solved.
+4. Tag your page with `global-arcade-sprint-2027`.
+
+## Judging Criteria
+
+- **Gameplay Loop (40%)**: Is the loop immediately understandable and replayable?
+- **Game Feel (25%)**: Input responsiveness, juice, and audiovisual feedback.
+- **Innovation (20%)**: Fresh mechanic or twist within arcade constraints.
+- **Polish (15%)**: Stability, clarity, and onboarding quality.
+
+================================================================================
+## Game jam: SEA Mobile Microjam 2026
+URL: https://www.vibecode.game/game-jams/seasia-mobile-microjam-2026
+Source: src/content/game-jams/en/seasia-mobile-microjam-2026.mdx
+================================================================================
+
+Description: A fast, mobile-first jam focused on one-handed control schemes and session lengths under 3 minutes.
+
+## Theme
+
+**Thumb-Only Tension**. Create a game that can be played with one thumb while preserving meaningful decision-making.
+
+## Current Phase
+
+The jam is **currently in progress**. Daily standups, feedback channels, and mentor sessions are active in Discord.
+
+## Constraints
+
+- Portrait mode preferred (landscape allowed with strong justification)
+- Target session duration: 60-180 seconds
+- At least one progression layer (unlock, score chase, or run modifiers)
+- All submissions must run on Android WebView or mobile browser
+
+## Ongoing Schedule
+
+- **Kickoff:** Apr 20, 19:00 SGT
+- **Playtest sprint:** Apr 25, 20:00 SGT
+- **Submission deadline:** Apr 30, 23:59 SGT
+
+## Prize Track
+
+Total rewards: **SGD 9,000**
+
+- Best Mobile Feel - SGD 3,500
+- Best Short Session Loop - SGD 2,500
+- Best Monetization-Free Design - SGD 1,500
+- Rising Team Award - SGD 1,500
+
+## Submission Process
+
+1. Submit a web-playable link and APK backup.
+2. Include a 30-second portrait gameplay clip.
+3. Publish your control schema and accessibility settings.
+4. Tag entry with `sea-mobile-microjam-2026`.
+
+## Judging Criteria
+
+- Input clarity and responsiveness
+- Replayability in short sessions
+- Stability on mid-range devices
+- Originality within mobile constraints
+
+================================================================================
+## Game jam: Winter Prototype Showdown 2025
+URL: https://www.vibecode.game/game-jams/winter-prototype-showdown-2025
+Source: src/content/game-jams/en/winter-prototype-showdown-2025.mdx
+================================================================================
+
+Description: A 7-day rapid prototyping jam for experimental mechanics, culminating in a live finalist showcase.
+
+## Theme
+
+**Broken Rules, Better Games**. Teams were encouraged to intentionally violate one common design convention and build around the consequences.
+
+## Participation Snapshot
+
+- 428 registered participants
+- 136 submitted prototypes
+- 22 countries represented
+
+## Prize Pool
+
+Total: **CAD 15,000**
+
+- Grand Jury Winner: CAD 7,000
+- Runner-up: CAD 4,000
+- Experimental Design Award: CAD 2,000
+- Best Student Team: CAD 2,000
+
+## Submission Process Used
+
+Participants submitted:
+
+1. playable build (web or desktop),
+2. a 2-minute narrated walkthrough,
+3. a one-page design intent note,
+4. a known-issues list for judges.
+
+## Judging Criteria
+
+- Design risk and originality (35%)
+- Playability and onboarding (30%)
+- Technical execution (20%)
+- Presentation quality (15%)
+
+## Submission Highlights
+
+- **Signal//Lost** - asynchronous co-op puzzle where each player sees different rule sets.
+- **Parallax Drift** - racing prototype with delayed input prediction as core mechanic.
+- **Borrowed HP** - action deckbuilder where health can be traded for rule changes.
+
+## Final Results
+
+- **Winner:** Signal//Lost (Team Frostbyte)
+- **Runner-up:** Borrowed HP (Team Mantle)
+- **Experimental Design Award:** Parallax Drift (Team Slipstream)
+
+Judges praised Signal//Lost for turning communication friction into compelling cooperative play.

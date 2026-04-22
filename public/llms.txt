@@ -1,0 +1,58 @@
+# Vibecode.game
+
+> Lightweight index for LLMs — read this first, then fetch only the pages you need.
+
+## What this site is
+
+**Vibecode.game** is a community hub for **vibe-coded and AI-assisted games**: discover browser-friendly indie titles, developer profiles, AI game-dev tools, game jams, guides, and a dedicated glossary of AI game development terms. Operated in connection with **YGG Play** (Yield Guild Games).
+
+**Canonical origin:** https://www.vibecode.game/
+
+## Machine-readable full corpus
+
+For a **single-file dump** of primary English content (no extra HTTP fetches), use:
+
+- https://www.vibecode.game/llms-full.txt  
+  *(Generated at build time from the same sources as the site.)*
+
+## Key pages (table of contents)
+
+| Path | Description |
+|------|-------------|
+| https://www.vibecode.game/ | Home — hub entry, featured games, jams, tools, blog highlights |
+| https://www.vibecode.game/vibe-coded-games | Browse vibe-coded games |
+| https://www.vibecode.game/vibe-coded-games/best-of-the-week | Curated “best of the week” listings |
+| https://www.vibecode.game/vibe-coded-games/most-played | Most played listings |
+| https://www.vibecode.game/vibe-coded-games/new-release | New releases |
+| https://www.vibecode.game/vibe-coded-games/by-genre | Games filtered by genre |
+| https://www.vibecode.game/vibe-coded-games/by-ai-tool | Games filtered by AI tool |
+| https://www.vibecode.game/developers | Developer hub / profiles index |
+| https://www.vibecode.game/ai-tools | AI tools for game development |
+| https://www.vibecode.game/blog | Blog — guides, tooling, community |
+| https://www.vibecode.game/game-jams | Game jams index |
+| https://www.vibecode.game/game-vibe-coding-glossary | Full glossary (AI & vibe-coding terms for game devs) |
+| https://www.vibecode.game/faq | FAQ — common questions on vibe coding & AI games |
+| https://www.vibecode.game/about | About |
+| https://www.vibecode.game/contact | Contact |
+| https://www.vibecode.game/rss.xml | Blog RSS |
+
+## Dynamic / non-content endpoints (usually skip for text ingestion)
+
+- `/api/*` — server routes (see `robots.txt` disallow for crawlers)
+
+## Policies
+
+- **robots.txt:** https://www.vibecode.game/robots.txt  
+- **Sitemap:** https://www.vibecode.game/sitemap-index.xml  
+
+## Note on individual game, developer, tool, and jam URLs
+
+Detail pages follow these patterns (replace `{slug}`):
+
+- `https://www.vibecode.game/vibe-coded-games/{slug}`
+- `https://www.vibecode.game/developers/{slug}`
+- `https://www.vibecode.game/ai-tools/{slug}`
+- `https://www.vibecode.game/game-jams/{slug}`
+- `https://www.vibecode.game/blog/{slug}`
+
+For an offline-style bundle of **all** primary English markdown/mdx sources, use **llms-full.txt** (link above).

@@ -1,5 +1,6 @@
 ---
 import siteConfig from '@/config/site.config';
+import { isPreviewDeploy } from '@/lib/preview-deploy';
 
 interface Props {
   title?: string;
@@ -43,7 +44,11 @@ if (image) {
   ogImage = new URL(siteConfig.ogImage, metadataBase).toString();
 }
 
-const robotsContent = [noindex ? 'noindex' : 'index', nofollow ? 'nofollow' : 'follow'].join(', ');
+const previewNoIndex = isPreviewDeploy();
+const robotsContent = [
+  noindex || previewNoIndex ? 'noindex' : 'index',
+  nofollow ? 'nofollow' : 'follow',
+].join(', ');
 
 // Normalize BCP-47 locale (e.g. "en") to OG language_TERRITORY format (e.g. "en_US")
 const localeMap: Record<string, string> = {

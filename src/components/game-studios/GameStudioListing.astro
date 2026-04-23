@@ -1,0 +1,255 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import GameStudioCard from '@/components/game-studios/GameStudioCard.astro';
+import Badge from '@/components/ui/data-display/Badge/Badge.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import { Hero } from '@/components/hero';
+import ShareButtons from '@/components/blog/ShareButtons.astro';
+import { getCollection } from 'astro:content';
+import {
+  aiToolToGameStudiosPath,
+  gameEngineToGameStudiosPath,
+  genreToGameStudiosPath,
+} from '@/lib/game-studios-filter';
+import DeveloperCommunityCTA from '@/components/landing/CTA.astro';
+import developerHubBanner from '@/assets/developer-hub/banner/developer-hub.png';
+import gameStudiosOgImage from '@/assets/game-studio/banner/gamestudios-og.png';
+
+interface Props {
+  activeFilterType?: 'genre' | 'ai' | 'engine' | null;
+  activeFilterValue?: string | null;
+}
+
+const { activeFilterType = null, activeFilterValue = null } = Astro.props;
+
+const allStudios = await getCollection('gameStudios', ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+const studios = allStudios
+  .filter((s) => !s.data.locale || s.data.locale === 'en')
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const filteredStudios = activeFilterType === 'genre' && activeFilterValue
+  ? studios.filter((s) => s.data.gamesGenre.includes(activeFilterValue))
+  : activeFilterType === 'ai' && activeFilterValue
+  ? studios.filter((s) => s.data.aiTools.includes(activeFilterValue))
+  : activeFilterType === 'engine' && activeFilterValue
+  ? studios.filter((s) => s.data.gameEngine.includes(activeFilterValue))
+  : studios;
+
+const allGenres = [...new Set(studios.flatMap((s) => s.data.gamesGenre))].sort();
+const allAiTools = [...new Set(studios.flatMap((s) => s.data.aiTools))].sort();
+const allGameEngines = [...new Set(studios.flatMap((s) => s.data.gameEngine))].sort();
+
+function capitalizeFirst(value: string): string {
+  if (!value) return value;
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+const activeFilterLabel = activeFilterValue ? capitalizeFirst(activeFilterValue) : null;
+let heroTitle = 'Game Studios Using AI';
+let heroDescription =
+  'Explore AI-native game studios, their production stack, genres, engines, and teams behind vibe-coded games.';
+let pageTitle = 'Game Studios Using AI | Vibe Coding Studio Directory';
+let pageDescription =
+  'Browse game studios using AI in production workflows, including their genres, game engines, and preferred AI tools.';
+let pageKeywords: string[] = [
+  'game studios using ai',
+  'ai game development studios',
+  'vibe coded game studios',
+  'game studio directory',
+  'ai tools for game studios',
+];
+
+if (activeFilterValue && activeFilterLabel) {
+  if (activeFilterType === 'genre') {
+    heroTitle = `Game Studios building ${activeFilterLabel} games`;
+    heroDescription = `Discover AI-enabled game studios focused on ${activeFilterValue} game development.`;
+    pageTitle = `${activeFilterLabel} Game Studios Using AI | Studio Directory`;
+    pageDescription = `Explore AI-enabled game studios producing ${activeFilterLabel} titles, including their engines, AI tools, and teams.`;
+    pageKeywords = [
+      `${activeFilterValue} game studios`,
+      `${activeFilterValue} games ai studios`,
+      'ai studios by genre',
+    ];
+  } else if (activeFilterType === 'ai') {
+    heroTitle = `Game Studios using ${activeFilterLabel}`;
+    heroDescription = `Browse studios that use ${activeFilterValue} in their game production workflow.`;
+    pageTitle = `${activeFilterLabel} Game Studios | AI-Powered Studio Directory`;
+    pageDescription = `Find game studios using ${activeFilterLabel}, plus their genres, game engines, and developer teams.`;
+    pageKeywords = [
+      `${activeFilterValue} game studios`,
+      `${activeFilterValue} in game development`,
+      'ai tool game studios',
+    ];
+  } else if (activeFilterType === 'engine') {
+    heroTitle = `Game Studios building with ${activeFilterLabel}`;
+    heroDescription = `Discover AI-enabled studios shipping games with ${activeFilterValue}.`;
+    pageTitle = `${activeFilterLabel} Game Studios Using AI | Engine-Based Directory`;
+    pageDescription = `Explore AI-enabled game studios using ${activeFilterLabel}, with details on genres, tools, and teams.`;
+    pageKeywords = [
+      `${activeFilterValue} game studios`,
+      `${activeFilterValue} ai game development`,
+      'game studios by engine',
+    ];
+  }
+}
+const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<PageLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+  image={gameStudiosOgImage.src}
+  imageAlt="The best vibe-coding game studios"
+  showScrollProgress
+  eagerReveal
+  fillViewport={false}
+  footerClass="pt-6"
+>
+  <Hero
+    layout="centered"
+    size="sm"
+    class="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+    style={`background-image: linear-gradient(to bottom, rgb(10 10 20 / 0.55), rgb(10 10 20 / 0.7)), url('${developerHubBanner.src}');`}
+  >
+    <Badge slot="badge" variant="brand" pill class="!text-white">
+      <Icon name="sparkles" size="sm" />
+      {activeFilterValue ? 'Filtered Studios' : 'Game Studio Hub'}
+    </Badge>
+    <h1 slot="title" class="!text-white">{heroTitle}</h1>
+    <p slot="description" class="!text-white/90">{heroDescription}</p>
+  </Hero>
+
+  <section class="border-t border-border bg-background-secondary py-[var(--space-section-md)]">
+    <div class="mx-auto flex max-w-6xl flex-col gap-8 px-6">
+      <div class="flex flex-wrap items-center justify-end gap-3" data-reveal>
+        <label for="studio-filter" class="text-sm font-medium text-foreground-muted whitespace-nowrap">
+          Filter
+        </label>
+        <div class="relative">
+          <select
+            id="studio-filter"
+            class="studio-select appearance-none rounded-full border border-border bg-background py-1.5 pl-3 pr-8 text-sm font-medium text-foreground cursor-pointer focus:outline-none focus:border-brand-500 transition-colors"
+          >
+            <option value="/game-studios-using-AI" selected={activeFilterValue === null}>All game studios</option>
+            {allGenres.length > 0 && (
+              <>
+                <option value="" disabled class="filter-group">--- Genre ---</option>
+                {allGenres.map((genre) => (
+                  <option
+                    value={genreToGameStudiosPath(genre)}
+                    selected={activeFilterType === 'genre' && activeFilterValue === genre}
+                  >
+                    {genre}
+                  </option>
+                ))}
+              </>
+            )}
+            {allAiTools.length > 0 && (
+              <>
+                <option value="" disabled class="filter-group">--- AI Tools ---</option>
+                {allAiTools.map((tool) => (
+                  <option value={aiToolToGameStudiosPath(tool)} selected={activeFilterType === 'ai' && activeFilterValue === tool}>
+                    {tool}
+                  </option>
+                ))}
+              </>
+            )}
+            {allGameEngines.length > 0 && (
+              <>
+                <option value="" disabled class="filter-group">--- Game Engine ---</option>
+                {allGameEngines.map((engine) => (
+                  <option
+                    value={gameEngineToGameStudiosPath(engine)}
+                    selected={activeFilterType === 'engine' && activeFilterValue === engine}
+                  >
+                    {engine}
+                  </option>
+                ))}
+              </>
+            )}
+          </select>
+          <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-foreground-muted">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      {filteredStudios.length > 0 ? (
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-reveal data-reveal-delay="1">
+          {filteredStudios.map((studio) => (
+            <GameStudioCard
+              name={studio.data.name}
+              description={studio.data.description}
+              href={`/game-studios-using-AI/${studio.id.replace('en/', '')}`}
+              logo={studio.data.logo}
+              creationYear={studio.data.creationYear}
+              website={studio.data.website}
+              headquarterAddress={studio.data.headquarterAddress}
+              aiTools={studio.data.aiTools}
+              gamesGenre={studio.data.gamesGenre}
+              gameEngine={studio.data.gameEngine}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="py-16 text-center">
+          <div class="bg-background mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+            <Icon name="file-text" size="lg" class="text-foreground-muted" />
+          </div>
+          <p class="text-foreground-muted text-lg">No game studios found for this filter</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="bg-background py-4 border-t border-border">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <a
+          href="/"
+          class="text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300 inline-flex items-center gap-2 text-sm font-medium transition-colors"
+        >
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Home Page
+        </a>
+        <ShareButtons title={pageTitle} url={fullUrl} />
+      </div>
+    </div>
+  </section>
+
+  <DeveloperCommunityCTA purpose="developerCommunity" />
+</PageLayout>
+
+<style>
+  .studio-select {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .studio-select option.filter-group {
+    color: var(--brand-500);
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  function initStudioFilterNav() {
+    const select = document.getElementById('studio-filter') as HTMLSelectElement | null;
+    if (!select) return;
+
+    select.addEventListener('change', () => {
+      const href = select.value;
+      if (href) window.location.href = href;
+    });
+  }
+
+  document.addEventListener('astro:page-load', initStudioFilterNav);
+</script>

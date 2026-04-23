@@ -3,7 +3,7 @@
 > Auto-generated at build time. Do not edit by hand.
 > Single-file corpus of primary English MD/MDX sources. MDX may contain JSX/HTML fragments.
 
-Generated (UTC): 2026-04-22T19:09:54.476Z
+Generated (UTC): 2026-04-23T08:57:20.866Z
 Canonical site: https://www.vibecode.game
 Index file: https://www.vibecode.game/llms.txt
 
@@ -2310,8 +2310,6 @@ Arcade Blitz blends classic arcade readability with modern action pacing. Attack
 
 `ChatGPT` was used to prototype enemy pattern variants and scoring rules, while `Cursor` accelerated iteration on wave tuning scripts and state-machine refactors.
 
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
-
 ================================================================================
 ## Game: Byte Brawlers
 URL: https://www.vibecode.game/vibe-coded-games/byte-brawlers
@@ -2340,8 +2338,6 @@ Unlike pure duel fighters, Byte Brawlers emphasizes communication and tempo swin
 ## AI-Assisted Development
 
 `ChatGPT` supported prototype balance notes and matchup documentation, while `GitHub Copilot` sped up ability scripting and UI state handling for loadouts.
-
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
 
 ================================================================================
 ## Game: Cipher Heist
@@ -2372,8 +2368,6 @@ Cipher Heist rewards patience and planning. Every successful run feels authored 
 
 `Cursor` helped structure mission scripting and trigger logic, while `Claude` supported puzzle flow reviews to keep challenge curves fair and readable.
 
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
-
 ================================================================================
 ## Game: Cosmic Farm
 URL: https://www.vibecode.game/vibe-coded-games/cosmic-farm
@@ -2402,8 +2396,6 @@ Cosmic Farm keeps the loop calm without becoming shallow. It mixes light optimiz
 ## AI-Assisted Development
 
 `Claude` was used to iterate quest text and progression beats, while `Copilot` accelerated implementation of inventory helpers and farming simulation utilities.
-
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
 
 ================================================================================
 ## Game: Dungeon Dash
@@ -2434,8 +2426,6 @@ Dungeon Dash balances accessibility and depth: controls are immediate, but long-
 
 `ChatGPT` supported early item and relic ideation, while `Claude` helped refine enemy behavior specs and run-economy balancing notes.
 
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
-
 ================================================================================
 ## Game: Forest Keepers
 URL: https://www.vibecode.game/vibe-coded-games/forest-keepers
@@ -2464,8 +2454,6 @@ Forest Keepers blends tactical planning with multiplayer urgency. It rewards tea
 ## AI-Assisted Development
 
 `Copilot` accelerated systems code for wave scheduling and upgrades, while `Cursor` improved iteration speed on co-op state sync and balance passes.
-
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
 
 ================================================================================
 ## Game: Mecha Rally
@@ -2496,8 +2484,6 @@ Mecha Rally treats racing and combat as one system: positioning creates attack o
 
 `ChatGPT` supported early tuning frameworks and event rule concepts, while `Gemini` assisted with telemetry review summaries and physics parameter experimentation.
 
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
-
 ================================================================================
 ## Game: Neon Nomads
 URL: https://www.vibecode.game/vibe-coded-games/neon-nomads
@@ -2526,8 +2512,6 @@ Neon Nomads captures the fantasy of being a high-skill city operator. Movement, 
 ## AI-Assisted Development
 
 `ChatGPT` helped draft mission variants and dialogue seeds, `Claude` supported narrative consistency passes, and `Cursor` sped up systemic quest iteration.
-
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
 
 ================================================================================
 ## Game: Neon Runner
@@ -2558,8 +2542,6 @@ Neon Runner keeps friction low and mastery high. New players can jump in instant
 
 `ChatGPT` helped prototype level grammar and challenge ideas, while `Cursor` accelerated balancing tools and runtime tuning workflows.
 
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
-
 ================================================================================
 ## Game: Pixel Quest
 URL: https://www.vibecode.game/vibe-coded-games/pixel-quest
@@ -2588,8 +2570,6 @@ Pixel Quest mixes comfort and challenge well: visuals are nostalgic and warm, bu
 ## AI-Assisted Development
 
 `ChatGPT` supported item and encounter ideation, while `Claude` helped tune tutorial pacing and readability for new players.
-
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
 
 ================================================================================
 ## Game: Quantum Drift
@@ -2620,8 +2600,6 @@ Quantum Drift feels fresh because it turns time control into a skill expression 
 
 `Claude` supported mechanic documentation and balance notes, while `Cursor` sped up telemetry instrumentation and lap-analysis tooling.
 
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
-
 ================================================================================
 ## Game: Skyline Tycoon
 URL: https://www.vibecode.game/vibe-coded-games/skyline-tycoon
@@ -2650,8 +2628,6 @@ Skyline Tycoon offers satisfying optimization depth without overwhelming onboard
 ## AI-Assisted Development
 
 `Gemini` helped explore economic event scenarios and balancing narratives, while `Cursor` accelerated simulation-system refactors and UI iteration.
-
-<YouTube id="dQw4w9WgXcQ" title="Gameplay video" />
 
 ================================================================================
 ## Developer profile: Aria Nguyen
@@ -3028,6 +3004,36 @@ Lovable is helpful for rapidly creating game launch pages, onboarding flows, and
   height="420"
   src="https://www.youtube.com/embed/N5J5ZkQjvQg"
   title="Lovable tutorial"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+================================================================================
+## AI tool: OpenAI
+URL: https://www.vibecode.game/ai-tools/openai
+Source: src/content/ai-tools/en/openai.mdx
+================================================================================
+
+Description: OpenAI provides GPT models and APIs for ideation, coding, content generation, and production-ready AI workflows.
+
+## Why creators use OpenAI
+
+OpenAI tools are widely used by game creators for brainstorming mechanics, generating content drafts, prototyping systems, and accelerating iteration across design and engineering tasks.
+
+## Tutorials
+
+- [OpenAI API quickstart](https://platform.openai.com/docs/quickstart)
+- [Text generation guide](https://platform.openai.com/docs/guides/text-generation)
+- [OpenAI developer docs](https://platform.openai.com/docs/overview)
+
+## Video walkthrough
+
+<iframe
+  width="100%"
+  height="420"
+  src="https://www.youtube.com/embed/U9mJuUkhUzk"
+  title="OpenAI API tutorial"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
   allowfullscreen

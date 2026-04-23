@@ -28,6 +28,14 @@ export function aiToolToGamesPath(tool: string): string {
   return `/vibe-coded-games/${aiToolToGamesPathSegment(tool)}`;
 }
 
+export function gameEngineToGamesPathSegment(engine: string): string {
+  return `${gamesFilterSlugify(engine)}-vibe-coded-games`;
+}
+
+export function gameEngineToGamesPath(engine: string): string {
+  return `/vibe-coded-games/${gameEngineToGamesPathSegment(engine)}`;
+}
+
 export function buildGenreSegmentToTagMap(genres: Iterable<string>): Map<string, string> {
   const map = new Map<string, string>();
   for (const genre of genres) {
@@ -71,6 +79,23 @@ export function buildAiToolSegmentToTagMap(tools: Iterable<string>): Map<string,
     }
     if (!map.has(segment)) {
       map.set(segment, tool);
+    }
+  }
+  return map;
+}
+
+export function buildGameEngineSegmentToTagMap(engines: Iterable<string>): Map<string, string> {
+  const map = new Map<string, string>();
+  for (const engine of engines) {
+    const segment = gameEngineToGamesPathSegment(engine);
+    const existing = map.get(segment);
+    if (existing !== undefined && existing !== engine) {
+      throw new Error(
+        `Games engine URL collision: engines "${existing}" and "${engine}" both map to /vibe-coded-games/${segment}.`,
+      );
+    }
+    if (!map.has(segment)) {
+      map.set(segment, engine);
     }
   }
   return map;

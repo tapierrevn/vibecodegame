@@ -1,0 +1,42 @@
+---
+import GameCard from '@/components/games/GameCard.astro';
+import type { CollectionEntry } from 'astro:content';
+import { gameEntryToPath } from '@/lib/games-similar';
+
+interface Props {
+  games: CollectionEntry<'games'>[];
+}
+
+const { games } = Astro.props;
+---
+
+{
+  games.length > 0 && (
+    <div class="pt-[var(--space-stack-md)] pb-[var(--space-stack-lg)]">
+      <div class="grid gap-[var(--space-stack-lg)] md:grid-cols-2 lg:grid-cols-3">
+        {games.map((game) => (
+          <GameCard
+            title={game.data.title}
+            description={game.data.description}
+            href={gameEntryToPath(game)}
+            developerName={game.data.developerName}
+            studio={game.data.studio}
+            developerProfileUrl={game.data.developerProfileUrl}
+            genre={game.data.genre}
+            gameEngine={game.data.gameEngine}
+            aiTools={game.data.aiTools}
+            communityScore={game.data.communityScore}
+            playUrl={game.data.playUrl}
+            publishedAt={game.data.publishedAt}
+            offersPrice={game.data.offersPrice}
+            gamePlatform={game.data.gamePlatform}
+            showGenre={false}
+            showAiTools={false}
+            image={game.data.image}
+            svgSlug={game.data.svgSlug}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}

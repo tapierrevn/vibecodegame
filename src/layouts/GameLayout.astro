@@ -10,10 +10,20 @@ import GameHero from '@/components/games/GameHero.astro';
 import GameImageCarousel from '@/components/games/GameImageCarousel.astro';
 import SimilarGamesByGenre from '@/components/games/SimilarGamesByGenre.astro';
 import SimilarGamesByAI from '@/components/games/SimilarGamesByAI.astro';
+import SimilarGamesByEngine from '@/components/games/SimilarGamesByEngine.astro';
 import ShareButtons from '@/components/blog/ShareButtons.astro';
 import CTA from '@/components/ui/marketing/CTA/CTA.astro';
 import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import YouTube from '@/components/YouTube.astro';
 import { resolveSocialLinks } from '@/lib/utils';
+import { createVideoGameSchema } from '@/lib/schema';
+import {
+  youtubeVideoIdFromUrl,
+  publishedAtToIsoDateLocal,
+  type GamePlatformValue,
+  type GamePlayModeValue,
+} from '@/lib/game-meta';
 
 const socialLinks = siteConfig.socialLinks.map((url) => {
   let platform = 'link';
@@ -34,17 +44,25 @@ interface Props {
   developerName: string;
   developerProfileUrl: string;
   genre: string[];
+  gameEngine: string[];
   aiTools: string[];
   playUrl: string;
   communityScore: number;
-  publishedAt?: string;
+  publishedAt?: Date;
   updatedAt?: Date;
   image?: ImageMetadata;
   imageAlt?: string;
   svgSlug?: string;
+  playMode: GamePlayModeValue[];
+  offersPrice: 0 | 1;
+  applicationCategory: string;
+  operatingSystem: GamePlatformValue[];
+  gamePlatform: GamePlatformValue[];
+  trailerUrl?: string;
   galleryImageUrls: string[];
   similarByGenre: CollectionEntry<'games'>[];
   similarByAI: CollectionEntry<'games'>[];
+  similarByEngine: CollectionEntry<'games'>[];
 }
 
 const {
@@ -53,6 +71,7 @@ const {
   developerName,
   developerProfileUrl,
   genre,
+  gameEngine,
   aiTools,
   playUrl,
   communityScore,
@@ -61,9 +80,16 @@ const {
   image,
   imageAlt,
   svgSlug,
+  playMode,
+  offersPrice,
+  applicationCategory,
+  operatingSystem,
+  gamePlatform,
+  trailerUrl,
   galleryImageUrls,
   similarByGenre,
   similarByAI,
+  similarByEngine,
 } = Astro.props;
 
 const ogImage = image?.src || siteConfig.ogImage;
@@ -77,9 +103,32 @@ const breadcrumbs = [
 const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
 
 const articleTags = [...genre, ...aiTools];
-const publishedDateForSchema = publishedAt
-  ? new Date(Number(publishedAt.slice(3)), Number(publishedAt.slice(0, 2)) - 1, 1)
+const publishedDateForSchema = publishedAt;
+const trailerId = youtubeVideoIdFromUrl(trailerUrl);
+const hasSimilarByGenre = similarByGenre.length > 0;
+const hasSimilarByAI = similarByAI.length > 0;
+const hasSimilarByEngine = similarByEngine.length > 0;
+const openGenreByDefault = hasSimilarByGenre;
+const openAIByDefault = !hasSimilarByGenre && hasSimilarByAI;
+const openEngineByDefault = !hasSimilarByGenre && !hasSimilarByAI && hasSimilarByEngine;
+const schemaImageUrl = image?.src
+  ? new URL(image.src, Astro.site ?? Astro.url.origin).href
   : undefined;
+
+const videoGameSchema = createVideoGameSchema({
+  name: title,
+  description,
+  url: fullUrl,
+  image: schemaImageUrl,
+  applicationCategory,
+  operatingSystem,
+  gamePlatform,
+  playMode,
+  offersPrice,
+  playUrl,
+  datePublished: publishedAtToIsoDateLocal(publishedAt),
+  trailerYoutubeId: trailerId,
+});
 ---
 
 <BaseLayout
@@ -94,6 +143,7 @@ const publishedDateForSchema = publishedAt
     tags: articleTags,
   }}
 >
+  <JsonLd schema={videoGameSchema} />
   <Header
     slot="header"
     position="fixed"
@@ -115,6 +165,7 @@ const publishedDateForSchema = publishedAt
       developerName={developerName}
       developerProfileUrl={developerProfileUrl}
       genre={genre}
+      gameEngine={gameEngine}
       aiTools={aiTools}
       playUrl={playUrl}
       communityScore={communityScore}
@@ -123,6 +174,9 @@ const publishedDateForSchema = publishedAt
       image={image}
       imageAlt={imageAlt}
       svgSlug={svgSlug}
+      playMode={playMode}
+      offersPrice={offersPrice}
+      gamePlatform={gamePlatform}
     />
 
     <article class="pt-4 pb-[var(--space-section-md)]">
@@ -130,6 +184,15 @@ const publishedDateForSchema = publishedAt
         <Breadcrumbs items={breadcrumbs} class="mb-8" />
 
         {galleryImageUrls.length > 0 && <GameImageCarousel images={galleryImageUrls} title={title} />}
+
+        {
+          trailerId && (
+            <section class="mb-8">
+              <h2 class="mb-3 font-display text-2xl font-bold text-foreground">Game Trailer</h2>
+              <YouTube id={trailerId} title={`${title} trailer`} />
+            </section>
+          )
+        }
 
         <div class="prose prose-lg max-w-none">
           <slot />
@@ -159,12 +222,65 @@ const publishedDateForSchema = publishedAt
       </div>
     </article>
 
-    <div class="mx-auto max-w-screen-xl px-6" data-reveal>
-      <SimilarGamesByGenre games={similarByGenre} />
-    </div>
-    <div class="mx-auto max-w-screen-xl px-6" data-reveal>
-      <SimilarGamesByAI games={similarByAI} />
-    </div>
+    {
+      (hasSimilarByGenre || hasSimilarByAI || hasSimilarByEngine) && (
+        <section class="mx-auto max-w-screen-xl px-6 border-t border-border" data-reveal>
+          {
+            hasSimilarByGenre && (
+              <details name="similar-games" open={openGenreByDefault} class="group/accordion border-b border-border">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left">
+                  <span class="font-display text-2xl font-bold text-foreground">
+                    Similar Vibe-Coded Games by Genre ({similarByGenre.length})
+                  </span>
+                  <Icon
+                    name="chevron-down"
+                    size="sm"
+                    class="text-foreground-muted transition-transform duration-200 group-open/accordion:rotate-180"
+                  />
+                </summary>
+                <SimilarGamesByGenre games={similarByGenre} />
+              </details>
+            )
+          }
+
+          {
+            hasSimilarByAI && (
+              <details name="similar-games" open={openAIByDefault} class="group/accordion border-b border-border">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left">
+                  <span class="font-display text-2xl font-bold text-foreground">
+                    Similar Vibe-Coded Games by AI Tool ({similarByAI.length})
+                  </span>
+                  <Icon
+                    name="chevron-down"
+                    size="sm"
+                    class="text-foreground-muted transition-transform duration-200 group-open/accordion:rotate-180"
+                  />
+                </summary>
+                <SimilarGamesByAI games={similarByAI} />
+              </details>
+            )
+          }
+
+          {
+            hasSimilarByEngine && (
+              <details name="similar-games" open={openEngineByDefault} class="group/accordion border-b border-border">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left">
+                  <span class="font-display text-2xl font-bold text-foreground">
+                    Similar Vibe-Coded Games by Game Engine ({similarByEngine.length})
+                  </span>
+                  <Icon
+                    name="chevron-down"
+                    size="sm"
+                    class="text-foreground-muted transition-transform duration-200 group-open/accordion:rotate-180"
+                  />
+                </summary>
+                <SimilarGamesByEngine games={similarByEngine} />
+              </details>
+            )
+          }
+        </section>
+      )
+    }
 
     <CTA variant="default" size="md" maxWidth="lg" glow={false} data-reveal class="bg-background-secondary">
       <h2 slot="heading" class="!text-4xl">Follow along</h2>

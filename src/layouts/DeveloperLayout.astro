@@ -6,6 +6,8 @@ import GameCard from '@/components/games/GameCard.astro';
 import ShareButtons from '@/components/blog/ShareButtons.astro';
 import { gameEntryToPath } from '@/lib/games-similar';
 import DeveloperCommunityCTA from '@/components/landing/CTA.astro';
+import Icon from '@/components/ui/primitives/Icon/Icon.astro';
+import { gameStudiosFilterSlugify } from '@/lib/game-studios-filter';
 
 interface Props {
   name: string;
@@ -17,6 +19,7 @@ interface Props {
 }
 
 const { name, studio, picture, preferredGenres, preferredAiTools, relatedGames } = Astro.props;
+const studioHref = studio ? `/game-studios-using-AI/${gameStudiosFilterSlugify(studio)}` : null;
 const pageTitle = `${name} Developer Profile | Vibe-Coded Games, Genres & AI Tools | ${siteConfig.name}`;
 const pageDescription = studio
   ? `View ${name} from ${studio}: vibe-coded games, preferred game genres, favorite AI tools, and related game projects in one developer profile.`
@@ -33,7 +36,15 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
         class="mx-auto mb-6 h-52 w-52 rounded-full border border-border object-cover ring-4 ring-brand-500/20"
       />
       <h1 class="font-display text-4xl font-bold text-foreground">{name}</h1>
-      {studio && <p class="mt-2 text-lg text-foreground-muted">{studio}</p>}
+      {
+        studio && (
+          <p class="mt-2 text-lg">
+            <a href={studioHref ?? '#'} class="text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300">
+              {studio}
+            </a>
+          </p>
+        )
+      }
 
       <div class="mt-6 space-y-4 text-left sm:text-center">
         {preferredGenres.length > 0 && (
@@ -71,33 +82,43 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
     </div>
   </article>
 
-  <section class="border-t border-border bg-background-secondary py-[var(--space-section-sm)]">
-    <div class="mx-auto max-w-6xl px-6">
-      <h2 class="mb-6 font-display text-3xl font-bold text-foreground">Vibe-Coded Games made by {name}</h2>
-      {relatedGames.length > 0 ? (
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {relatedGames.map((game) => (
-            <GameCard
-              title={game.data.title}
-              description={game.data.description}
-              href={gameEntryToPath(game)}
-              developerName={game.data.developerName}
-              studio={game.data.studio}
-              developerProfileUrl={game.data.developerProfileUrl}
-              genre={game.data.genre}
-              aiTools={game.data.aiTools}
-              communityScore={game.data.communityScore}
-              playUrl={game.data.playUrl}
-              publishedAt={game.data.publishedAt}
-              image={game.data.image}
-              svgSlug={game.data.svgSlug}
-            />
-          ))}
-        </div>
-      ) : (
-        <p class="text-foreground-muted">No games published yet for this developer.</p>
-      )}
-    </div>
+  <section class="mx-auto max-w-screen-xl px-6 border-t border-border" data-reveal>
+    <details class="group/accordion border-b border-border" open={relatedGames.length > 0}>
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left">
+        <span class="font-display text-2xl font-bold text-foreground">
+          Vibe-Coded Games made by {name} ({relatedGames.length})
+        </span>
+        <Icon name="chevron-down" size="sm" class="text-foreground-muted transition-transform duration-200 group-open/accordion:rotate-180" />
+      </summary>
+      <div class="pt-[var(--space-stack-md)] pb-[var(--space-stack-lg)]">
+        {relatedGames.length > 0 ? (
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {relatedGames.map((game) => (
+              <GameCard
+                title={game.data.title}
+                description={game.data.description}
+                href={gameEntryToPath(game)}
+                developerName={game.data.developerName}
+                studio={game.data.studio}
+                developerProfileUrl={game.data.developerProfileUrl}
+                genre={game.data.genre}
+                gameEngine={game.data.gameEngine}
+                aiTools={game.data.aiTools}
+                communityScore={game.data.communityScore}
+                playUrl={game.data.playUrl}
+                publishedAt={game.data.publishedAt}
+                offersPrice={game.data.offersPrice}
+                gamePlatform={game.data.gamePlatform}
+                image={game.data.image}
+                svgSlug={game.data.svgSlug}
+              />
+            ))}
+          </div>
+        ) : (
+          <p class="text-foreground-muted">No games published yet for this developer.</p>
+        )}
+      </div>
+    </details>
   </section>
 
   <section class="bg-background py-8 border-t border-border">

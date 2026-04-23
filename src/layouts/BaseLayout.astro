@@ -12,6 +12,7 @@ import siteConfig from '@/config/site.config';
 interface Props {
   title?: string;
   description?: string;
+  keywords?: string | string[];
   image?: string;
   imageAlt?: string;
   article?: {
@@ -31,6 +32,7 @@ interface Props {
 const {
   title,
   description,
+  keywords,
   image,
   imageAlt,
   article,
@@ -71,6 +73,7 @@ if (includeProfessionalServiceSchema) {
     <SEO
       title={title}
       description={description}
+      keywords={keywords}
       image={image}
       imageAlt={imageAlt}
       article={article}

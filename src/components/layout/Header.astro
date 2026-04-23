@@ -391,7 +391,11 @@ const buttonId = `${menuId}-button`;
   {showScrollProgress && (
     <div
       id="scroll-progress-bar"
-      class={`absolute left-0 h-[2px] w-0 bg-brand-500 transition-none ${scrollProgressPosition === 'top' ? 'top-0' : 'bottom-0'}`}
+      class={cn(
+        'absolute h-[2px] w-0 bg-brand-500 transition-none',
+        scrollProgressPosition === 'top' ? 'top-[-1px]' : 'bottom-0',
+        isFloating && scrollProgressPosition === 'top' ? 'left-3' : 'left-0'
+      )}
       aria-hidden="true"
     />
   )}
@@ -704,7 +708,10 @@ const buttonId = `${menuId}-button`;
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      bar!.style.width = `${pct}%`;
+      const parent = bar.parentElement;
+      const leftInset = Number.parseFloat(window.getComputedStyle(bar).left || '0') || 0;
+      const trackWidth = parent ? Math.max(parent.clientWidth - leftInset * 2, 0) : 0;
+      bar.style.width = `${(trackWidth * pct) / 100}px`;
       ticking = false;
     }
 

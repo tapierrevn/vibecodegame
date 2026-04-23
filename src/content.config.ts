@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
+import { normalizeGamePublishedAtInput } from './lib/game-meta';
 
 // Blog collection with Content Layer API
 const blog = defineCollection({
@@ -103,6 +104,9 @@ const stack = defineCollection({
   }),
 });
 
+const gamePlatformEnum = z.enum(['Web Browser', 'PC', 'Console']);
+const gamePlayModeEnum = z.enum(['SinglePlayer', 'MultiPlayer', 'CoOp']);
+
 // Games collection — vibe-coded games (detail pages + listing)
 const games = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/games' }),
@@ -116,14 +120,22 @@ const games = defineCollection({
       developerProfileUrl: z.string(),
       aiTools: z.array(z.string()).default([]),
       genre: z.array(z.string()).default([]),
+      gameEngine: z.array(z.string()).default([]),
       playUrl: z.string(),
       communityScore: z.coerce.number().min(0).max(100),
-      // MM-YYYY (e.g. "04-2026"), populated directly in game MDX frontmatter
-      publishedAt: z.string().regex(/^(0[1-9]|1[0-2])-\d{4}$/).optional(),
+      /** ISO 8601 calendar date in frontmatter (e.g. 2026-01-01). Legacy MM-YYYY strings are normalized to day 1. */
+      publishedAt: z.preprocess(normalizeGamePublishedAtInput, z.coerce.date()).optional(),
       updatedAt: z.coerce.date().optional(),
       image: image().optional(),
       imageAlt: z.string().optional(),
       svgSlug: z.string().optional(),
+      playMode: z.array(gamePlayModeEnum).default(['SinglePlayer']),
+      /** 0 = Free, 1 = Pay (maps to schema.org `offers` in JSON-LD). */
+      offersPrice: z.union([z.literal(0), z.literal(1)]).default(0),
+      applicationCategory: z.string().default('Game'),
+      operatingSystem: z.array(gamePlatformEnum).default(['Web Browser']),
+      gamePlatform: z.array(gamePlatformEnum).default(['Web Browser']),
+      trailerUrl: z.string().optional(),
       featured: z.boolean().default(false),
       best_week: z.boolean().default(false),
       most_played: z.boolean().default(false),
@@ -152,6 +164,25 @@ const developers = defineCollection({
         linkedin: z.string().optional(),
       })
       .optional(),
+    draft: z.boolean().default(false),
+    locale: z.enum(['en', 'es', 'fr']).default('en'),
+  }),
+});
+
+// Game Studios collection — one MDX file per studio profile
+const gameStudios = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/game-studios' }),
+  schema: z.object({
+    name: z.string(),
+    description: z.string(),
+    creationYear: z.string(),
+    website: z.string().url(),
+    logo: z.string().url(),
+    headquarterAddress: z.string(),
+    aiTools: z.array(z.string()).default([]),
+    gamesGenre: z.array(z.string()).default([]),
+    gameEngine: z.array(z.string()).default([]),
+    developers: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     locale: z.enum(['en', 'es', 'fr']).default('en'),
   }),
@@ -202,6 +233,7 @@ export const collections = {
   projects,
   games,
   developers,
+  gameStudios,
   aiTools,
   gameJams,
 };

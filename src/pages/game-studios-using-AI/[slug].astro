@@ -1,0 +1,150 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import GameStudioListing from '@/components/game-studios/GameStudioListing.astro';
+import GameStudioLayout from '@/layouts/GameStudioLayout.astro';
+import {
+  assertFilterPathsDoNotCollideWithStudioSlugs,
+  buildAiToolSegmentToTagMap,
+  buildGameEngineSegmentToTagMap,
+  buildGenreSegmentToTagMap,
+} from '@/lib/game-studios-filter';
+
+type ProfilePathProps = {
+  kind: 'profile';
+  studio: CollectionEntry<'gameStudios'>;
+  relatedGames: CollectionEntry<'games'>[];
+  teamMembers: CollectionEntry<'developers'>[];
+  computedGenres: string[];
+  computedAiTools: string[];
+  computedGameEngines: string[];
+};
+
+type FilterPathProps = {
+  kind: 'filter';
+  filterType: 'genre' | 'ai' | 'engine';
+  filterValue: string;
+};
+
+export async function getStaticPaths() {
+  const studios = await getCollection('gameStudios', ({ data }) => {
+    const isEn = (data.locale ?? 'en') === 'en';
+    return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  const games = await getCollection('games', ({ data }) => {
+    const isEn = (data.locale ?? 'en') === 'en';
+    return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  const developers = await getCollection('developers', ({ data }) => {
+    const isEn = (data.locale ?? 'en') === 'en';
+    return isEn && (import.meta.env.PROD ? data.draft !== true : true);
+  });
+
+  const profilePaths = studios.map((studio) => {
+    const slug = studio.id.replace('en/', '');
+    const relatedGames = games.filter((game) => (game.data.studio ?? '') === studio.data.name);
+    const computedGenres = [...new Set(relatedGames.flatMap((game) => game.data.genre))].sort((a, b) => a.localeCompare(b));
+    const computedAiTools = [...new Set(relatedGames.flatMap((game) => game.data.aiTools))].sort((a, b) => a.localeCompare(b));
+    const computedGameEngines = [...new Set(relatedGames.flatMap((game) => game.data.gameEngine))].sort((a, b) =>
+      a.localeCompare(b),
+    );
+    const teamSlugSet = new Set(studio.data.developers);
+    const teamMembers = developers.filter((developer) => {
+      const devSlug = developer.id.replace('en/', '');
+      return teamSlugSet.has(devSlug) || developer.data.studio === studio.data.name;
+    });
+
+    return {
+      params: { slug },
+      props: { kind: 'profile' as const, studio, relatedGames, teamMembers, computedGenres, computedAiTools, computedGameEngines },
+    };
+  });
+
+  const allGenres = [...new Set(studios.flatMap((s) => s.data.gamesGenre))];
+  const allAiTools = [...new Set(studios.flatMap((s) => s.data.aiTools))];
+  const allGameEngines = [...new Set(studios.flatMap((s) => s.data.gameEngine))];
+  const segmentToGenre = buildGenreSegmentToTagMap(allGenres);
+  const segmentToAiTool = buildAiToolSegmentToTagMap(allAiTools);
+  const segmentToEngine = buildGameEngineSegmentToTagMap(allGameEngines);
+  const studioSlugs = studios.map((s) => s.id.replace('en/', ''));
+
+  const filterSegments = [
+    ...segmentToGenre.keys(),
+    ...segmentToAiTool.keys(),
+    ...segmentToEngine.keys(),
+  ];
+  assertFilterPathsDoNotCollideWithStudioSlugs(studioSlugs, filterSegments);
+
+  const segmentRegistry = new Map<string, { filterType: FilterPathProps['filterType']; filterValue: string }>();
+  for (const [segment, filterValue] of segmentToGenre.entries()) {
+    segmentRegistry.set(segment, { filterType: 'genre', filterValue });
+  }
+  for (const [segment, filterValue] of segmentToAiTool.entries()) {
+    const existing = segmentRegistry.get(segment);
+    if (existing && (existing.filterType !== 'ai' || existing.filterValue !== filterValue)) {
+      throw new Error(
+        `Game studios filter URL collision: "${segment}" maps to both ${existing.filterType} (${existing.filterValue}) and ai (${filterValue}).`,
+      );
+    }
+    segmentRegistry.set(segment, { filterType: 'ai', filterValue });
+  }
+  for (const [segment, filterValue] of segmentToEngine.entries()) {
+    const existing = segmentRegistry.get(segment);
+    if (existing && (existing.filterType !== 'engine' || existing.filterValue !== filterValue)) {
+      throw new Error(
+        `Game studios filter URL collision: "${segment}" maps to both ${existing.filterType} (${existing.filterValue}) and engine (${filterValue}).`,
+      );
+    }
+    segmentRegistry.set(segment, { filterType: 'engine', filterValue });
+  }
+
+  const filterPaths = [...segmentRegistry.entries()].map(([segment, { filterType, filterValue }]) => ({
+    params: { slug: segment },
+    props: { kind: 'filter' as const, filterType, filterValue },
+  }));
+
+  return [...profilePaths, ...filterPaths];
+}
+
+const props = Astro.props as ProfilePathProps | FilterPathProps;
+
+let Content: Awaited<ReturnType<typeof render>>['Content'] | null = null;
+let renderFailed = false;
+if (props.kind === 'profile') {
+  try {
+    ({ Content } = await render(props.studio));
+  } catch (error) {
+    renderFailed = true;
+    console.error(`Failed to render game studio entry: ${props.studio.id}`, error);
+  }
+}
+---
+
+{
+  props.kind === 'profile' ? (
+    <GameStudioLayout
+      name={props.studio.data.name}
+      description={props.studio.data.description}
+      creationYear={props.studio.data.creationYear}
+      website={props.studio.data.website}
+      logo={props.studio.data.logo}
+      headquarterAddress={props.studio.data.headquarterAddress}
+      aiTools={props.computedAiTools}
+      gamesGenre={props.computedGenres}
+      gameEngine={props.computedGameEngines}
+      relatedGames={props.relatedGames}
+      teamMembers={props.teamMembers}
+    >
+      {
+        Content && !renderFailed ? (
+          <Content />
+        ) : (
+          <p>{props.studio.data.name} is an AI-enabled game studio building modern vibe-coded games.</p>
+        )
+      }
+    </GameStudioLayout>
+  ) : (
+    <GameStudioListing activeFilterType={props.filterType} activeFilterValue={props.filterValue} />
+  )
+}

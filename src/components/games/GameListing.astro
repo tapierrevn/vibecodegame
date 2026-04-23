@@ -9,16 +9,17 @@ import { getCollection } from 'astro:content';
 import siteConfig from '@/config/site.config';
 import { resolveSocialLinks } from '@/lib/utils';
 import { gameEntryToPath } from '@/lib/games-similar';
-import { genreToGamesPath, aiToolToGamesPath } from '@/lib/games-filter';
+import { genreToGamesPath, aiToolToGamesPath, gameEngineToGamesPath } from '@/lib/games-filter';
+import { publishedAtSortKey } from '@/lib/game-meta';
 import ShareButtons from '@/components/blog/ShareButtons.astro';
 import gamesBanner from '@/assets/games/banner/banner.png';
 import gamesOgImage from '@/assets/games/banner/vibe-coded-games.png';
 
 interface Props {
-  activeFilterType?: 'genre' | 'ai' | null;
+  activeFilterType?: 'genre' | 'ai' | 'engine' | null;
   activeFilterValue?: string | null;
   curatedFilter?: 'best_week' | 'most_played' | 'new_release' | null;
-  filterMode?: 'all' | 'genreOnly' | 'aiOnly';
+  filterMode?: 'all' | 'genreOnly' | 'aiOnly' | 'engineOnly';
   ogImage?: string;
 }
 
@@ -37,11 +38,8 @@ function capitalizeFirst(value: string): string {
 
 const activeFilterLabel = activeFilterValue ? capitalizeFirst(activeFilterValue) : null;
 
-function publishedKey(value?: string): number {
-  if (!value) return 0;
-  const m = /^(\d{2})-(\d{4})$/.exec(value);
-  if (!m) return 0;
-  return new Date(Number(m[2]), Number(m[1]) - 1, 1).valueOf();
+function publishedKey(value?: Date): number {
+  return publishedAtSortKey(value);
 }
 
 const socialLinks = resolveSocialLinks(siteConfig.socialLinks);
@@ -106,6 +104,8 @@ const baseGames = curatedFilterGames ?? (activeFilterType === 'genre' && activeF
   ? games.filter((g) => g.data.genre.includes(activeFilterValue))
   : activeFilterType === 'ai' && activeFilterValue
   ? games.filter((g) => g.data.aiTools.includes(activeFilterValue))
+  : activeFilterType === 'engine' && activeFilterValue
+  ? games.filter((g) => g.data.gameEngine.includes(activeFilterValue))
   : games);
 const featuredGames = baseGames.filter((g) => g.data.featured);
 const nonFeaturedGames = baseGames.filter((g) => !g.data.featured);
@@ -113,8 +113,10 @@ const regularGames = isCuratedPage || isFilteredPage ? baseGames : (nonFeaturedG
 const shouldShowFeatured = filterMode === 'all' && !isCuratedPage;
 const allGenres = [...new Set(games.flatMap((g) => g.data.genre))].sort();
 const allAiTools = [...new Set(games.flatMap((g) => g.data.aiTools))].sort();
+const allGameEngines = [...new Set(games.flatMap((g) => g.data.gameEngine))].sort();
 const showGenreFilters = filterMode === 'all' || filterMode === 'genreOnly';
 const showAiFilters = filterMode === 'all' || filterMode === 'aiOnly';
+const showEngineFilters = filterMode === 'all' || filterMode === 'engineOnly';
 
 const pageTitle = curatedFilter
   ? `${curatedTitles[curatedFilter]} games — ${siteConfig.name}`
@@ -126,11 +128,15 @@ const pageDescription = curatedFilter
   : activeFilterValue
   ? activeFilterType === 'ai'
     ? `Discover vibe-coded games built with ${activeFilterLabel}, including gameplay details, community scores, and developer profiles.`
+    : activeFilterType === 'engine'
+    ? `Discover vibe-coded games built with ${activeFilterLabel}, including gameplay details, community scores, and developer profiles on ${siteConfig.name}.`
     : `Explore ${activeFilterLabel}-genre vibe-coded games with community scores, AI tools, and developer profiles on ${siteConfig.name}.`
   : filterMode === 'genreOnly'
   ? `Browse vibe-coded games by genre. Filter game categories, compare community scores, and discover AI-built games tailored to your favorite genres on ${siteConfig.name}.`
   : filterMode === 'aiOnly'
   ? `Browse vibe-coded games by AI tool. Discover games made with ChatGPT, Claude, Cursor, and more, with community scores and gameplay details on ${siteConfig.name}.`
+  : filterMode === 'engineOnly'
+  ? `Browse vibe-coded games by game engine. Discover titles built with Phaser, Unity, Godot, Unreal Engine and more on ${siteConfig.name}.`
   : `Discover top vibe-coded games with AI tools, genre filters, community scores, and developer profiles on ${siteConfig.name}.`;
 const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
 ---
@@ -148,7 +154,9 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
         curatedFilter
           ? curatedTitles[curatedFilter]
           : activeFilterValue
-          ? `${activeFilterType === 'ai' ? 'AI Tool' : 'Genre'}: ${activeFilterLabel}`
+          ? activeFilterType === 'engine'
+            ? `Game Engine: ${activeFilterLabel}`
+            : `${activeFilterType === 'ai' ? 'AI Tool' : 'Genre'}: ${activeFilterLabel}`
           : 'Vibe-Coded Games'
       }
     </Badge>
@@ -160,6 +168,8 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
           : activeFilterValue
           ? activeFilterType === 'genre'
             ? `Vibe-coded ${activeFilterLabel} games`
+            : activeFilterType === 'engine'
+            ? `Vibe-coded games built with ${activeFilterLabel}`
             : `Vibe-coded games made with ${activeFilterLabel}`
           : 'The Best Vibe-Coded Game Collection'
       }
@@ -172,6 +182,8 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
           : activeFilterValue
           ? activeFilterType === 'ai'
             ? `Discover the best vibe-coded games made with ${activeFilterLabel}`
+            : activeFilterType === 'engine'
+            ? `Discover the best vibe-coded games built with ${activeFilterLabel}`
             : `Discover the best vibe-coded ${activeFilterLabel} games`
           : siteConfig.description
       }
@@ -197,10 +209,13 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
                   studio={game.data.studio}
                   developerProfileUrl={game.data.developerProfileUrl}
                   genre={game.data.genre}
+                  gameEngine={game.data.gameEngine}
                   aiTools={game.data.aiTools}
                   communityScore={game.data.communityScore}
                   playUrl={game.data.playUrl}
                   publishedAt={game.data.publishedAt}
+                  offersPrice={game.data.offersPrice}
+                  gamePlatform={game.data.gamePlatform}
                   image={game.data.image}
                   svgSlug={game.data.svgSlug}
                 />
@@ -226,7 +241,7 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
           )
         }
 
-        {!curatedFilter && ((showGenreFilters && allGenres.length > 0) || (showAiFilters && allAiTools.length > 0)) && (
+        {!curatedFilter && ((showGenreFilters && allGenres.length > 0) || (showAiFilters && allAiTools.length > 0) || (showEngineFilters && allGameEngines.length > 0)) && (
           <div class="flex items-center gap-3 ml-auto">
             <label for="genre-filter" class="text-sm font-medium text-foreground-muted whitespace-nowrap">
               Filter
@@ -259,6 +274,19 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
                         selected={activeFilterType === 'ai' && activeFilterValue === tool}
                       >
                         {tool}
+                      </option>
+                    ))}
+                  </>
+                )}
+                {showEngineFilters && allGameEngines.length > 0 && (
+                  <>
+                    <option value="" disabled class="filter-group">--- Game Engine ---</option>
+                    {allGameEngines.map((engine) => (
+                      <option
+                        value={gameEngineToGamesPath(engine)}
+                        selected={activeFilterType === 'engine' && activeFilterValue === engine}
+                      >
+                        {engine}
                       </option>
                     ))}
                   </>
@@ -298,10 +326,13 @@ const fullUrl = new URL(Astro.url.pathname, Astro.site).toString();
                   studio={game.data.studio}
                   developerProfileUrl={game.data.developerProfileUrl}
                   genre={game.data.genre}
+                  gameEngine={game.data.gameEngine}
                   aiTools={game.data.aiTools}
                   communityScore={game.data.communityScore}
                   playUrl={game.data.playUrl}
                   publishedAt={game.data.publishedAt}
+                  offersPrice={game.data.offersPrice}
+                  gamePlatform={game.data.gamePlatform}
                   image={game.data.image}
                   svgSlug={game.data.svgSlug}
                   leaderboardRank={curatedFilter === 'best_week' && index < 3 ? ((index + 1) as 1 | 2 | 3) : undefined}

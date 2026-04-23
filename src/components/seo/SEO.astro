@@ -5,6 +5,7 @@ import { isPreviewDeploy } from '@/lib/preview-deploy';
 interface Props {
   title?: string;
   description?: string;
+  keywords?: string | string[];
   image?: string;
   imageAlt?: string;
   article?: {
@@ -20,6 +21,7 @@ interface Props {
 const {
   title,
   description = siteConfig.description,
+  keywords,
   image,
   imageAlt,
   article,
@@ -71,11 +73,13 @@ function getImageType(url: string): string | undefined {
   return ext ? extToMime[ext] : undefined;
 }
 const ogImageType = getImageType(ogImage);
+const keywordsContent = Array.isArray(keywords) ? keywords.join(', ') : keywords;
 ---
 
 <!-- Primary Meta Tags -->
 <title>{pageTitle}</title>
 <meta name="description" content={description} />
+{keywordsContent && <meta name="keywords" content={keywordsContent} />}
 <link rel="canonical" href={canonicalURL.toString()} />
 <meta name="robots" content={robotsContent} />
 

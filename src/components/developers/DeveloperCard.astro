@@ -1,4 +1,6 @@
 ---
+import { gameStudiosFilterSlugify } from '@/lib/game-studios-filter';
+
 interface Props {
   name: string;
   studio?: string;
@@ -9,25 +11,34 @@ interface Props {
 }
 
 const { name, studio, href, picture, preferredGenres, preferredAiTools } = Astro.props;
+const studioHref = studio ? `/game-studios-using-AI/${gameStudiosFilterSlugify(studio)}` : null;
 ---
 
 <article class="group h-full rounded-lg border border-brand-500/30 bg-background p-6 ring-1 ring-brand-500/20 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-500 hover:shadow-md">
-  <a href={href} class="block">
-    <div class="mb-4 flex items-center gap-4">
+  <div class="mb-4 flex items-center gap-4">
+    <a href={href} class="block shrink-0">
       <img
         src={picture}
         alt={`${name} profile picture`}
         class="h-16 w-16 rounded-full border border-border object-cover ring-2 ring-brand-500/20"
         loading="lazy"
       />
-      <div>
+    </a>
+    <div>
+      <a href={href} class="block">
         <h2 class="font-display text-xl font-bold text-foreground transition-colors group-hover:text-brand-600 dark:group-hover:text-brand-400">
           {name}
         </h2>
-        {studio && <p class="text-sm text-foreground-muted">{studio}</p>}
-      </div>
+      </a>
+      {
+        studio && (
+          <a href={studioHref ?? '#'} class="text-sm text-brand-600 hover:text-brand-500 dark:text-brand-400 dark:hover:text-brand-300">
+            {studio}
+          </a>
+        )
+      }
     </div>
-  </a>
+  </div>
 
   <div class="space-y-3">
     {preferredGenres.length > 0 && (

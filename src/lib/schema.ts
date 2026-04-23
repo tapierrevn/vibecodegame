@@ -8,6 +8,8 @@ import type {
   FAQPage,
   PostalAddress,
   WithContext,
+  VideoGame,
+  GamePlayMode,
 } from 'schema-dts';
 import siteConfig from '@/config/site.config';
 
@@ -181,5 +183,68 @@ export function createFAQSchema(
         text: faq.answer,
       },
     })),
+  };
+}
+
+type PlayModeLiteral = 'SinglePlayer' | 'MultiPlayer' | 'CoOp';
+
+/**
+ * VideoGame JSON-LD for game detail pages (SERP).
+ */
+export function createVideoGameSchema(input: {
+  name: string;
+  description: string;
+  url: string;
+  image?: string;
+  applicationCategory: string;
+  operatingSystem: string[];
+  gamePlatform: string[];
+  playMode: PlayModeLiteral[];
+  offersPrice: 0 | 1;
+  playUrl: string;
+  datePublished?: string;
+  trailerYoutubeId?: string;
+}): WithContext<VideoGame> {
+  const playModes: GamePlayMode[] = input.playMode.map((m) => m as GamePlayMode);
+
+  const offers =
+    input.offersPrice === 0
+      ? {
+          '@type': 'Offer' as const,
+          price: 0,
+          priceCurrency: 'USD',
+          url: input.playUrl,
+        }
+      : {
+          '@type': 'Offer' as const,
+          price: 4.99,
+          priceCurrency: 'USD',
+          url: input.playUrl,
+        };
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'VideoGame',
+    name: input.name,
+    description: input.description,
+    url: input.url,
+    ...(input.image ? { image: input.image } : {}),
+    applicationCategory: input.applicationCategory,
+    operatingSystem:
+      input.operatingSystem.length === 1 ? input.operatingSystem[0] : input.operatingSystem,
+    gamePlatform: input.gamePlatform.length === 1 ? input.gamePlatform[0] : input.gamePlatform,
+    playMode: playModes.length === 1 ? playModes[0] : playModes,
+    offers,
+    ...(input.datePublished ? { datePublished: input.datePublished } : {}),
+    ...(input.trailerYoutubeId
+      ? {
+          trailer: {
+            '@type': 'VideoObject',
+            name: `${input.name} trailer`,
+            embedUrl: `https://www.youtube.com/embed/${input.trailerYoutubeId}`,
+            contentUrl: `https://www.youtube.com/watch?v=${input.trailerYoutubeId}`,
+          },
+        }
+      : {}),
   };
 }

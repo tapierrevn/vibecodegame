@@ -28,6 +28,7 @@ export interface NavItem {
   label: string;
   href: string;
   external?: boolean;
+  children?: NavItem[];
 }
 
 export interface FooterLinkGroup {
@@ -94,6 +95,10 @@ const {
 const defaultNav: NavItem[] = getFooterNavItems().map((item: NavConfigItem) => ({
   label: item.label,
   href: item.href,
+  children: item.children?.map((child) => ({
+    label: child.label,
+    href: child.href,
+  })),
 }));
 const navItems: NavItem[] = nav || defaultNav;
 
@@ -161,14 +166,28 @@ function getSocialIcon(platform: string): string {
         {/* Navigation Links */}
         <nav class="flex flex-wrap justify-center gap-[var(--space-inline-lg)] md:gap-[var(--space-stack-lg)] text-sm font-medium text-foreground-muted">
           {allNavItems.map((item) => (
-            <a
-              href={item.href}
-              class="transition-colors hover:text-foreground"
-              target={item.external || item.href.startsWith('http') ? '_blank' : undefined}
-              rel={item.external || item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-            >
-              {item.label}
-            </a>
+            <div class="flex flex-col items-center gap-1">
+              <a
+                href={item.href}
+                class="transition-colors hover:text-foreground"
+                target={item.external || item.href.startsWith('http') ? '_blank' : undefined}
+                rel={item.external || item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >
+                {item.label}
+              </a>
+              {
+                item.children?.map((child) => (
+                  <a
+                    href={child.href}
+                    class="text-xs text-foreground-subtle transition-colors hover:text-foreground"
+                    target={child.external || child.href.startsWith('http') ? '_blank' : undefined}
+                    rel={child.external || child.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    {child.label}
+                  </a>
+                ))
+              }
+            </div>
           ))}
         </nav>
 
@@ -332,14 +351,28 @@ function getSocialIcon(platform: string): string {
         {/* Navigation Links */}
         <nav class="flex flex-wrap justify-center gap-[var(--space-inline-lg)] text-sm font-medium text-foreground-muted">
           {allNavItems.map((item) => (
-            <a
-              href={item.href}
-              class="transition-colors hover:text-foreground"
-              target={item.external || item.href.startsWith('http') ? '_blank' : undefined}
-              rel={item.external || item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-            >
-              {item.label}
-            </a>
+            <div class="flex flex-col items-center gap-1">
+              <a
+                href={item.href}
+                class="transition-colors hover:text-foreground"
+                target={item.external || item.href.startsWith('http') ? '_blank' : undefined}
+                rel={item.external || item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              >
+                {item.label}
+              </a>
+              {
+                item.children?.map((child) => (
+                  <a
+                    href={child.href}
+                    class="text-xs text-foreground-subtle transition-colors hover:text-foreground"
+                    target={child.external || child.href.startsWith('http') ? '_blank' : undefined}
+                    rel={child.external || child.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    {child.label}
+                  </a>
+                ))
+              }
+            </div>
           ))}
         </nav>
 

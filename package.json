@@ -51,6 +51,9 @@
     "@iconify-json/lucide": "^1.2.98",
     "@iconify-json/simple-icons": "^1.2.74",
     "@iconify/react": "^6.0.2",
+    "@img/sharp-libvips-linux-x64": "1.2.4",
+    "@img/sharp-linux-x64": "0.34.5",
+    "@vercel/speed-insights": "^2.0.0",
     "astro": "6.1.8",
     "astro-icon": "^1.1.5",
     "class-variance-authority": "^0.7.1",
@@ -61,8 +64,6 @@
     "resend": "^6.9.3",
     "schema-dts": "^1.1.2",
     "sharp": "^0.34.5",
-    "@img/sharp-libvips-linux-x64": "1.2.4",
-    "@img/sharp-linux-x64": "0.34.5",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {

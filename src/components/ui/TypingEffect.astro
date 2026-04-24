@@ -23,7 +23,7 @@ const {
 const id = `typing-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
-<span id={id} class="typing-effect" aria-label={words.join(', ')}>
+<span id={id} class="typing-effect" aria-label={words.join(', ')} data-typing-words={JSON.stringify(words)}>
   <span class="typing-text"></span><span class="typing-cursor" aria-hidden="true">|</span>
 </span>
 
@@ -48,11 +48,13 @@ const id = `typing-${Math.random().toString(36).slice(2, 8)}`;
   }
 </style>
 
-<script is:inline define:vars={{ id, words, typeSpeed, deleteSpeed, pauseAfterType, pauseAfterDelete }}>
+<script is:inline define:vars={{ id, typeSpeed, deleteSpeed, pauseAfterType, pauseAfterDelete }}>
   function startTyping() {
     const root = document.getElementById(id);
     if (!root) return;
     const textEl = root.querySelector('.typing-text');
+    const words = JSON.parse(root.getAttribute('data-typing-words') || '[]');
+    if (!Array.isArray(words) || words.length === 0 || !textEl) return;
 
     // Lock the element width to the widest word so the layout never shifts
     const measurer = document.createElement('span');

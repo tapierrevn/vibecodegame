@@ -10,8 +10,8 @@
 @import './tokens/spacing.css';
 
 /* Self-hosted fonts via Fontsource (CSP-safe, no external requests) */
-@import '@fontsource-variable/manrope';
-@import '@fontsource-variable/outfit';
+@import '@fontsource-variable/manrope/wght.css';
+@import '@fontsource-variable/outfit/wght.css';
 @import '@fontsource-variable/jetbrains-mono';
 
 /* Dark mode variant */

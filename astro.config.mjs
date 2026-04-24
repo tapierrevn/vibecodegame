@@ -11,6 +11,9 @@ const isNetlify = process.env.DEPLOY_TARGET === 'netlify';
 
 export default defineConfig({
   adapter: isNetlify ? netlify() : vercel(),
+  build: {
+    inlineStylesheets: 'always',
+  },
   site: 'https://www.vibecode.game/',
   redirects: {
     '/games': '/vibe-coded-games',

@@ -702,15 +702,21 @@ const buttonId = `${menuId}-button`;
     bar.dataset.progressInit = 'true';
 
     let ticking = false;
+    let trackWidth = 0;
+
+    function recalculateTrack() {
+      const localBar = document.getElementById('scroll-progress-bar');
+      if (!localBar) return;
+      const parent = localBar.parentElement;
+      const leftInset = Number.parseFloat(window.getComputedStyle(localBar).left || '0') || 0;
+      trackWidth = parent ? Math.max(parent.clientWidth - leftInset * 2, 0) : 0;
+    }
 
     function update() {
       if (!bar) return;
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      const parent = bar.parentElement;
-      const leftInset = Number.parseFloat(window.getComputedStyle(bar).left || '0') || 0;
-      const trackWidth = parent ? Math.max(parent.clientWidth - leftInset * 2, 0) : 0;
       bar.style.width = `${(trackWidth * pct) / 100}px`;
       ticking = false;
     }
@@ -722,6 +728,15 @@ const buttonId = `${menuId}-button`;
       }
     }, { passive: true });
 
+    window.addEventListener('resize', () => {
+      recalculateTrack();
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+
+    recalculateTrack();
     update();
   }
 

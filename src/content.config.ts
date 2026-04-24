@@ -75,8 +75,8 @@ const projects = defineCollection({
     z.object({
       title: z.string(),
       description: z.string(),
-      url: z.string().url().optional(),
-      repo: z.string().url().optional(),
+      url: z.url().optional(),
+      repo: z.url().optional(),
       image: image().optional(),
       imageAlt: z.string().optional(),
       tags: z.array(z.string()).default([]),
@@ -97,7 +97,7 @@ const stack = defineCollection({
     name: z.string(),
     description: z.string(),
     version: z.string(),
-    url: z.string().url(),
+    url: z.url(),
     icon: z.string(), // icon name, e.g. 'brand-astro'
     colorOklch: z.string(), // OKLCH params, e.g. '62.5% 0.22 38'
     order: z.number().default(0),
@@ -156,7 +156,7 @@ const developers = defineCollection({
     picture: z.string(),
     role: z.string().optional(),
     location: z.string().optional(),
-    website: z.string().url().optional(),
+    website: z.url().optional(),
     social: z
       .object({
         twitter: z.string().optional(),
@@ -176,8 +176,8 @@ const gameStudios = defineCollection({
     name: z.string(),
     description: z.string(),
     creationYear: z.string(),
-    website: z.string().url(),
-    logo: z.string().url(),
+    website: z.url(),
+    logo: z.url(),
     headquarterAddress: z.string(),
     aiTools: z.array(z.string()).default([]),
     gamesGenre: z.array(z.string()).default([]),
@@ -194,7 +194,7 @@ const aiTools = defineCollection({
   schema: z.object({
     name: z.string(),
     description: z.string(),
-    website: z.string().url(),
+    website: z.url(),
     featured: z.boolean().default(false),
     usability: z.enum(['Easy', 'Medium', 'Hard']),
     logo: z.string(),
@@ -212,7 +212,7 @@ const gameJams = defineCollection({
       description: z.string(),
       startDate: z.coerce.date(),
       endDate: z.coerce.date(),
-      participationLink: z.string().url(),
+      participationLink: z.url(),
       place: z.string(),
       country: z.string(),
       featured: z.boolean().default(false),

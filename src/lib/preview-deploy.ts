@@ -10,3 +10,12 @@ export function isPreviewDeploy(): boolean {
   if (process.env.CONTEXT === 'deploy-preview') return true;
   return false;
 }
+
+/**
+ * True when this build/runtime is the production deploy.
+ */
+export function isProductionDeploy(): boolean {
+  if (process.env.VERCEL_ENV === 'production') return true;
+  if (process.env.CONTEXT === 'production') return true;
+  return false;
+}

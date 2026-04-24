@@ -1,6 +1,6 @@
 ---
 import siteConfig from '@/config/site.config';
-import { isPreviewDeploy } from '@/lib/preview-deploy';
+import { isPreviewDeploy, isProductionDeploy } from '@/lib/preview-deploy';
 
 interface Props {
   title?: string;
@@ -47,9 +47,10 @@ if (image) {
 }
 
 const previewNoIndex = isPreviewDeploy();
+const productionNoIndex = isProductionDeploy();
 const robotsContent = [
-  noindex || previewNoIndex ? 'noindex' : 'index',
-  nofollow ? 'nofollow' : 'follow',
+  noindex || previewNoIndex || productionNoIndex ? 'noindex' : 'index',
+  nofollow || productionNoIndex ? 'nofollow' : 'follow',
 ].join(', ');
 
 // Normalize BCP-47 locale (e.g. "en") to OG language_TERRITORY format (e.g. "en_US")

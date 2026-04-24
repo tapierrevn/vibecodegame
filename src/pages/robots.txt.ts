@@ -1,7 +1,21 @@
 import type { APIRoute } from 'astro';
+import { isProductionDeploy } from '@/lib/preview-deploy';
 
 export const GET: APIRoute = ({ site }) => {
   const siteUrl = site?.toString() || 'https://example.com';
+
+  if (isProductionDeploy()) {
+    const robotsTxt = `
+User-agent: *
+Disallow: /
+`.trim();
+
+    return new Response(robotsTxt, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+      },
+    });
+  }
 
   const robotsTxt = `
 User-agent: *

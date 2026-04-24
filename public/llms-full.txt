@@ -3,7 +3,7 @@
 > Auto-generated at build time. Do not edit by hand.
 > Single-file corpus of primary English MD/MDX sources. MDX may contain JSX/HTML fragments.
 
-Generated (UTC): 2026-04-23T08:57:20.866Z
+Generated (UTC): 2026-04-24T08:32:15.952Z
 Canonical site: https://www.vibecode.game
 Index file: https://www.vibecode.game/llms.txt
 

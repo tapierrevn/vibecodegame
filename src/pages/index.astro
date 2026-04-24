@@ -12,6 +12,7 @@ import { getCollection } from 'astro:content';
 import siteConfig from '@/config/site.config';
 import homeHeroVideo from '@/assets/home/vibecodegame_banner.mp4';
 import homeHeroOgImage from '@/assets/home/vibecodegame.png';
+import homeHeroPosterImage from '@/assets/home/vibecodegame.webp';
 
 /** Homepage-only SEO (see SEO.astro: rendered as `{title} — {siteConfig.name}`) */
 const homeMetaTitle = 'Vibe-Coded Games, AI Tools & Game Jams';
@@ -97,7 +98,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
     showScrollIndicator
     descriptionClass="max-w-3xl"
     backgroundVideoSrc={homeHeroVideo}
-    backgroundVideoPoster={homeHeroOgImage.src}
+    backgroundVideoPoster={homeHeroPosterImage.src}
   >
     <Badge slot="badge" variant="brand" pill pulse class="dark:text-brand-200">Play. Build. Discover.</Badge>
 

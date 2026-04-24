@@ -1,29 +1,28 @@
 {
-  "name": "astro-rocket",
+  "name": "vibecode.game",
+  "private": true,
   "version": "1.0.0",
-  "description": "Astro Rocket — A production-ready Astro 6 theme built on Tailwind CSS v4",
+  "description": "vibecode.game — A modern Astro-powered game discovery platform",
   "type": "module",
-  "author": "Hans Martens",
+  "author": "tapierrevn",
   "license": "MIT",
   "keywords": [
     "astro",
-    "astro-theme",
-    "theme",
-    "tailwind",
+    "games",
+    "gaming",
+    "game-directory",
+    "reviews",
     "tailwindcss",
     "typescript",
-    "blog",
-    "starter",
-    "boilerplate",
     "seo"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/hansmartens68/astro-rocket"
+    "url": "https://github.com/tapierrevn/vibecodegame"
   },
-  "homepage": "https://github.com/hansmartens68/astro-rocket#readme",
+  "homepage": "https://github.com/tapierrevn/vibecodegame#readme",
   "bugs": {
-    "url": "https://github.com/hansmartens68/astro-rocket/issues"
+    "url": "https://github.com/tapierrevn/vibecodegame/issues"
   },
   "scripts": {
     "dev": "astro dev",
